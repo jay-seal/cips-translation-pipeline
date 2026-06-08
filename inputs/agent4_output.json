@@ -1,0 +1,292 @@
+{
+"qa_summary": {
+"routing": "PROCEED_TO_RECONSTRUCTION",
+"total_segments": 178,
+"flagged_count": 0,
+"critical_issues_count": 5,
+"warning_count": 10,
+"info_count": 1,
+"expansion_warnings_count": 11,
+"canvas_id": "d8jbs1q9io6g00f16o3g",
+"canvas_title": "CIPS Translation Review — FR-FR — CIPS Practitioner Programme.pdf"
+},
+"qa_issues": [
+{
+"segment_id": "SEG-004",
+"slide_or_page": 1,
+"element_type": "slide_title",
+"issue_type": "expansion",
+"issue_description": "Absolute difference of 53 characters (196.3% expansion) in a constrained slide title box.",
+"suggested_fix": "Consider shortening the parenthetical explanation of CIPS or reducing the font size during reconstruction.",
+"severity": "CRITICAL"
+},
+{
+"segment_id": "SEG-049",
+"slide_or_page": 5,
+"element_type": "text_box",
+"issue_type": "expansion",
+"issue_description": "Absolute difference of 21 characters (95.5% expansion) in a constrained process diagram box.",
+"suggested_fix": "Use the shorter 'Le triple bilan (PPP)' or reduce font size significantly.",
+"severity": "CRITICAL"
+},
+{
+"segment_id": "SEG-104",
+"slide_or_page": 12,
+"element_type": "bullet_point",
+"issue_type": "expansion",
+"issue_description": "Absolute difference of 24 characters (60.0% expansion) in a constrained bullet point.",
+"suggested_fix": "Shorten text to 'Nécessité d'évaluer les risques supply chain'.",
+"severity": "CRITICAL"
+},
+{
+"segment_id": "SEG-117",
+"slide_or_page": 14,
+"element_type": "slide_title",
+"issue_type": "expansion",
+"issue_description": "Absolute difference of 56 characters (124.4% expansion) in a constrained slide title box.",
+"suggested_fix": "Remove the parenthetical full translation if it has already been introduced in the document.",
+"severity": "CRITICAL"
+},
+{
+"segment_id": "SEG-176",
+"slide_or_page": 20,
+"element_type": "bullet_point",
+"issue_type": "expansion",
+"issue_description": "Absolute difference of 27 characters (73.0% expansion) in a constrained bullet point.",
+"suggested_fix": "Shorten to 'La fonction achats et SCM'.",
+"severity": "CRITICAL"
+},
+{
+"segment_id": "SEG-083",
+"slide_or_page": 10,
+"element_type": "slide_title",
+"issue_type": "capitalisation",
+"issue_description": "Slide title starts with a lowercase character 'l'.",
+"suggested_fix": "Capitalize first character: 'Les 4 R de Martin Christopher'.",
+"severity": "WARNING"
+},
+{
+"segment_id": "SEG-090",
+"slide_or_page": 11,
+"element_type": "slide_title",
+"issue_type": "capitalisation",
+"issue_description": "Slide title starts with a lowercase character 'l'.",
+"suggested_fix": "Capitalize first character: 'Les 4 R de Martin Christopher'.",
+"severity": "WARNING"
+},
+{
+"segment_id": "SEG-100",
+"slide_or_page": 12,
+"element_type": "slide_title",
+"issue_type": "capitalisation",
+"issue_description": "Slide title starts with a lowercase character 'l'.",
+"suggested_fix": "Capitalize first character: 'Les 4 R de Martin Christopher'.",
+"severity": "WARNING"
+},
+{
+"segment_id": "SEG-110",
+"slide_or_page": 13,
+"element_type": "slide_title",
+"issue_type": "capitalisation",
+"issue_description": "Slide title starts with a lowercase character 'l'.",
+"suggested_fix": "Capitalize first character: 'Les 4 R de Martin Christopher'.",
+"severity": "WARNING"
+},
+{
+"segment_id": "SEG-009",
+"slide_or_page": 2,
+"element_type": "text_box",
+"issue_type": "expansion",
+"issue_description": "Absolute difference of 11 characters (73.3% expansion) in a constrained header box.",
+"suggested_fix": "Shorten to 'Discussion Zoom'.",
+"severity": "WARNING"
+},
+{
+"segment_id": "SEG-040",
+"slide_or_page": 5,
+"element_type": "text_box",
+"issue_type": "expansion",
+"issue_description": "Absolute difference of 18 characters (54.5% expansion) in a constrained process diagram box.",
+"suggested_fix": "Shorten to 'Lexique Achats et Approvisionnement'.",
+"severity": "WARNING"
+},
+{
+"segment_id": "SEG-122",
+"slide_or_page": 14,
+"issue_type": "expansion",
+"element_type": "label",
+"issue_description": "Absolute difference of 16 characters (160.0% expansion) in a matrix label.",
+"suggested_fix": "Shorten to 'Fournisseur 1er rang'.",
+"severity": "WARNING"
+},
+{
+"segment_id": "SEG-123",
+"slide_or_page": 14,
+"issue_type": "expansion",
+"element_type": "label",
+"issue_description": "Absolute difference of 14 characters (116.7% expansion) in a matrix label.",
+"suggested_fix": "Review layout; check if 'Chaîne d'approvisionnement' fits the axis width.",
+"severity": "WARNING"
+},
+{
+"segment_id": "SEG-125",
+"slide_or_page": 14,
+"issue_type": "expansion",
+"element_type": "text_box",
+"issue_description": "Absolute difference of 18 characters (75.0% expansion) in a matrix cell.",
+"suggested_fix": "Reduce font size or shorten text.",
+"severity": "WARNING"
+},
+{
+"segment_id": "SEG-127",
+"slide_or_page": 14,
+"issue_type": "expansion",
+"element_type": "text_box",
+"issue_description": "Absolute difference of 17 characters (81.0% expansion) in a matrix cell.",
+"suggested_fix": "Reduce font size or shorten text.",
+"severity": "WARNING"
+},
+{
+"segment_id": "SEG-054",
+"slide_or_page": 6,
+"element_type": "body_text",
+"issue_type": "punctuation",
+"issue_description": "Double quotation marks detected. Inner quoted term 'Achats' may require different styling.",
+"suggested_fix": "Note inner quoted term needs SME style review.",
+"severity": "INFO"
+}
+],
+"reviewed_segments_json": {
+"translation_summary": {
+"total_segments": 178,
+"translated_count": 142,
+"partial_translated_count": 33,
+"kept_count": 3,
+"image_text_count": 2,
+"flagged_count": 0,
+"expansion_warnings": 31,
+"locale_code": "FR-FR"
+},
+"document_metadata": {
+"source_filename": "CIPS Practitioner Programme.pdf",
+"document_type": "PDF",
+"target_locale": "FR-FR",
+"total_slides_or_pages": 99,
+"extraction_timestamp": "2026-06-08T12:00:00Z"
+},
+"segments": [
+{
+"segment_id": "SEG-004",
+"slide_or_page": 1,
+"element_type": "slide_title",
+"translated_text": "CIPS (Institut agréé des achats et de l'approvisionnement) Practitioner Programme",
+"qa_issues": ["QA-001"]
+},
+{
+"segment_id": "SEG-009",
+"slide_or_page": 2,
+"element_type": "text_box",
+"translated_text": "Discussion de groupe Zoom",
+"qa_issues": ["QA-010"]
+},
+{
+"segment_id": "SEG-040",
+"slide_or_page": 5,
+"element_type": "text_box",
+"translated_text": "Termes liés\naux Achats et à\nl'Approvisionnement",
+"qa_issues": ["QA-011"]
+},
+{
+"segment_id": "SEG-049",
+"slide_or_page": 5,
+"element_type": "text_box",
+"translated_text": "Le triple bilan (Personnes, Planète, Profits)",
+"qa_issues": ["QA-002"]
+},
+{
+"segment_id": "SEG-054",
+"slide_or_page": 6,
+"element_type": "body_text",
+"translated_text": "« Les « Achats » constituent le processus d'acquisition de fournitures, services et travaux, couvrant à la fois l'acquisition auprès de tiers et auprès de prestataires internes. Le processus englobe l'ensemble du cycle, de l'identification des besoins jusqu'à la fin d'un contrat de services ou de la durée de vie utile d'un actif. Il implique l'évaluation des options et la décision cruciale d'internalisation ou d'externalisation. »",
+"qa_issues": ["QA-016"]
+},
+{
+"segment_id": "SEG-083",
+"slide_or_page": 10,
+"element_type": "slide_title",
+"translated_text": "les 4 R de Martin Christopher",
+"qa_issues": ["QA-006"]
+},
+{
+"segment_id": "SEG-090",
+"slide_or_page": 11,
+"element_type": "slide_title",
+"translated_text": "les 4 R de Martin Christopher",
+"qa_issues": ["QA-007"]
+},
+{
+"segment_id": "SEG-100",
+"slide_or_page": 12,
+"element_type": "slide_title",
+"translated_text": "les 4 R de Martin Christopher",
+"qa_issues": ["QA-008"]
+},
+{
+"segment_id": "SEG-104",
+"slide_or_page": 12,
+"element_type": "bullet_point",
+"translated_text": "• Nécessité d'évaluer les risques dans les chaînes d'approvisionnement",
+"qa_issues": ["QA-003"]
+},
+{
+"segment_id": "SEG-110",
+"slide_or_page": 13,
+"element_type": "slide_title",
+"translated_text": "les 4 R de Martin Christopher",
+"qa_issues": ["QA-009"]
+},
+{
+"segment_id": "SEG-117",
+"slide_or_page": 14,
+"element_type": "slide_title",
+"translated_text": "Termes relatifs aux Achats et gestion de la chaîne d'approvisionnement (P&SCM) — la matrice de Cox",
+"qa_issues": ["QA-004"]
+},
+{
+"segment_id": "SEG-122",
+"slide_or_page": 14,
+"element_type": "label",
+"translated_text": "Fournisseur de premier rang",
+"qa_issues": ["QA-012"]
+},
+{
+"segment_id": "SEG-123",
+"slide_or_page": 14,
+"element_type": "label",
+"translated_text": "Chaîne d'approvisionnement",
+"qa_issues": ["QA-013"]
+},
+{
+"segment_id": "SEG-125",
+"slide_or_page": 14,
+"element_type": "text_box",
+"translated_text": "Développement de la chaîne d'approvisionnement",
+"qa_issues": ["QA-014"]
+},
+{
+"segment_id": "SEG-127",
+"slide_or_page": 14,
+"element_type": "text_box",
+"translated_text": "Sourcing de la chaîne d'approvisionnement",
+"qa_issues": ["QA-015"]
+},
+{
+"segment_id": "SEG-176",
+"slide_or_page": 20,
+"element_type": "bullet_point",
+"translated_text": "• La fonction achats et gestion de la chaîne d'approvisionnement",
+"qa_issues": ["QA-005"]
+}
+]
+}
+}
