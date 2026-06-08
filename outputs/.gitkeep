@@ -1,1 +1,4 @@
-
+# This file keeps the outputs/ folder tracked by git.
+# Translated PPTX files are written here during the workflow run
+# and returned as downloadable GitHub Actions artifacts.
+# They are excluded from git via .gitignore.
