@@ -1,0 +1,85 @@
+name: CIPS Translation — Reconstruct PPTX
+
+# Triggers:
+# 1. Automatically when files are pushed to the inputs/ folder
+# 2. Manually from the Actions tab (Run workflow button)
+on:
+  push:
+    paths:
+      - 'inputs/**'
+  workflow_dispatch:
+
+jobs:
+  reconstruct:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install python-pptx
+
+      - name: Check required input files exist
+        run: |
+          if [ ! -f inputs/source.pptx ]; then
+            echo "ERROR: inputs/source.pptx not found."
+            echo "Place your original PPTX in the inputs/ folder named source.pptx"
+            exit 1
+          fi
+          if [ ! -f inputs/agent3_output.json ]; then
+            echo "ERROR: inputs/agent3_output.json not found."
+            echo "Place your Agent 3 JSON output in the inputs/ folder."
+            exit 1
+          fi
+          echo "Input files found."
+          ls -lh inputs/
+
+      - name: Determine output filename
+        id: naming
+        run: |
+          # Read locale from the Agent 3 JSON
+          LOCALE=$(python -c "
+          import json
+          with open('inputs/agent3_output.json') as f:
+              data = json.load(f)
+          locale = data.get('document_metadata', {}).get('target_locale', 'TRANSLATED')
+          print(locale)
+          ")
+          # Build output filename: strip .pptx, append _LOCALE.pptx
+          SOURCE_STEM=$(basename inputs/source.pptx .pptx)
+          OUTPUT="${SOURCE_STEM}_${LOCALE}.pptx"
+          echo "locale=${LOCALE}" >> $GITHUB_OUTPUT
+          echo "output_filename=${OUTPUT}" >> $GITHUB_OUTPUT
+          echo "Output will be: ${OUTPUT}"
+
+      - name: Run reconstruction (with QA file)
+        if: ${{ hashFiles('inputs/agent4_output.json') != '' }}
+        run: |
+          python cips_reconstruct.py \
+            --source inputs/source.pptx \
+            --translations inputs/agent3_output.json \
+            --qa inputs/agent4_output.json \
+            --output "outputs/${{ steps.naming.outputs.output_filename }}"
+
+      - name: Run reconstruction (without QA file)
+        if: ${{ hashFiles('inputs/agent4_output.json') == '' }}
+        run: |
+          echo "No agent4_output.json found — running without QA corrections."
+          python cips_reconstruct.py \
+            --source inputs/source.pptx \
+            --translations inputs/agent3_output.json \
+            --output "outputs/${{ steps.naming.outputs.output_filename }}"
+
+      - name: Upload translated PPTX as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: "${{ steps.naming.outputs.output_filename }}"
+          path: "outputs/${{ steps.naming.outputs.output_filename }}"
+          retention-days: 30
+          if-no-files-found: error
