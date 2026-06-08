@@ -1,0 +1,17 @@
+# Ignore actual input files — these are uploaded per-run, not stored in the repo
+inputs/*.pptx
+inputs/*.json
+
+# Keep the placeholder so the inputs/ folder exists in the repo
+!inputs/.gitkeep
+
+# Ignore output files — these come back as GitHub Actions artifacts, not commits
+outputs/*.pptx
+
+# Keep the placeholder
+!outputs/.gitkeep
+
+# Python
+__pycache__/
+*.py[cod]
+.env
