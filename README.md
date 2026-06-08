@@ -1,4 +1,4 @@
-# CIPS Translation Pipeline — PPTX Reconstruction
+# CIPS Translation Pipeline — PPTX Reconstruction 
 
 This repository contains the reconstruction step for the CIPS translation pipeline.
 It takes the JSON outputs from the Opal translation agents and applies them to the
