@@ -1,12 +1,9 @@
 name: CIPS Translation — Reconstruct PPTX
 
-# Triggers:
-# 1. Automatically when files are pushed to the inputs/ folder
-# 2. Manually from the Actions tab (Run workflow button)
+# Triggered exclusively via the GitHub API dispatch call from the
+# Cloudflare Worker. Removing the push trigger prevents multiple runs
+# when input files are uploaded one at a time.
 on:
-  push:
-    paths:
-      - 'inputs/**'
   workflow_dispatch:
 
 jobs:
