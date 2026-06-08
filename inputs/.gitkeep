@@ -1,1 +1,3 @@
- 
+# This file keeps the inputs/ folder tracked by git.
+# Your actual input files (source.pptx, agent3_output.json, agent4_output.json)
+# are excluded from git via .gitignore — they are uploaded per-run only.
