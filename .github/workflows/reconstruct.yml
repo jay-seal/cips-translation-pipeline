@@ -68,19 +68,21 @@ jobs:
         if: ${{ hashFiles('inputs/agent4_output.json') != '' }}
         run: |
           python cips_reconstruct.py \
-            --source  "inputs/source.${{ env.SOURCE_EXT }}" \
+            --source        "inputs/source.${{ env.SOURCE_EXT }}" \
             --translations  inputs/agent3_output.json \
-            --qa  inputs/agent4_output.json \
-            --output  "outputs/${{ steps.naming.outputs.output_filename }}"
+            --qa            inputs/agent4_output.json \
+            --output        "outputs/${{ steps.naming.outputs.output_filename }}" \
+            --failure-threshold 0.30
 
       - name: Run reconstruction (without QA file)
         if: ${{ hashFiles('inputs/agent4_output.json') == '' }}
         run: |
           echo "No agent4_output.json found — running without QA corrections."
           python cips_reconstruct.py \
-            --source  "inputs/source.${{ env.SOURCE_EXT }}" \
+            --source        "inputs/source.${{ env.SOURCE_EXT }}" \
             --translations  inputs/agent3_output.json \
-            --output  "outputs/${{ steps.naming.outputs.output_filename }}"
+            --output        "outputs/${{ steps.naming.outputs.output_filename }}" \
+            --failure-threshold 0.30
 
       - name: Upload outputs as artifact
         uses: actions/upload-artifact@v4
