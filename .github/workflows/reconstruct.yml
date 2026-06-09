@@ -1,5 +1,4 @@
 name: CIPS Translation — Reconstruct
-
 on:
   workflow_dispatch:
     inputs:
@@ -8,10 +7,12 @@ on:
         required: true
         type: string
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   reconstruct:
     runs-on: ubuntu-latest
-
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
@@ -24,6 +25,9 @@ jobs:
       - name: Install dependencies
         run: pip install python-pptx requests
 
+      - name: Ensure input and output directories exist
+        run: mkdir -p inputs outputs
+
       - name: Download source document from R2
         run: |
           # Extract original filename from the URL (strip timestamp prefix)
@@ -31,11 +35,9 @@ jobs:
           BASENAME=$(basename "$URL")
           FILENAME=$(echo "$BASENAME" | sed 's/^[0-9]*-//')
           EXT="${FILENAME##*.}"
-
           echo "Source URL : $URL"
           echo "Filename   : $FILENAME"
           echo "Extension  : $EXT"
-
           curl --fail -L -o "inputs/source.${EXT}" "$URL"
           echo "SOURCE_EXT=${EXT}" >> $GITHUB_ENV
           echo "SOURCE_STEM=${FILENAME%.*}" >> $GITHUB_ENV
