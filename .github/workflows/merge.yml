@@ -102,7 +102,7 @@ jobs:
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add "${{ steps.paths.outputs.output_path }}"
+          git add -f "${{ steps.paths.outputs.output_path }}"
           git diff --cached --quiet \
             && echo "Nothing new to commit — merged file is unchanged." \
             || git commit -m \
