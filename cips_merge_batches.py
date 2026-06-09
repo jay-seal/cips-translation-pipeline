@@ -18,10 +18,17 @@ Usage:
 Validations performed before writing output:
     - All input files must exist and be valid JSON.
     - All batches must share the same locale_code value in translation_summary.
-    - segment_id values must be unique across all batches (hard error).
     - Overlapping slide ranges are detected and reported as hard errors.
     - Gaps in slide coverage are reported as warnings (not errors — blank
       slides and section dividers legitimately produce no segments).
+
+Duplicate segment_id handling:
+    Agent 1 restarts segment numbering from SEG-001 in each batch. Duplicate
+    IDs across batches are therefore expected and are NOT treated as errors.
+    After sorting all segments by slide then original segment number, the
+    script reassigns clean sequential IDs (SEG-001, SEG-002, ...) across the
+    full merged output. Each segment retains its original batch ID in the
+    'original_segment_id' field for traceability.
 
 The merged output recomputes translation_summary counts from the combined
 segment list and records the source batch filenames in a 'merged_from' field
@@ -30,8 +37,7 @@ for traceability.
 Exit codes:
     0   Success — merged JSON written.
     1   Invalid input (missing files, malformed JSON, wrong arguments).
-    2   Validation failure (duplicate segment_ids, locale mismatch,
-        overlapping slide ranges).
+    2   Validation failure (locale mismatch, overlapping slide ranges).
 """
 
 import argparse
@@ -63,23 +69,30 @@ def _load_batch(path: Path) -> dict:
             log.error("Invalid JSON in %s: %s", path, exc)
             sys.exit(1)
     if "segments" not in data:
-        log.error("File %s does not contain a 'segments' array — is it an Agent 3 output?", path)
+        log.error(
+            "File %s does not contain a 'segments' array — is it an Agent 3 output?",
+            path,
+        )
         sys.exit(1)
     return data
 
 
 def _seg_sort_key(seg: dict):
-    """Sort by slide number, then by numeric part of segment_id."""
+    """
+    Sort by slide number, then by numeric part of the original segment_id.
+    Uses original_segment_id if already set (post-duplicate-detection),
+    otherwise falls back to segment_id.
+    """
     slide = seg.get("slide_or_page") or 0
-    seg_id = seg.get("segment_id", "")
-    digits = "".join(c for c in seg_id if c.isdigit())
+    id_to_use = seg.get("original_segment_id") or seg.get("segment_id", "")
+    digits = "".join(c for c in id_to_use if c.isdigit())
     num = int(digits) if digits else 0
     return (slide, num)
 
 
 def _recompute_summary(segments: list, locale_code: str, merged_from: list) -> dict:
     """Build a fresh translation_summary from the merged segment list."""
-    total = len(segments)
+    total          = len(segments)
     translated     = sum(1 for s in segments if s.get("translation_status") == "TRANSLATED")
     partial        = sum(1 for s in segments if s.get("translation_status") == "PARTIAL_TRANSLATED")
     kept           = sum(1 for s in segments if "KEPT" in (s.get("translation_status") or ""))
@@ -142,34 +155,38 @@ def merge_batches(input_paths: list, output_path: Path) -> None:
     log.info("Locale: %s", locale_code or "(not set in any batch)")
 
     # -----------------------------------------------------------------------
-    # 3. Collect all segments and validate segment_id uniqueness
+    # 3. Collect all segments, preserving original IDs for traceability
+    #
+    # Agent 1 restarts from SEG-001 in each batch — duplicate IDs across
+    # batches are expected. We collect every segment, preserve its original
+    # ID, and renumber the full set sequentially after sorting.
     # -----------------------------------------------------------------------
     all_segments = []
-    seen_ids: dict = {}   # segment_id -> source path
+    seen_ids: dict = {}
+    has_duplicates = False
 
-    errors = []
     for p, data in batches:
         for seg in data["segments"]:
             seg_id = seg.get("segment_id", "UNKNOWN")
             if seg_id in seen_ids:
-                errors.append(
-                    f"Duplicate segment_id '{seg_id}' in {p} "
-                    f"(first seen in {seen_ids[seg_id]})"
-                )
+                has_duplicates = True
             else:
                 seen_ids[seg_id] = str(p)
-                all_segments.append(seg)
+            # Preserve the original batch-local ID before any renumbering.
+            seg["original_segment_id"] = seg_id
+            all_segments.append(seg)
 
-    if errors:
-        for e in errors:
-            log.error(e)
-        log.error("%d duplicate segment_id error(s) — merge aborted.", len(errors))
-        sys.exit(2)
+    if has_duplicates:
+        log.warning(
+            "Duplicate segment_ids detected across batches (expected — "
+            "Agent 1 restarts from SEG-001 per batch). All segments will "
+            "be renumbered sequentially in the merged output. "
+            "Original IDs are preserved in 'original_segment_id'."
+        )
 
     # -----------------------------------------------------------------------
     # 4. Validate slide range overlap
     # -----------------------------------------------------------------------
-    # Build per-batch slide sets and check for overlap between any two batches.
     batch_slide_sets = []
     for p, data in batches:
         slides = {
@@ -213,7 +230,6 @@ def merge_batches(input_paths: list, output_path: Path) -> None:
         slide_set = set(all_slide_nums)
         gaps = [s for s in range(min_s, max_s + 1) if s not in slide_set]
         if gaps:
-            # Display at most 20 gap slide numbers to keep log readable.
             display = gaps[:20]
             tail = f" ... ({len(gaps) - 20} more)" if len(gaps) > 20 else ""
             log.warning(
@@ -226,10 +242,21 @@ def merge_batches(input_paths: list, output_path: Path) -> None:
         )
 
     # -----------------------------------------------------------------------
-    # 6. Sort merged segments and recompute summary
+    # 6. Sort and reassign sequential segment IDs
     # -----------------------------------------------------------------------
     all_segments.sort(key=_seg_sort_key)
 
+    for i, seg in enumerate(all_segments, start=1):
+        seg["segment_id"] = f"SEG-{i:03d}"
+
+    log.info(
+        "Segments renumbered SEG-001 to SEG-%03d across %d batches.",
+        len(all_segments), len(batches),
+    )
+
+    # -----------------------------------------------------------------------
+    # 7. Recompute summary
+    # -----------------------------------------------------------------------
     merged_from = [str(p) for p, _ in batches]
     summary = _recompute_summary(all_segments, locale_code, merged_from)
 
@@ -243,7 +270,7 @@ def merge_batches(input_paths: list, output_path: Path) -> None:
     }
 
     # -----------------------------------------------------------------------
-    # 7. Write output
+    # 8. Write output
     # -----------------------------------------------------------------------
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text(
@@ -252,7 +279,7 @@ def merge_batches(input_paths: list, output_path: Path) -> None:
     )
 
     # -----------------------------------------------------------------------
-    # 8. Summary log
+    # 9. Summary log
     # -----------------------------------------------------------------------
     log.info("=" * 60)
     log.info("MERGE COMPLETE")
