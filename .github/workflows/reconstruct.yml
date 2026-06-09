@@ -22,7 +22,7 @@ jobs:
           python-version: '3.11'
 
       - name: Install dependencies
-        run: pip install python-pptx
+        run: pip install python-pptx requests
 
       - name: Download source document from R2
         run: |
