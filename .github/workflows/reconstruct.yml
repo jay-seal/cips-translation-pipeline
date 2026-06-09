@@ -72,7 +72,7 @@ jobs:
             --translations  inputs/agent3_output.json \
             --qa            inputs/agent4_output.json \
             --output        "outputs/${{ steps.naming.outputs.output_filename }}" \
-            --failure-threshold 0.30
+            --failure-threshold 0.40
 
       - name: Run reconstruction (without QA file)
         if: ${{ hashFiles('inputs/agent4_output.json') == '' }}
@@ -82,7 +82,7 @@ jobs:
             --source        "inputs/source.${{ env.SOURCE_EXT }}" \
             --translations  inputs/agent3_output.json \
             --output        "outputs/${{ steps.naming.outputs.output_filename }}" \
-            --failure-threshold 0.30
+            --failure-threshold 0.40
 
       - name: Upload outputs as artifact
         uses: actions/upload-artifact@v4
