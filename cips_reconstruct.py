@@ -17,23 +17,25 @@ Usage:
 Outputs written to the same directory as --output:
     <name>.pptx                     Translated presentation.
     <name>_match_report.json        Full per-segment match results (machine-readable).
-    <name>_manual_corrections.html  Human-readable list of segments that could not
-                                    be applied automatically, with the correct
-                                    translation for each, for manual correction in
-                                    PowerPoint.
+    <name>_manual_corrections.html  Human-readable list of unmatched segments for
+                                    manual correction in PowerPoint.
 
 Matching strategy — applied in order per segment, stopping at first success:
 
-    Tier 1  Exact normalised match on the full shape text.
-    Tier 2  Substring normalised match (single-paragraph shapes only).
-    Tier 3  Per-paragraph match — replaces only the matched paragraph.
-    Tier 4  Layout shapes — Tiers 1–3 on slide.slide_layout.shapes.
-    Tier 5  Master shapes — Tiers 1–3 on slide_layout.slide_master.shapes.
+    Tier 1   Exact normalised match on the full shape text.
+    Tier 1b  Page-number-tolerant match. Used for footer shapes where the
+             slide-number field element has an empty or mismatched cached
+             value: strips trailing "| N" from both source and shape text
+             before comparing. Each slide's footer shape is updated
+             individually with its own correct static page number.
+    Tier 2   Substring normalised match (single-paragraph shapes only).
+    Tier 3   Per-paragraph match — replaces only the matched paragraph.
+    Tier 4   Layout shapes — Tiers 1–1b–2–3 on slide.slide_layout.shapes.
+    Tier 5   Master shapes — Tiers 1–1b–2–3 on slide_layout.slide_master.shapes.
 
     Once a layout or master shape is translated, all subsequent slides that
     reference the same text return LAYOUT_ALREADY_TRANSLATED or
-    MASTER_ALREADY_TRANSLATED rather than NO_MATCH. These are not counted
-    against the failure rate.
+    MASTER_ALREADY_TRANSLATED rather than NO_MATCH.
 
 Normalisation (comparison only — never applied to output text):
     1. NFKC unicode normalisation.
@@ -42,15 +44,16 @@ Normalisation (comparison only — never applied to output text):
     4. Strip leading bullet/list characters (•, ❶–❿ etc.).
 
 Field element handling:
-    Paragraphs with <a:fld> field elements (slide numbers, dates) are handled
-    specially. When a paragraph contains both runs and fields, the field is
-    preserved and the trailing page-number literal is stripped from the
-    translated text to avoid duplication.
+    All field elements (<a:fld>) in replaced paragraphs are removed and the
+    full translated text (including any literal page number) is written as
+    static text. This is correct for a translated deck that will not have
+    slides added or removed after translation.
 
 Known permanent failures:
     Text embedded in raster images or SmartArt is not accessible to
-    python-pptx. These segments will always produce NO_MATCH. Set
-    --failure-threshold accordingly (default 0.30).
+    python-pptx and will always produce NO_MATCH. Set --failure-threshold
+    to accommodate the proportion of such content in the source deck
+    (default 0.30).
 
 Exit codes:
     0   Success.
@@ -106,9 +109,8 @@ _LEADING_BULLET_RE = re.compile(
     ']+' + r'\s*'
 )
 
-# Matches "| 3" or "| 15" at the end of a string — used to strip the
-# page-number literal from footer translations when the paragraph retains
-# a slide-number field element that will supply it dynamically.
+# Strips trailing "| N" page-number literals for footer deduplication keys
+# and Tier 1b matching.
 _TRAILING_PAGE_RE = re.compile(r'\s*\|\s*\d+\s*$')
 
 
@@ -136,7 +138,7 @@ def normalise(text: str) -> str:
 def _source_key(norm_source: str) -> str:
     """
     Deduplication key for layout/master already-translated tracking.
-    Strips trailing page-number patterns so all footer segments across
+    Strips trailing page-number patterns so footer segments across all
     slides map to the same key once the master is translated once.
     """
     return _TRAILING_PAGE_RE.sub('', norm_source).strip()
@@ -222,24 +224,22 @@ def _replace_runs_in_paragraph(paragraph, new_text: str) -> None:
     """
     Replace paragraph text whilst preserving run-level formatting.
 
-    Field element handling:
-    - Runs + fields: Keep the field. Strip the trailing page-number literal
-      from new_text so the field continues to supply it dynamically.
-    - Runs only: Write new_text and remove stray fields.
-    - Fields only: Insert a new plain run with new_text and remove fields.
-    - Neither: Do nothing.
+    All field elements (<a:fld>) are removed and the full translated text
+    is written as static text. This is correct for a translated deck: the
+    translated text from Agent 3 already contains the correct page number
+    as a literal for each slide, so dynamic field updating is not needed.
+
+    - Runs present: write new_text to run[0], clear remaining runs,
+      remove fields.
+    - Fields only (no runs): insert a new plain run with new_text,
+      remove fields.
+    - Neither: do nothing.
     """
     p_elem = paragraph._p
     runs = paragraph.runs
     field_elements = p_elem.findall(_A_FLD)
 
-    if runs and field_elements:
-        text_for_runs = _TRAILING_PAGE_RE.sub('', new_text)
-        runs[0].text = text_for_runs
-        for run in runs[1:]:
-            run.text = ""
-        # Fields deliberately NOT removed — they supply the page number.
-    elif runs:
+    if runs:
         runs[0].text = new_text
         for run in runs[1:]:
             run.text = ""
@@ -251,6 +251,7 @@ def _replace_runs_in_paragraph(paragraph, new_text: str) -> None:
         t_elem.text = new_text
         for fld in field_elements:
             p_elem.remove(fld)
+    # else: no runs, no fields — nothing to replace.
 
 
 def replace_shape_text(shape, translated_text: str) -> None:
@@ -285,9 +286,16 @@ def replace_paragraph_text(shape, para_index: int, translated_text: str) -> None
 def _match_shape(shape, norm_source: str, translated_text: str,
                  segment_id: str, slide_id, tier_prefix: str = ""):
     """
-    Apply Tiers 1–3 to a single shape. Returns a result dict on match, else None.
-    Tier 2 is restricted to single-paragraph shapes to prevent a bullet item
-    matching as a substring of a multi-bullet placeholder.
+    Apply Tiers 1, 1b, 2, and 3 to a single shape.
+    Returns a result dict on match, else None.
+
+    Tier 1b handles footer shapes where the slide-number field element
+    has an empty or mismatched cached value, causing the shape text to
+    differ from source_text only by the trailing page number. It fires
+    when stripping "| N" from both sides produces an exact match.
+
+    Tier 2 is restricted to single-paragraph shapes to prevent a bullet
+    item matching as a substring of a multi-bullet placeholder.
     """
     if not shape.has_text_frame:
         return None
@@ -301,6 +309,19 @@ def _match_shape(shape, norm_source: str, translated_text: str,
         log.info("%-24s seg=%-12s  slide=%s  shape=%s",
                  f"{tier_prefix}T1_EXACT", segment_id, slide_id, label)
         return {"result": f"{tier_prefix}T1_EXACT", "shape": label}
+
+    # Tier 1b — Page-number-tolerant match.
+    # Fires when source_text has a trailing "| N" page reference whose value
+    # is absent or different in the shape (e.g. an empty <a:fld> cached value).
+    src_key   = _source_key(norm_source)
+    shape_key = _source_key(norm_shape)
+    if (src_key                           # non-empty key
+            and src_key != norm_source    # source actually has a page suffix
+            and src_key == shape_key):    # keys match after stripping
+        replace_shape_text(shape, translated_text)
+        log.info("%-24s seg=%-12s  slide=%s  shape=%s",
+                 f"{tier_prefix}T1b_FUZZY", segment_id, slide_id, label)
+        return {"result": f"{tier_prefix}T1b_FUZZY", "shape": label}
 
     # Tier 2 — Substring match (single-paragraph shapes only).
     non_empty_paras = [
@@ -428,19 +449,13 @@ def _write_html_report(
     source_filename: str,
 ) -> None:
     """
-    Write a human-readable HTML file listing every NO_MATCH segment
-    with the slide number, English source text, and the French translation
-    that should be applied manually in PowerPoint.
+    Write a human-readable HTML file listing every NO_MATCH segment with
+    the slide number, English source text, and the correct French translation
+    for manual correction in PowerPoint.
     """
     no_match = report.get("no_match_segments", [])
     summary  = report.get("summary", {})
     ts       = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
-
-    # Build a lookup from the full results list so we can retrieve the
-    # translated_text for NO_MATCH segments (stored in the JSON report).
-    # The match report itself only stores source_text for NO_MATCH entries,
-    # so we pull translated_text from the raw data passed through the report.
-    # (translated_text is embedded in the result dict by reconstruct() below.)
 
     rows_html = ""
     for item in no_match:
@@ -475,9 +490,7 @@ def _write_html_report(
     header {{ max-width: 1100px; margin: 0 auto 28px; }}
     h1 {{ font-size: 22px; font-weight: 700; margin-bottom: 6px; }}
     .meta {{ color: #555; font-size: 13px; margin-bottom: 18px; }}
-    .stats {{
-      display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 28px;
-    }}
+    .stats {{ display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 28px; }}
     .stat {{
       background: #fff; border: 1px solid #dde3f0; border-radius: 8px;
       padding: 14px 20px; min-width: 140px;
@@ -540,8 +553,9 @@ def _write_html_report(
       that the pipeline could not apply automatically. The most common cause is
       text embedded inside an image or SmartArt diagram, which PowerPoint stores
       as a visual element rather than editable text. Open the translated PPTX,
-      navigate to the slide shown, locate the text in the <em>English (source)</em>
-      column, and replace it with the text in the <em>French (target)</em> column.
+      navigate to the slide shown, locate the text in the
+      <em>English (source)</em> column, and replace it with the text in the
+      <em>French (target)</em> column.
     </div>
   </header>
   <div class="table-wrap">
@@ -563,7 +577,8 @@ def _write_html_report(
 </html>"""
 
     output_path.write_text(page, encoding="utf-8")
-    log.info("Manual corrections report written to %s  (%d items)", output_path, no_match_n)
+    log.info("Manual corrections report written to %s  (%d items)",
+             output_path, no_match_n)
 
 
 # ---------------------------------------------------------------------------
@@ -585,12 +600,6 @@ def reconstruct(pptx_path: Path, json_path: Path, output_path: Path) -> dict:
     slide_map = {i + 1: slide for i, slide in enumerate(prs.slides)}
     log.info("Presentation has %d slides.", len(slide_map))
 
-    # Build a lookup of translated_text by segment_id for the HTML report.
-    translation_lookup = {
-        seg.get("segment_id"): seg.get("translated_text", "")
-        for seg in segments
-    }
-
     state = {
         'modified_layout_ids': set(),
         'modified_master_ids': set(),
@@ -603,9 +612,11 @@ def reconstruct(pptx_path: Path, json_path: Path, output_path: Path) -> dict:
         "total": 0, "translated": 0,
         "skipped_no_translation": 0, "skipped_do_not_translate": 0,
         "skipped_slide_out_of_range": 0,
-        "T1_EXACT": 0, "T2_SUBSTRING": 0, "T3_PARAGRAPH": 0,
-        "LAYOUT_T1_EXACT": 0, "LAYOUT_T2_SUBSTRING": 0, "LAYOUT_T3_PARAGRAPH": 0,
-        "MASTER_T1_EXACT": 0, "MASTER_T2_SUBSTRING": 0, "MASTER_T3_PARAGRAPH": 0,
+        "T1_EXACT": 0, "T1b_FUZZY": 0, "T2_SUBSTRING": 0, "T3_PARAGRAPH": 0,
+        "LAYOUT_T1_EXACT": 0, "LAYOUT_T1b_FUZZY": 0,
+        "LAYOUT_T2_SUBSTRING": 0, "LAYOUT_T3_PARAGRAPH": 0,
+        "MASTER_T1_EXACT": 0, "MASTER_T1b_FUZZY": 0,
+        "MASTER_T2_SUBSTRING": 0, "MASTER_T3_PARAGRAPH": 0,
         "LAYOUT_ALREADY_TRANSLATED": 0, "MASTER_ALREADY_TRANSLATED": 0,
         "NO_MATCH": 0, "SKIP_EMPTY_SOURCE": 0,
     }
@@ -640,8 +651,6 @@ def reconstruct(pptx_path: Path, json_path: Path, output_path: Path) -> dict:
             slide, source_text, translated, segment_id, state
         )
         outcome["slide"] = slide_number
-        # Embed the translated_text in NO_MATCH outcomes so the HTML report
-        # can display it without needing to re-read the JSON.
         if outcome.get("result") == "NO_MATCH":
             outcome["translated_text"] = translated
         results.append(outcome)
@@ -654,11 +663,12 @@ def reconstruct(pptx_path: Path, json_path: Path, output_path: Path) -> dict:
     prs.save(str(output_path))
     log.info("Save complete.")
 
-    slide_matched  = counts["T1_EXACT"] + counts["T2_SUBSTRING"] + counts["T3_PARAGRAPH"]
-    layout_matched = (counts["LAYOUT_T1_EXACT"] + counts["LAYOUT_T2_SUBSTRING"]
-                      + counts["LAYOUT_T3_PARAGRAPH"])
-    master_matched = (counts["MASTER_T1_EXACT"] + counts["MASTER_T2_SUBSTRING"]
-                      + counts["MASTER_T3_PARAGRAPH"])
+    slide_matched  = (counts["T1_EXACT"] + counts["T1b_FUZZY"]
+                      + counts["T2_SUBSTRING"] + counts["T3_PARAGRAPH"])
+    layout_matched = (counts["LAYOUT_T1_EXACT"] + counts["LAYOUT_T1b_FUZZY"]
+                      + counts["LAYOUT_T2_SUBSTRING"] + counts["LAYOUT_T3_PARAGRAPH"])
+    master_matched = (counts["MASTER_T1_EXACT"] + counts["MASTER_T1b_FUZZY"]
+                      + counts["MASTER_T2_SUBSTRING"] + counts["MASTER_T3_PARAGRAPH"])
     already_handled = (counts["LAYOUT_ALREADY_TRANSLATED"]
                        + counts["MASTER_ALREADY_TRANSLATED"])
     total_handled  = slide_matched + layout_matched + master_matched + already_handled
@@ -671,15 +681,18 @@ def reconstruct(pptx_path: Path, json_path: Path, output_path: Path) -> dict:
     log.info("  Total segments              : %d", counts["total"])
     log.info("  Segments with translation   : %d", counts["translated"])
     log.info("  Slide-level matches")
-    log.info("    Tier 1 (exact)            : %d", counts["T1_EXACT"])
-    log.info("    Tier 2 (substring)        : %d", counts["T2_SUBSTRING"])
-    log.info("    Tier 3 (paragraph)        : %d", counts["T3_PARAGRAPH"])
+    log.info("    Tier 1  (exact)           : %d", counts["T1_EXACT"])
+    log.info("    Tier 1b (page-tolerant)   : %d", counts["T1b_FUZZY"])
+    log.info("    Tier 2  (substring)       : %d", counts["T2_SUBSTRING"])
+    log.info("    Tier 3  (paragraph)       : %d", counts["T3_PARAGRAPH"])
     log.info("  Layout-level matches (Tier 4)")
     log.info("    T4 exact                  : %d", counts["LAYOUT_T1_EXACT"])
+    log.info("    T4 page-tolerant          : %d", counts["LAYOUT_T1b_FUZZY"])
     log.info("    T4 substring              : %d", counts["LAYOUT_T2_SUBSTRING"])
     log.info("    T4 paragraph              : %d", counts["LAYOUT_T3_PARAGRAPH"])
     log.info("  Master-level matches (Tier 5)")
     log.info("    T5 exact                  : %d", counts["MASTER_T1_EXACT"])
+    log.info("    T5 page-tolerant          : %d", counts["MASTER_T1b_FUZZY"])
     log.info("    T5 substring              : %d", counts["MASTER_T2_SUBSTRING"])
     log.info("    T5 paragraph              : %d", counts["MASTER_T3_PARAGRAPH"])
     log.info("  Already handled (deduped)")
@@ -750,7 +763,6 @@ def main():
 
     report = reconstruct(source_path, json_path, output_path)
 
-    # Machine-readable match report.
     report_path = (output_path.parent
                    / output_path.name.replace(".pptx", "_match_report.json"))
     report_path.write_text(
@@ -758,7 +770,6 @@ def main():
     )
     log.info("Match report written to %s", report_path)
 
-    # Human-readable manual corrections report.
     html_path = (output_path.parent
                  / output_path.name.replace(".pptx", "_manual_corrections.html"))
     _write_html_report(report, html_path, source_path.name)
