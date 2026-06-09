@@ -1,10 +1,18 @@
 name: CIPS Translation — Reconstruct
+
 on:
   workflow_dispatch:
     inputs:
       source_url:
-        description: 'R2 URL of the source document (set automatically by the service)'
+        description: 'R2 URL of the source document (PPTX)'
         required: true
+        type: string
+      translations:
+        description: >
+          Filename of the Agent 3 translations JSON in inputs/.
+          Example: agent3_m1_fr-fr_merged.json
+        required: true
+        default: 'agent3_output.json'
         type: string
 
 env:
@@ -13,21 +21,27 @@ env:
 jobs:
   reconstruct:
     runs-on: ubuntu-latest
+
     steps:
+      # -----------------------------------------------------------------------
       - name: Check out repository
         uses: actions/checkout@v4
 
+      # -----------------------------------------------------------------------
       - name: Set up Python 3.11
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
+      # -----------------------------------------------------------------------
       - name: Install dependencies
         run: pip install python-pptx requests
 
+      # -----------------------------------------------------------------------
       - name: Ensure input and output directories exist
         run: mkdir -p inputs outputs
 
+      # -----------------------------------------------------------------------
       - name: Download source document from R2
         run: |
           URL="${{ github.event.inputs.source_url }}"
@@ -38,52 +52,61 @@ jobs:
           echo "Filename   : $FILENAME"
           echo "Extension  : $EXT"
           curl --fail -L -o "inputs/source.${EXT}" "$URL"
-          echo "SOURCE_EXT=${EXT}" >> $GITHUB_ENV
+          echo "SOURCE_EXT=${EXT}"    >> $GITHUB_ENV
           echo "SOURCE_STEM=${FILENAME%.*}" >> $GITHUB_ENV
           ls -lh inputs/
 
+      # -----------------------------------------------------------------------
       - name: Check required JSON files exist
         run: |
-          if [ ! -f inputs/agent3_output.json ]; then
-            echo "ERROR: inputs/agent3_output.json not found."
+          TRANSLATIONS="inputs/${{ github.event.inputs.translations }}"
+          if [ ! -f "$TRANSLATIONS" ]; then
+            echo "ERROR: ${TRANSLATIONS} not found."
             exit 1
           fi
+          echo "Translations file: ${TRANSLATIONS}"
           echo "All required input files present."
 
+      # -----------------------------------------------------------------------
       - name: Determine output filename
         id: naming
         run: |
           LOCALE=$(python -c "
           import json
-          with open('inputs/agent3_output.json') as f:
+          with open('inputs/${{ github.event.inputs.translations }}') as f:
               data = json.load(f)
-          print(data.get('document_metadata', {}).get('target_locale', 'TRANSLATED'))
+          summary = data.get('translation_summary', {})
+          meta    = data.get('document_metadata', {})
+          print(summary.get('locale_code') or meta.get('target_locale', 'TRANSLATED'))
           ")
           OUTPUT="${{ env.SOURCE_STEM }}_${LOCALE}.${{ env.SOURCE_EXT }}"
           echo "locale=${LOCALE}"           >> $GITHUB_OUTPUT
           echo "output_filename=${OUTPUT}"  >> $GITHUB_OUTPUT
           echo "Output file will be: ${OUTPUT}"
 
+      # -----------------------------------------------------------------------
       - name: Run reconstruction (with QA file)
         if: ${{ hashFiles('inputs/agent4_output.json') != '' }}
         run: |
           python cips_reconstruct.py \
             --source        "inputs/source.${{ env.SOURCE_EXT }}" \
-            --translations  inputs/agent3_output.json \
+            --translations  "inputs/${{ github.event.inputs.translations }}" \
             --qa            inputs/agent4_output.json \
             --output        "outputs/${{ steps.naming.outputs.output_filename }}" \
             --failure-threshold 0.40
 
+      # -----------------------------------------------------------------------
       - name: Run reconstruction (without QA file)
         if: ${{ hashFiles('inputs/agent4_output.json') == '' }}
         run: |
           echo "No agent4_output.json found — running without QA corrections."
           python cips_reconstruct.py \
             --source        "inputs/source.${{ env.SOURCE_EXT }}" \
-            --translations  inputs/agent3_output.json \
+            --translations  "inputs/${{ github.event.inputs.translations }}" \
             --output        "outputs/${{ steps.naming.outputs.output_filename }}" \
             --failure-threshold 0.40
 
+      # -----------------------------------------------------------------------
       - name: Upload outputs as artifact
         uses: actions/upload-artifact@v4
         with:
