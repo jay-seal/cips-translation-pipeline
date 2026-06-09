@@ -1,0 +1,137 @@
+name: Merge Translation Batches
+
+# ---------------------------------------------------------------------------
+# Triggered manually from the GitHub Actions UI.
+#
+# Provide the batch JSON filenames (space-separated) in the order they should
+# be merged. All files must already exist in the inputs/ directory of the
+# repository.
+#
+# After a successful merge, this workflow commits the merged JSON back to
+# inputs/ and optionally triggers the reconstruction workflow automatically.
+#
+# Example inputs:
+#   batch_files  : agent3_m1_fr-fr_slides_001_020.json agent3_m1_fr-fr_slides_021_040.json
+#   output_file  : agent3_m1_fr-fr_merged.json
+#   run_reconstruct : true
+# ---------------------------------------------------------------------------
+
+on:
+  workflow_dispatch:
+    inputs:
+      batch_files:
+        description: >
+          Space-separated Agent 3 batch JSON filenames in inputs/, in slide order.
+          Example: agent3_m1_fr-fr_slides_001_020.json agent3_m1_fr-fr_slides_021_040.json
+        required: true
+        type: string
+
+      output_file:
+        description: >
+          Filename for the merged JSON, written to inputs/.
+          Example: agent3_m1_fr-fr_merged.json
+        required: true
+        default: agent3_merged.json
+        type: string
+
+      run_reconstruct:
+        description: >
+          Trigger the reconstruction workflow automatically after a successful merge?
+          Set to false if you want to review the merged JSON before reconstructing.
+        required: false
+        default: 'false'
+        type: choice
+        options:
+          - 'true'
+          - 'false'
+
+      source_pptx:
+        description: >
+          (Only used if run_reconstruct is true.)
+          R2 public URL or inputs/ path of the source PPTX.
+        required: false
+        default: ''
+        type: string
+
+      output_pptx:
+        description: >
+          (Only used if run_reconstruct is true.)
+          Output PPTX filename written to outputs/.
+          Example: m1_driving_value_fr-fr.pptx
+        required: false
+        default: ''
+        type: string
+
+jobs:
+  merge:
+    name: Merge batch JSONs
+    runs-on: ubuntu-latest
+
+    steps:
+      # -----------------------------------------------------------------------
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # -----------------------------------------------------------------------
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      # -----------------------------------------------------------------------
+      # Build the full --inputs argument by prepending inputs/ to each filename.
+      - name: Resolve input paths
+        id: paths
+        run: |
+          ARGS=""
+          for f in ${{ github.event.inputs.batch_files }}; do
+            ARGS="$ARGS inputs/$f"
+          done
+          echo "input_args=$ARGS" >> "$GITHUB_OUTPUT"
+          echo "output_path=inputs/${{ github.event.inputs.output_file }}" >> "$GITHUB_OUTPUT"
+
+      # -----------------------------------------------------------------------
+      - name: Merge batch JSONs
+        run: |
+          python cips_merge_batches.py \
+            --inputs ${{ steps.paths.outputs.input_args }} \
+            --output ${{ steps.paths.outputs.output_path }}
+
+      # -----------------------------------------------------------------------
+      - name: Commit merged JSON to repository
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add "${{ steps.paths.outputs.output_path }}"
+          git diff --cached --quiet \
+            && echo "Nothing new to commit — merged file is unchanged." \
+            || git commit -m \
+                "chore: merge translation batches into ${{ github.event.inputs.output_file }}
+
+          Batches merged:
+          ${{ github.event.inputs.batch_files }}
+
+          Triggered by: ${{ github.actor }}"
+          git push
+
+      # -----------------------------------------------------------------------
+      # Optional: trigger reconstruction immediately after merge.
+      # reconstruct.yml is called with the merged filename — no changes to
+      # that workflow are required.
+      - name: Trigger reconstruction workflow
+        if: ${{ github.event.inputs.run_reconstruct == 'true' }}
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.actions.createWorkflowDispatch({
+              owner:   context.repo.owner,
+              repo:    context.repo.repo,
+              workflow_id: 'reconstruct.yml',
+              ref:     context.ref,
+              inputs: {
+                translations: '${{ github.event.inputs.output_file }}',
+                source:       '${{ github.event.inputs.source_pptx }}',
+                output:       '${{ github.event.inputs.output_pptx }}',
+              }
+            });
+            core.info('Reconstruction workflow triggered.');
