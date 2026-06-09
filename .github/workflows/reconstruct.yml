@@ -30,7 +30,6 @@ jobs:
 
       - name: Download source document from R2
         run: |
-          # Extract original filename from the URL (strip timestamp prefix)
           URL="${{ github.event.inputs.source_url }}"
           BASENAME=$(basename "$URL")
           FILENAME=$(echo "$BASENAME" | sed 's/^[0-9]*-//')
@@ -83,10 +82,10 @@ jobs:
             --translations  inputs/agent3_output.json \
             --output  "outputs/${{ steps.naming.outputs.output_filename }}"
 
-      - name: Upload translated file as artifact
+      - name: Upload outputs as artifact
         uses: actions/upload-artifact@v4
         with:
           name: "${{ steps.naming.outputs.output_filename }}"
-          path: "outputs/${{ steps.naming.outputs.output_filename }}"
+          path: "outputs/"
           retention-days: 30
           if-no-files-found: error
