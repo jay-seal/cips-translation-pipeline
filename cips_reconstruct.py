@@ -49,6 +49,18 @@ Field element handling:
     static text. This is correct for a translated deck that will not have
     slides added or removed after translation.
 
+Non-text-box segment filtering:
+    Segments where Agent 1 has set is_in_text_box=False represent text
+    that lives outside editable text frames — logo graphics, image-embedded
+    labels, and similar non-editable elements. These are excluded from the
+    matching loop and logged as SKIP_NOT_TEXT_BOX. Allowing them through
+    would risk a short source string (e.g. "CIPS") claiming an editable
+    shape via Tier 2 substring match before the correct, longer segment
+    (e.g. "CIPS Practitioner Programme") can match it. SKIP_NOT_TEXT_BOX
+    segments are recorded in the match report JSON but excluded from the
+    manual corrections HTML, since they are not reachable by clicking on
+    shapes in PowerPoint.
+
 Known permanent failures:
     Text embedded in raster images or SmartArt is not accessible to
     python-pptx and will always produce NO_MATCH. Set --failure-threshold
@@ -612,6 +624,7 @@ def reconstruct(pptx_path: Path, json_path: Path, output_path: Path) -> dict:
         "total": 0, "translated": 0,
         "skipped_no_translation": 0, "skipped_do_not_translate": 0,
         "skipped_slide_out_of_range": 0,
+        "skipped_not_text_box": 0,                                        # NEW
         "T1_EXACT": 0, "T1b_FUZZY": 0, "T2_SUBSTRING": 0, "T3_PARAGRAPH": 0,
         "LAYOUT_T1_EXACT": 0, "LAYOUT_T1b_FUZZY": 0,
         "LAYOUT_T2_SUBSTRING": 0, "LAYOUT_T3_PARAGRAPH": 0,
@@ -635,6 +648,26 @@ def reconstruct(pptx_path: Path, json_path: Path, output_path: Path) -> dict:
         if status == "DO_NOT_TRANSLATE":
             counts["skipped_do_not_translate"] += 1
             continue
+
+        # ------------------------------------------------------------------ NEW
+        # Skip segments that Agent 1 flagged as non-text-box elements (logos,
+        # graphic labels, image-embedded text). is_in_text_box=False is an
+        # explicit False — segments where the field is absent or True proceed
+        # normally. Skipping these prevents a short source string (e.g. "CIPS")
+        # from claiming an editable shape via Tier 2 substring match before the
+        # correct, longer segment (e.g. "CIPS Practitioner Programme") can match.
+        if seg.get("is_in_text_box") is False:
+            log.debug("SKIP_NOT_TEXT_BOX  seg=%-12s  source=%r",
+                      segment_id, source_text[:60])
+            counts["skipped_not_text_box"] += 1
+            results.append({
+                "segment_id": segment_id,
+                "result": "SKIP_NOT_TEXT_BOX",
+                "slide": slide_number,
+            })
+            continue
+        # ------------------------------------------------------------------ END NEW
+
         if slide_number not in slide_map:
             log.warning("Slide %s out of range for seg %s — skipping.",
                         slide_number, segment_id)
@@ -702,6 +735,7 @@ def reconstruct(pptx_path: Path, json_path: Path, output_path: Path) -> dict:
     log.info("  No match (manual required)  : %d  (%.1f%%)", no_match, fail_rate * 100)
     log.info("  Skipped (no translation)    : %d", counts["skipped_no_translation"])
     log.info("  Skipped (do not trans.)     : %d", counts["skipped_do_not_translate"])
+    log.info("  Skipped (not text box)      : %d", counts["skipped_not_text_box"])  # NEW
     log.info("  Skipped (out of range)      : %d", counts["skipped_slide_out_of_range"])
     log.info("=" * 60)
 
