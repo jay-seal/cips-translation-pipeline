@@ -1,6 +1,5 @@
 # Ignore actual input files — these are uploaded per-run, not stored in the repo
 inputs/*.pptx
-inputs/*.json
 
 # Keep the placeholder so the inputs/ folder exists in the repo
 !inputs/.gitkeep
