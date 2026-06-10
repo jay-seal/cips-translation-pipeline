@@ -296,13 +296,30 @@ def _replace_runs_in_paragraph(paragraph, new_text: str) -> None:
 
 
 def replace_shape_text(shape, translated_text: str) -> None:
-    """Write translated_text into a shape, distributing lines across paragraphs."""
+    """Write translated_text into a shape, distributing lines across paragraphs.
+
+    Logs a warning when the number of lines in translated_text differs from
+    the number of non-empty paragraphs in the shape. This indicates that
+    Agent 3 has merged or split bullet points, which causes content to be
+    dropped (too few lines) or paragraphs to be blanked (too many lines).
+    The root fix is in the Agent 3 line count preservation rule; this warning
+    makes the problem visible in the Actions log.
+    """
     if not shape.has_text_frame:
         return
     paragraphs = shape.text_frame.paragraphs
     if not paragraphs:
         return
     translated_lines = translated_text.split("\n")
+    non_empty_paras = [p for p in paragraphs if _para_full_text(p).strip()]
+    if len(non_empty_paras) > 1 and len(translated_lines) != len(non_empty_paras):
+        log.warning(
+            "LINE_COUNT_MISMATCH  shape=%-30s  "
+            "shape_paragraphs=%d  translated_lines=%d — "
+            "Agent 3 may have merged or split bullet points; "
+            "check line count preservation rule.",
+            _shape_label(shape), len(non_empty_paras), len(translated_lines),
+        )
     for i, para in enumerate(paragraphs):
         if i < len(translated_lines):
             _replace_runs_in_paragraph(para, translated_lines[i])
