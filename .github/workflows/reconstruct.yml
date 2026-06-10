@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       source_url:
-        description: 'R2 URL of the source document (PPTX)'
+        description: 'R2 URL of the source document (PPTX or DOCX)'
         required: true
         type: string
       translations:
@@ -35,7 +35,7 @@ jobs:
 
       # -----------------------------------------------------------------------
       - name: Install dependencies
-        run: pip install python-pptx requests
+        run: pip install python-pptx python-docx requests
 
       # -----------------------------------------------------------------------
       - name: Ensure input and output directories exist
@@ -48,24 +48,29 @@ jobs:
           BASENAME=$(basename "$URL")
           FILENAME=$(echo "$BASENAME" | sed 's/^[0-9]*-//')
           EXT="${FILENAME##*.}"
+          EXT_LOWER=$(echo "$EXT" | tr '[:upper:]' '[:lower:]')
           echo "Source URL : $URL"
           echo "Filename   : $FILENAME"
-          echo "Extension  : $EXT"
-          curl --fail -L -o "inputs/source.${EXT}" "$URL"
-          echo "SOURCE_EXT=${EXT}"    >> $GITHUB_ENV
+          echo "Extension  : $EXT_LOWER"
+          curl --fail -L -o "inputs/source.${EXT_LOWER}" "$URL"
+          echo "SOURCE_EXT=${EXT_LOWER}"          >> $GITHUB_ENV
           echo "SOURCE_STEM=${FILENAME%.*}" >> $GITHUB_ENV
           ls -lh inputs/
 
       # -----------------------------------------------------------------------
-      - name: Check required JSON files exist
+      - name: Check required files exist
         run: |
           TRANSLATIONS="inputs/${{ github.event.inputs.translations }}"
           if [ ! -f "$TRANSLATIONS" ]; then
             echo "ERROR: ${TRANSLATIONS} not found."
             exit 1
           fi
-          echo "Translations file: ${TRANSLATIONS}"
-          echo "All required input files present."
+          if [ ! -f "inputs/source.${{ env.SOURCE_EXT }}" ]; then
+            echo "ERROR: inputs/source.${{ env.SOURCE_EXT }} not found."
+            exit 1
+          fi
+          echo "Source     : inputs/source.${{ env.SOURCE_EXT }}"
+          echo "Translations: ${TRANSLATIONS}"
 
       # -----------------------------------------------------------------------
       - name: Determine output filename
@@ -85,26 +90,44 @@ jobs:
           echo "Output file will be: ${OUTPUT}"
 
       # -----------------------------------------------------------------------
-      - name: Run reconstruction (with QA file)
-        if: ${{ hashFiles('inputs/agent4_output.json') != '' }}
-        run: |
-          python cips_reconstruct.py \
-            --source        "inputs/source.${{ env.SOURCE_EXT }}" \
-            --translations  "inputs/${{ github.event.inputs.translations }}" \
-            --qa            inputs/agent4_output.json \
-            --output        "outputs/${{ steps.naming.outputs.output_filename }}" \
-            --failure-threshold 0.40
-
+      # Select the reconstruction script and failure threshold based on format.
+      # PPTX: cips_reconstruct.py      threshold 0.40 (image-embedded content)
+      # DOCX: cips_reconstruct_docx.py threshold 0.20 (fewer inaccessible elements)
       # -----------------------------------------------------------------------
-      - name: Run reconstruction (without QA file)
-        if: ${{ hashFiles('inputs/agent4_output.json') == '' }}
+      - name: Run reconstruction
         run: |
-          echo "No agent4_output.json found — running without QA corrections."
-          python cips_reconstruct.py \
-            --source        "inputs/source.${{ env.SOURCE_EXT }}" \
-            --translations  "inputs/${{ github.event.inputs.translations }}" \
-            --output        "outputs/${{ steps.naming.outputs.output_filename }}" \
-            --failure-threshold 0.40
+          EXT="${{ env.SOURCE_EXT }}"
+
+          if [ "$EXT" = "pptx" ]; then
+            SCRIPT="cips_reconstruct.py"
+            THRESHOLD="0.40"
+          elif [ "$EXT" = "docx" ]; then
+            SCRIPT="cips_reconstruct_docx.py"
+            THRESHOLD="0.20"
+          else
+            echo "ERROR: Unsupported file extension '${EXT}'. Expected pptx or docx."
+            exit 1
+          fi
+
+          echo "Script    : $SCRIPT"
+          echo "Threshold : $THRESHOLD"
+
+          if [ -f "inputs/agent4_output.json" ]; then
+            echo "Agent 4 QA file found — passing to reconstruction script."
+            python "$SCRIPT" \
+              --source        "inputs/source.${EXT}" \
+              --translations  "inputs/${{ github.event.inputs.translations }}" \
+              --qa            inputs/agent4_output.json \
+              --output        "outputs/${{ steps.naming.outputs.output_filename }}" \
+              --failure-threshold "$THRESHOLD"
+          else
+            echo "No agent4_output.json found — running without QA file."
+            python "$SCRIPT" \
+              --source        "inputs/source.${EXT}" \
+              --translations  "inputs/${{ github.event.inputs.translations }}" \
+              --output        "outputs/${{ steps.naming.outputs.output_filename }}" \
+              --failure-threshold "$THRESHOLD"
+          fi
 
       # -----------------------------------------------------------------------
       - name: Upload outputs as artifact
