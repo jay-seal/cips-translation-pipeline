@@ -14,6 +14,14 @@ on:
         required: true
         default: 'agent3_output.json'
         type: string
+      failure_threshold:
+        description: >
+          Maximum tolerated NO_MATCH rate before the workflow exits with an error.
+          Leave blank to use the format default (0.40 for PPTX, 0.20 for DOCX).
+          Override for documents with known inaccessible content (e.g. 0.30).
+        required: false
+        default: ''
+        type: string
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
@@ -100,14 +108,17 @@ jobs:
 
           if [ "$EXT" = "pptx" ]; then
             SCRIPT="cips_reconstruct.py"
-            THRESHOLD="0.40"
+            DEFAULT_THRESHOLD="0.40"
           elif [ "$EXT" = "docx" ]; then
             SCRIPT="cips_reconstruct_docx.py"
-            THRESHOLD="0.20"
+            DEFAULT_THRESHOLD="0.20"
           else
             echo "ERROR: Unsupported file extension '${EXT}'. Expected pptx or docx."
             exit 1
           fi
+
+          OVERRIDE="${{ github.event.inputs.failure_threshold }}"
+          THRESHOLD="${OVERRIDE:-$DEFAULT_THRESHOLD}"
 
           echo "Script    : $SCRIPT"
           echo "Threshold : $THRESHOLD"
