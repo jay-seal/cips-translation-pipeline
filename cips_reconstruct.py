@@ -163,13 +163,23 @@ def normalise(text: str) -> str:
     """
     Normalise for comparison only. Never applied to output text.
     1. NFKC unicode normalisation.
-    2. Collapse whitespace to single space.
-    3. Strip edges.
-    4. Strip leading bullet/list characters.
+    2. Smart quote / typographic punctuation normalisation — converts curly
+       quotes and em/en dashes to their plain ASCII equivalents so that text
+       extracted by AI agents (which may produce straight quotes) matches
+       DOCX/PPTX content (which typically uses Word's smart quote characters).
+    3. Collapse whitespace to single space.
+    4. Strip edges.
+    5. Strip leading bullet/list characters.
     """
     if not text:
         return ""
     text = unicodedata.normalize("NFKC", text)
+    # Smart single quotes → straight apostrophe
+    text = text.replace('\u2018', "'").replace('\u2019', "'")
+    # Smart double quotes → straight double quote
+    text = text.replace('\u201C', '"').replace('\u201D', '"')
+    # En dash / em dash → hyphen
+    text = text.replace('\u2013', '-').replace('\u2014', '-')
     text = re.sub(r"\s+", " ", text)
     text = text.strip()
     text = _LEADING_BULLET_RE.sub('', text)
