@@ -1,0 +1,508 @@
+{
+"translation_summary": {
+"total_segments": 16,
+"translated_count": 14,
+"partial_translated_count": 0,
+"kept_count": 2,
+"image_text_count": 0,
+"flagged_count": 0,
+"expansion_warnings": 0,
+"locale_code": "FR-FR"
+},
+"document_metadata": {
+"source_filename": "Handout - Boat Exercise - Marina Ltd Seller v2.docx",
+"document_type": "docx",
+"target_locale": "FR-FR",
+"total_slides_or_pages": 2,
+"batch_slide_range": "1-2",
+"extraction_timestamp": "2026-06-10T12:00:00Z"
+},
+"segments": [
+{
+"segment_id": "SEG-001",
+"slide_or_page": 1,
+"element_type": "heading",
+"element_id": "page_1_header_1",
+"source_text": "CIPS Chartered Institute of Procurement & Supply",
+"character_count": 48,
+"is_in_text_box": true,
+"is_in_table": false,
+"layout_context": "Header text at top right of page",
+"translation_status": "KEPT",
+"translated_text": "CIPS Chartered Institute of Procurement & Supply",
+"flag_status": "KEEP",
+"term_annotations": [
+{
+"term": "CIPS",
+"reference_file_status": "KEEP",
+"preferred_translation": null,
+"locale_override_applied": true,
+"inline_instruction": "Proper noun and brand name. Retain in English exactly as written."
+},
+{
+"term": "Chartered Institute of Procurement & Supply",
+"reference_file_status": "KEEP",
+"preferred_translation": null,
+"locale_override_applied": true,
+"inline_instruction": "Proper noun — retain in English exactly as written. Do not translate or expand."
+}
+],
+"first_occurrence_tracking": false,
+"expansion_risk": "NONE",
+"inline_instruction": "This segment contains only proper names and brand identifiers. Retain the entire segment in English.",
+"translated_character_count": null,
+"expansion_percentage": null,
+"expansion_note": null
+},
+{
+"segment_id": "SEG-002",
+"slide_or_page": 1,
+"element_type": "heading",
+"element_id": "page_1_heading_1",
+"source_text": "Boat Exercise - Marina Ltd (Sellers)",
+"character_count": 36,
+"is_in_text_box": true,
+"is_in_table": false,
+"layout_context": "Main document title",
+"translation_status": "TRANSLATED",
+"translated_text": "Exercice bateau - Marina Ltd (Vendeurs)",
+"flag_status": "TRANSLATE",
+"term_annotations": [
+{
+"term": "Marina Ltd",
+"reference_file_status": "KEEP",
+"preferred_translation": null,
+"locale_override_applied": false,
+"inline_instruction": "Case study company name — retain in English."
+}
+],
+"first_occurrence_tracking": false,
+"expansion_risk": "MEDIUM",
+"inline_instruction": "Translate 'Boat Exercise' and 'Sellers'. Retain 'Marina Ltd' exactly as written.",
+"translated_character_count": 40,
+"expansion_percentage": 11.1,
+"expansion_note": null
+},
+{
+"segment_id": "SEG-003",
+"slide_or_page": 1,
+"element_type": "heading",
+"element_id": "page_1_heading_2",
+"source_text": "General Brief",
+"character_count": 13,
+"is_in_text_box": true,
+"is_in_table": false,
+"layout_context": "Section heading",
+"translation_status": "TRANSLATED",
+"translated_text": "Dossier général",
+"flag_status": "TRANSLATE",
+"term_annotations": [],
+"first_occurrence_tracking": false,
+"expansion_risk": "HIGH",
+"translated_character_count": 15,
+"expansion_percentage": 15.4,
+"expansion_note": null
+},
+{
+"segment_id": "SEG-004",
+"slide_or_page": 1,
+"element_type": "body_text",
+"element_id": "page_1_para_1",
+"source_text": "The Shore Family are re-visiting Marina Ltd to negotiate the purchase of a new canal boat, which meets the needs of their growing family. On the earlier visit to the marina (a couple of weeks ago) Marina Ltd offered the Shore Family a tentative package deal which included an offer of approximately £42,250 for the family’s current boat, the Halifax 36ft, (a 7year old canal boat, 25,000 miles on the clock, 1 previous owner) in part exchange against a new boat, (Harmony 38ft) which was priced at £72k. Marina Ltd said that the offer was subject to the Shore Family taking out a credit agreement through their agent for the balance of the purchase price. ",
+"character_count": 574,
+"is_in_text_box": true,
+"is_in_table": false,
+"layout_context": "First body paragraph under General Brief",
+"translation_status": "TRANSLATED",
+"translated_text": "La Shore Family retourne chez Marina Ltd pour négocier l'achat d'un nouveau bateau de canal répondant aux besoins de leur famille qui s'agrandit. Lors de la visite précédente il y a deux semaines, Marina Ltd a proposé une offre globale incluant environ £42 250 de reprise pour leur bateau actuel, le Halifax 36ft (7 ans, 25 000 miles, 1 propriétaire), contre un nouveau Harmony 38ft à £72 000. Marina Ltd a précisé que l'offre était soumise à la signature d'un contrat de crédit par la Shore Family auprès de leur agent pour le solde du prix d'achat.",
+"flag_status": "TRANSLATE",
+"term_annotations": [
+{
+"term": "Shore Family",
+"reference_file_status": "KEEP",
+"preferred_translation": null,
+"locale_override_applied": false,
+"inline_instruction": "Case study characters — retain in English."
+},
+{
+"term": "Marina Ltd",
+"reference_file_status": "KEEP",
+"preferred_translation": null,
+"locale_override_applied": false,
+"inline_instruction": "Case study company name — retain in English."
+},
+{
+"term": "negotiate",
+"reference_file_status": "TRANSLATE",
+"preferred_translation": "négocier",
+"locale_override_applied": false,
+"inline_instruction": "Translate into French. Ensure formal 'vous' register if addressed to the learner."
+},
+{
+"term": "purchase",
+"reference_file_status": "TRANSLATE",
+"preferred_translation": "achat",
+"locale_override_applied": false,
+"inline_instruction": "Translate using 'achat' in this transactional context."
+},
+{
+"term": "Halifax 36ft",
+"reference_file_status": "KEEP",
+"preferred_translation": null,
+"locale_override_applied": false,
+"inline_instruction": "Product model name — retain in English."
+},
+{
+"term": "Harmony 38ft",
+"reference_file_status": "KEEP",
+"preferred_translation": null,
+"locale_override_applied": false,
+"inline_instruction": "Product model name — retain in English."
+}
+],
+"first_occurrence_tracking": false,
+"expansion_risk": "LOW",
+"inline_instruction": "Retain currency symbol £. Apply French number formatting (space for thousands, comma for decimals if applicable). Use the formal 'vous' form for any inferred instructions.",
+"translated_character_count": 586,
+"expansion_percentage": 2.1,
+"expansion_note": null
+},
+{
+"segment_id": "SEG-005",
+"slide_or_page": 1,
+"element_type": "body_text",
+"element_id": "page_1_para_2",
+"source_text": "You did not discuss the final purchase price of the new boat in detail as this was dependent on the type of model chosen, fixtures and fittings and more research was needed by both parties.",
+"character_count": 181,
+"is_in_text_box": true,
+"is_in_table": false,
+"layout_context": "Second body paragraph under General Brief",
+"translation_status": "TRANSLATED",
+"translated_text": "Vous n'avez pas discuté du prix d'achat final en détail, car il dépendait du modèle et des équipements ; des recherches supplémentaires étaient nécessaires pour les deux parties.",
+"flag_status": "TRANSLATE",
+"term_annotations": [
+{
+"term": "purchase",
+"reference_file_status": "TRANSLATE",
+"preferred_translation": "achat",
+"locale_override_applied": false,
+"inline_instruction": "Translate as 'prix d'achat'."
+}
+],
+"first_occurrence_tracking": false,
+"expansion_risk": "LOW",
+"inline_instruction": "Apply formal 'vous' form: 'Vous n'avez pas discuté...'",
+"translated_character_count": 182,
+"expansion_percentage": 0.6,
+"expansion_note": null
+},
+{
+"segment_id": "SEG-006",
+"slide_or_page": 1,
+"element_type": "heading",
+"element_id": "page_1_heading_3",
+"source_text": "Marina Ltd Brief",
+"character_count": 16,
+"is_in_text_box": true,
+"is_in_table": false,
+"layout_context": "Section heading",
+"translation_status": "TRANSLATED",
+"translated_text": "Briefing Marina Ltd",
+"flag_status": "TRANSLATE",
+"term_annotations": [
+{
+"term": "Marina Ltd",
+"reference_file_status": "KEEP",
+"preferred_translation": null,
+"locale_override_applied": false,
+"inline_instruction": "Case study company name — retain in English."
+}
+],
+"first_occurrence_tracking": false,
+"expansion_risk": "HIGH",
+"translated_character_count": 19,
+"expansion_percentage": 18.8,
+"expansion_note": null
+},
+{
+"segment_id": "SEG-007",
+"slide_or_page": 1,
+"element_type": "body_text",
+"element_id": "page_1_para_3",
+"source_text": "This is the last day of your sales quarter. If the team sell one more boat today, you reach your quota and are eligible for a bonus of £250 each.",
+"character_count": 154,
+"is_in_text_box": true,
+"is_in_table": false,
+"layout_context": "First body paragraph under Marina Ltd Brief",
+"translation_status": "TRANSLATED",
+"translated_text": "C'est le dernier jour de votre trimestre de vente. Si l'équipe vend un bateau supplémentaire aujourd'hui, vous atteignez votre quota et recevez une prime de £250 chacun.",
+"flag_status": "TRANSLATE",
+"term_annotations": [],
+"first_occurrence_tracking": false,
+"expansion_risk": "LOW",
+"inline_instruction": "Apply formal 'vous' form. Retain £ symbol.",
+"translated_character_count": 167,
+"expansion_percentage": 8.4,
+"expansion_note": null
+},
+{
+"segment_id": "SEG-008",
+"slide_or_page": 1,
+"element_type": "body_text",
+"element_id": "page_1_para_4",
+"source_text": "The selling price of the brand new, Harmony 38ft, must be in excess of the amount your company paid for the boat, which was £64,500. The level of boat discussed was around £72k, but if you can persuade them to go for top of the range model/fixtures/fittings you could be looking at a sale of £78k.",
+"character_count": 279,
+"is_in_text_box": true,
+"is_in_table": false,
+"layout_context": "Second body paragraph under Marina Ltd Brief",
+"translation_status": "TRANSLATED",
+"translated_text": "Le prix de vente du Harmony 38ft neuf doit être supérieur au prix d'achat de votre entreprise, soit £64 500. Le prix discuté était d'environ £72 000, mais si vous les convainquez de choisir un modèle ou des équipements haut de gamme, vous pourriez atteindre une vente de £78 000.",
+"flag_status": "TRANSLATE",
+"term_annotations": [
+{
+"term": "Harmony 38ft",
+"reference_file_status": "KEEP",
+"preferred_translation": null,
+"locale_override_applied": false,
+"inline_instruction": "Product model name — retain in English."
+}
+],
+"first_occurrence_tracking": false,
+"expansion_risk": "LOW",
+"inline_instruction": "Apply formal 'vous' form. Apply French numeric spacing (64 500) and retain £ symbol.",
+"translated_character_count": 275,
+"expansion_percentage": -1.4,
+"expansion_note": null
+},
+{
+"segment_id": "SEG-009",
+"slide_or_page": 1,
+"element_type": "body_text",
+"element_id": "page_1_para_5",
+"source_text": "You think their current boat is in average to good condition due to its mileage and wear/tear. Auto-boat magazine give a range of £40 – 48K for the Shore Family current boat, so you think your part exchange figure was generous. If though you can persuade them to take a better model Harmony 38ft then you may look to increase that part exchange figure. ",
+"character_count": 361,
+"is_in_text_box": true,
+"is_in_table": false,
+"layout_context": "Third body paragraph under Marina Ltd Brief",
+"translation_status": "TRANSLATED",
+"translated_text": "Vous jugez leur bateau actuel en assez bon état malgré son kilométrage et l'usure. Auto-boat magazine estime le bateau de la Shore Family entre £40 000 et 48 000 ; votre offre de reprise était donc généreuse. Si toutefois vous les convainquez de choisir un modèle Harmony 38ft supérieur, vous pourriez envisager d'augmenter ce montant de reprise.",
+"flag_status": "TRANSLATE",
+"term_annotations": [
+{
+"term": "Shore Family",
+"reference_file_status": "KEEP",
+"preferred_translation": null,
+"locale_override_applied": false,
+"inline_instruction": "Case study characters — retain in English."
+},
+{
+"term": "Harmony 38ft",
+"reference_file_status": "KEEP",
+"preferred_translation": null,
+"locale_override_applied": false,
+"inline_instruction": "Product model name — retain in English."
+}
+],
+"first_occurrence_tracking": false,
+"expansion_risk": "LOW",
+"inline_instruction": "Apply formal 'vous' form. Retain 'Auto-boat magazine' as a proper name of a publication.",
+"translated_character_count": 360,
+"expansion_percentage": -0.3,
+"expansion_note": null
+},
+{
+"segment_id": "SEG-010",
+"slide_or_page": 1,
+"element_type": "footer",
+"element_id": "page_1_footer_1",
+"source_text": "Boat Exercise - Marina, V2, June 2018 © CIPS 2018, Page 1 of 2",
+"character_count": 62,
+"is_in_text_box": false,
+"is_in_table": false,
+"layout_context": "Footer text at bottom of page 1",
+"translation_status": "TRANSLATED",
+"translated_text": "Exercice bateau - Marina, V2, juin 2018 © CIPS 2018, Page 1 sur 2",
+"flag_status": "TRANSLATE",
+"term_annotations": [
+{
+"term": "CIPS",
+"reference_file_status": "KEEP",
+"preferred_translation": null,
+"locale_override_applied": true,
+"inline_instruction": "Retain brand name."
+}
+],
+"first_occurrence_tracking": false,
+"expansion_risk": "NONE",
+"inline_instruction": "Translate 'Boat Exercise', 'June', and 'Page 1 of 2'. Retain 'Marina', 'V2', '© CIPS 2018'.",
+"translated_character_count": 63,
+"expansion_percentage": 1.6,
+"expansion_note": null
+},
+{
+"segment_id": "SEG-011",
+"slide_or_page": 2,
+"element_type": "heading",
+"element_id": "page_2_header_1",
+"source_text": "CIPS Chartered Institute of Procurement & Supply",
+"character_count": 48,
+"is_in_text_box": true,
+"is_in_table": false,
+"layout_context": "Header text at top right of page 2",
+"translation_status": "KEPT",
+"translated_text": "CIPS Chartered Institute of Procurement & Supply",
+"flag_status": "KEEP",
+"term_annotations": [
+{
+"term": "CIPS",
+"reference_file_status": "KEEP",
+"preferred_translation": null,
+"locale_override_applied": true,
+"inline_instruction": "Proper noun — retain."
+},
+{
+"term": "Chartered Institute of Procurement & Supply",
+"reference_file_status": "KEEP",
+"preferred_translation": null,
+"locale_override_applied": true,
+"inline_instruction": "Proper noun — retain."
+}
+],
+"first_occurrence_tracking": false,
+"expansion_risk": "NONE",
+"inline_instruction": "Duplicate of SEG-001. Retain entire segment in English.",
+"translated_character_count": null,
+"expansion_percentage": null,
+"expansion_note": null
+},
+{
+"segment_id": "SEG-012",
+"slide_or_page": 2,
+"element_type": "body_text",
+"element_id": "page_2_para_1",
+"source_text": "You aren’t sure what budget they have available, as they seemed reluctant to disclose this on their last visit, but you think a top of the range model might be within their reach.",
+"character_count": 181,
+"is_in_text_box": true,
+"is_in_table": false,
+"layout_context": "First body paragraph on page 2",
+"translation_status": "TRANSLATED",
+"translated_text": "Vous ignorez leur budget car ils ont hésité à le divulguer lors de leur dernière visite, mais vous pensez qu'un modèle haut de gamme pourrait être à leur portée.",
+"flag_status": "TRANSLATE",
+"term_annotations": [
+{
+"term": "budget",
+"reference_file_status": "KEEP",
+"preferred_translation": "budget",
+"locale_override_applied": false,
+"inline_instruction": "Translate as 'budget' (same in French)."
+}
+],
+"first_occurrence_tracking": false,
+"expansion_risk": "LOW",
+"inline_instruction": "Apply formal 'vous' form.",
+"translated_character_count": 164,
+"expansion_percentage": -9.4,
+"expansion_note": null
+},
+{
+"segment_id": "SEG-013",
+"slide_or_page": 2,
+"element_type": "body_text",
+"element_id": "page_2_para_2",
+"source_text": "You are keen to take the Shore Family current boat as you have another dealer you can sell it onto straight away for £43k. If though you held onto it would probably sell for around £48k on the open market, but with current economic conditions this may be a gamble.",
+"character_count": 261,
+"is_in_text_box": true,
+"is_in_table": false,
+"layout_context": "Second body paragraph on page 2",
+"translation_status": "TRANSLATED",
+"translated_text": "Vous tenez à reprendre le bateau de la Shore Family car un autre concessionnaire l'achèterait immédiatement pour £43 000. En le gardant, il se vendrait environ £48 000 sur le marché libre, mais vu la conjoncture économique actuelle, ce serait un pari risqué.",
+"flag_status": "TRANSLATE",
+"term_annotations": [
+{
+"term": "Shore Family",
+"reference_file_status": "KEEP",
+"preferred_translation": null,
+"locale_override_applied": false,
+"inline_instruction": "Case study characters — retain."
+}
+],
+"first_occurrence_tracking": false,
+"expansion_risk": "LOW",
+"inline_instruction": "Apply formal 'vous' form. Retain £ symbol.",
+"translated_character_count": 260,
+"expansion_percentage": -0.4,
+"expansion_note": null
+},
+{
+"segment_id": "SEG-014",
+"slide_or_page": 2,
+"element_type": "body_text",
+"element_id": "page_2_para_3",
+"source_text": "For every credit agreement your team pass onto your credit agent, you receive a commission payment which is 1 % of the about financed, which is shared amongst the sale team. This is a very attractive incentive to your team, who are always looking for extra income. The interest rate offered on a part exchange balance is 8.5%, which is competitive with the rates being offered by banks (around 6%), plus you can arrange for all the paperwork to be completed that day with a provisional acceptance.",
+"character_count": 494,
+"is_in_text_box": true,
+"is_in_table": false,
+"layout_context": "Third body paragraph on page 2",
+"translation_status": "TRANSLATED",
+"translated_text": "Pour chaque accord de crédit transmis à votre agent, vous recevez une commission de 1 % du montant financé, partagée entre les vendeurs. C'est une incitation attrayante pour votre équipe, toujours en quête de revenus. Le taux d'intérêt sur le solde de la reprise est de 8,5 %, ce qui est compétitif par rapport aux banques (environ 6 %) ; de plus, vous pouvez finaliser les documents le jour même avec une acceptation provisoire.",
+"flag_status": "TRANSLATE",
+"term_annotations": [],
+"first_occurrence_tracking": false,
+"expansion_risk": "LOW",
+"inline_instruction": "Apply formal 'vous' form. Apply French numeric formatting for percentages (space before %: 8,5 % and 6 %). Use decimal comma for 8.5%.",
+"translated_character_count": 467,
+"expansion_percentage": -5.5,
+"expansion_note": null
+},
+{
+"segment_id": "SEG-015",
+"slide_or_page": 2,
+"element_type": "body_text",
+"element_id": "page_2_para_4",
+"source_text": "This is the last likely prospect of the day and your team want that bonus ",
+"character_count": 68,
+"is_in_text_box": true,
+"is_in_table": false,
+"layout_context": "Final body paragraph on page 2",
+"translation_status": "TRANSLATED",
+"translated_text": "C'est la dernière opportunité de la journée et votre équipe veut cette prime.",
+"flag_status": "TRANSLATE",
+"term_annotations": [],
+"first_occurrence_tracking": false,
+"expansion_risk": "LOW",
+"inline_instruction": "Apply formal 'vous' form (votre équipe).",
+"translated_character_count": 71,
+"expansion_percentage": 4.4,
+"expansion_note": null
+},
+{
+"segment_id": "SEG-016",
+"slide_or_page": 2,
+"element_type": "footer",
+"element_id": "page_2_footer_1",
+"source_text": "Boat Exercise - Marina, V2, June 2018 © CIPS 2018, Page 2 of 2",
+"character_count": 62,
+"is_in_text_box": false,
+"is_in_table": false,
+"layout_context": "Footer text at bottom of page 2",
+"translation_status": "TRANSLATED",
+"translated_text": "Exercice bateau - Marina, V2, juin 2018 © CIPS 2018, Page 2 sur 2",
+"flag_status": "TRANSLATE",
+"term_annotations": [
+{
+"term": "CIPS",
+"reference_file_status": "KEEP",
+"preferred_translation": null,
+"locale_override_applied": true,
+"inline_instruction": "Retain brand name."
+}
+],
+"first_occurrence_tracking": false,
+"expansion_risk": "NONE",
+"inline_instruction": "Duplicate of SEG-010 with page update. Translate 'Page 2 of 2'.",
+"translated_character_count": 63,
+"expansion_percentage": 1.6,
+"expansion_note": null
+}
+]
+}
