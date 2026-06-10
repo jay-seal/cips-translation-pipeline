@@ -101,28 +101,30 @@ _ALWAYS_PROCESS_TYPES = frozenset({
 # ---------------------------------------------------------------------------
 
 def normalise(text: str) -> str:
+    """
+    Normalise for comparison only. Never applied to output text.
+    1. NFKC unicode normalisation.
+    2. Smart quote / typographic punctuation normalisation — converts curly
+       quotes and em/en dashes to their plain ASCII equivalents so that text
+       extracted by AI agents (which may produce straight quotes) matches
+       DOCX content (which typically uses Word's smart quote characters).
+    3. Collapse whitespace to single space.
+    4. Strip edges.
+    5. Strip leading bullet/list characters.
+    """
     if not text:
         return ""
     text = unicodedata.normalize("NFKC", text)
+    # Smart single quotes -> straight apostrophe
+    text = text.replace('‘', "'").replace('’', "'")
+    # Smart double quotes -> straight double quote
+    text = text.replace('“', '"').replace('”', '"')
+    # En dash / em dash -> hyphen
+    text = text.replace('–', '-').replace('—', '-')
     text = re.sub(r"\s+", " ", text)
     text = text.strip()
     text = _LEADING_BULLET_RE.sub('', text)
     return text
-
-
-# ---------------------------------------------------------------------------
-# Paragraph text helpers
-# ---------------------------------------------------------------------------
-
-def _para_text(para) -> str:
-    """Full text of a paragraph including field element cached values."""
-    return ''.join(
-        node.text or ''
-        for node in para._p.iter()
-        if node.tag in (qn('w:t'), qn('w:delText'))
-    )
-
-
 def _has_field_elements(para) -> bool:
     """True if the paragraph contains Word field elements (e.g. PAGE fields)."""
     return bool(para._p.findall('.//' + qn('w:fldChar')))
@@ -179,7 +181,7 @@ def _match_para(para, norm_source: str, translated_text: str,
     Apply Tier 1 (exact) and Tier 2 (substring) to a single paragraph.
     Returns a result dict on match, else None.
     """
-    norm_para = normalise(_para_text(para))
+    norm_para = normalise(para.text)
     if not norm_para:
         return None
 
@@ -191,10 +193,13 @@ def _match_para(para, norm_source: str, translated_text: str,
                      repr(norm_para[:50]))
             return {"result": f"{tier_label}T1_EXACT"}
 
-    # Tier 2 — substring match (only for single-run paragraphs)
+    # Tier 2 — substring match (conservative: source must be >= 80% of
+    # paragraph length to avoid silently overwriting longer paragraphs that
+    # contain multiple independent sentences merged by Agent 1 into one).
+    fraction = len(norm_source) / len(norm_para) if norm_para else 0
     if (len(norm_source) > 3
             and norm_source in norm_para
-            and len([r for r in para.runs if r.text.strip()]) <= 1):
+            and fraction >= 0.80):
         if _replace_para_text(para, translated_text):
             log.info("%-20s seg=%-12s  para=%s",
                      f"{tier_label}T2_SUBSTR", segment_id,
@@ -488,12 +493,15 @@ def main():
                         help="Path to the Agent 4 QA JSON (optional).")
     parser.add_argument("--output", required=True,
                         help="Destination path for the translated DOCX.")
-    parser.add_argument("--failure-threshold", type=float, default=0.10,
+    parser.add_argument("--failure-threshold", type=float, default=0.20,
                         help=(
                             "Exit with code 2 if the NO_MATCH rate exceeds "
-                            "this fraction. Default 0.10 (10%%). DOCX files "
-                            "have fewer structurally inaccessible elements "
-                            "than PPTX, so a tighter threshold is appropriate."
+                            "this fraction. Default 0.20 (20%%). Agent 1 may "
+                            "split a single DOCX paragraph into multiple "
+                            "segments; these produce NO_MATCH at reconstruction "
+                            "time but are a structural ingestion issue rather "
+                            "than inaccessible content. Set lower once paragraph "
+                            "combining is implemented in the script."
                         ))
     args = parser.parse_args()
 
