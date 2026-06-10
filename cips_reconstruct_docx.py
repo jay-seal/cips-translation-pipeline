@@ -210,6 +210,115 @@ def _match_para(para, norm_source: str, translated_text: str,
 
 
 # ---------------------------------------------------------------------------
+# Combining pass — resolves Agent 1 paragraph splits
+# ---------------------------------------------------------------------------
+
+def _combining_pass(
+    body_paras: list,
+    segments: list,
+    results: list,
+    counts: dict,
+) -> int:
+    """
+    Second matching pass for paragraphs that Agent 1 split into multiple segments.
+
+    When a single DOCX paragraph contains two or more ideas that Agent 1
+    extracted as separate segments, neither segment's source text equals the
+    full paragraph, so both produce NO_MATCH in the main loop.
+
+    This pass detects groups of NO_MATCH segments whose source texts are all
+    substrings of the same paragraph and whose combined character count covers
+    at least 75% of the paragraph. It joins their translations in position
+    order and writes the combined translation to the paragraph.
+
+    After a successful combine, each affected segment's result entry is updated
+    from NO_MATCH to T_COMBINED and the counts are adjusted.
+
+    Returns the number of paragraphs successfully combined.
+    """
+    # Index unmatched segments that have a translation
+    no_match_ids = {
+        r["segment_id"] for r in results if r.get("result") == "NO_MATCH"
+    }
+    seg_by_id = {
+        s["segment_id"]: s
+        for s in segments
+        if s.get("segment_id") in no_match_ids and s.get("translated_text")
+    }
+
+    if len(seg_by_id) < 2:
+        return 0
+
+    combined_count = 0
+
+    for para in body_paras:
+        norm_para = normalise(para.text)
+        if len(norm_para) < 20:
+            continue
+
+        # Find unmatched segments whose source text is a substring of this paragraph
+        hits = []
+        for seg_id, seg in seg_by_id.items():
+            norm_src = normalise(seg.get("source_text", ""))
+            if norm_src and norm_src in norm_para:
+                pos = norm_para.find(norm_src)
+                hits.append((pos, seg_id, seg, norm_src))
+
+        if len(hits) < 2:
+            continue
+
+        # Sort by position within the paragraph
+        hits.sort(key=lambda x: x[0])
+
+        # Check that combined source length covers at least 75% of the paragraph.
+        # This prevents a false combine when two unrelated short segments happen
+        # to appear in a longer paragraph that was independently translated.
+        total_src_len = sum(len(h[3]) for h in hits)
+        coverage = total_src_len / len(norm_para)
+
+        if coverage < 0.75:
+            log.debug(
+                "COMBINE_SKIP  coverage=%.0f%%  para='%s...'",
+                coverage * 100, norm_para[:40],
+            )
+            continue
+
+        # Join translations in position order. A space separator is correct
+        # for adjacent sentences; the first segment's translation ends with
+        # sentence punctuation and the second begins with a capital letter.
+        combined_translation = " ".join(h[2]["translated_text"] for h in hits)
+
+        if _replace_para_text(para, combined_translation):
+            ids = [h[1] for h in hits]
+            log.info(
+                "T_COMBINED             segs=%s  coverage=%.0f%%  para='%s...'",
+                ids, coverage * 100, norm_para[:40],
+            )
+
+            # Update result entries and counts
+            for _, seg_id, _, _ in hits:
+                for r in results:
+                    if r.get("segment_id") == seg_id:
+                        r["result"] = "T_COMBINED"
+                        # Remove source/translated_text so segment is excluded
+                        # from the manual corrections HTML report
+                        r.pop("source_text", None)
+                        r.pop("translated_text", None)
+                        break
+                counts["NO_MATCH"] -= 1
+                counts["T_COMBINED"] += 1
+                # Remove from index so these segments aren't used again
+                del seg_by_id[seg_id]
+
+            combined_count += 1
+
+    if combined_count:
+        log.info("Combining pass resolved %d merged paragraph(s).", combined_count)
+    return combined_count
+
+
+
+# ---------------------------------------------------------------------------
 # Core reconstruction
 # ---------------------------------------------------------------------------
 
@@ -250,7 +359,7 @@ def reconstruct(docx_path: Path, json_path: Path, output_path: Path) -> dict:
         "total": 0, "translated": 0,
         "skipped_no_translation": 0, "skipped_do_not_translate": 0,
         "skipped_not_text_box": 0,
-        "T1_EXACT": 0, "T2_SUBSTRING": 0,
+        "T1_EXACT": 0, "T2_SUBSTRING": 0, "T_COMBINED": 0,
         "HEADER_T1_EXACT": 0, "HEADER_T2_SUBSTRING": 0,
         "FOOTER_T1_EXACT": 0, "FOOTER_T2_SUBSTRING": 0,
         "TABLE_T1_EXACT": 0, "TABLE_T2_SUBSTRING": 0,
@@ -345,6 +454,9 @@ def reconstruct(docx_path: Path, json_path: Path, output_path: Path) -> dict:
                 "page": page_number,
             })
 
+    # --- Combining pass: resolve Agent 1 paragraph splits ---
+    _combining_pass(body_paras, segments, results, counts)
+
     output_path.parent.mkdir(parents=True, exist_ok=True)
     log.info("Saving translated document to %s", output_path)
     doc.save(str(output_path))
@@ -352,7 +464,7 @@ def reconstruct(docx_path: Path, json_path: Path, output_path: Path) -> dict:
 
     t1_total = counts["T1_EXACT"] + counts["HEADER_T1_EXACT"] + counts["FOOTER_T1_EXACT"] + counts["TABLE_T1_EXACT"]
     t2_total = counts["T2_SUBSTRING"] + counts["HEADER_T2_SUBSTRING"] + counts["FOOTER_T2_SUBSTRING"] + counts["TABLE_T2_SUBSTRING"]
-    total_handled = t1_total + t2_total
+    total_handled = t1_total + t2_total + counts["T_COMBINED"]
     no_match = counts["NO_MATCH"]
     handle_pct = (total_handled / counts["translated"] * 100) if counts["translated"] else 0
     fail_rate = no_match / counts["translated"] if counts["translated"] else 0
@@ -363,6 +475,7 @@ def reconstruct(docx_path: Path, json_path: Path, output_path: Path) -> dict:
     log.info("  Segments with translation   : %d", counts["translated"])
     log.info("  Body T1 exact               : %d", counts["T1_EXACT"])
     log.info("  Body T2 substring           : %d", counts["T2_SUBSTRING"])
+    log.info("  Combined paragraphs         : %d", counts["T_COMBINED"])
     log.info("  Table T1 exact              : %d", counts["TABLE_T1_EXACT"])
     log.info("  Header T1 exact             : %d", counts["HEADER_T1_EXACT"])
     log.info("  Footer T1 exact             : %d", counts["FOOTER_T1_EXACT"])
