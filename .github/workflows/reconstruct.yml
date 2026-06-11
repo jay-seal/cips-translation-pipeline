@@ -4,8 +4,11 @@ on:
   workflow_dispatch:
     inputs:
       source_url:
-        description: 'R2 URL of the source document (PPTX or DOCX)'
-        required: true
+        description: >
+          R2 public URL of the source document (PPTX or DOCX).
+          Leave empty to read from inputs/extraction_manifest.json.
+        required: false
+        default: ''
         type: string
       translations:
         description: >
