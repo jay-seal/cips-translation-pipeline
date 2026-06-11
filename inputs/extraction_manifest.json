@@ -1,0 +1,16 @@
+{
+  "source_filename": "source.pptx",
+  "document_type": "pptx",
+  "locale_code": "FR-FR",
+  "total_pages": 99,
+  "batch_size": 20,
+  "batch_count": 5,
+  "batch_files": [
+    "agent1_slides_001_020.json",
+    "agent1_slides_021_040.json",
+    "agent1_slides_041_060.json",
+    "agent1_slides_061_080.json",
+    "agent1_slides_081_099.json"
+  ],
+  "created_at": "2026-06-11T16:06:54.865279+00:00"
+}
