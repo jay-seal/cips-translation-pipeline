@@ -1,0 +1,96 @@
+{
+  "translation_summary": {
+    "total_segments": 3,
+    "translated_count": 3,
+    "partial_translated_count": 0,
+    "kept_count": 0,
+    "image_text_count": 0,
+    "flagged_count": 0,
+    "expansion_warnings": 0,
+    "locale_code": "FR-FR"
+  },
+  "document_metadata": {
+    "source_filename": "Handout - Boat Exercise - Marina Ltd Seller v2.docx",
+    "document_type": "docx",
+    "target_locale": "FR-FR",
+    "total_slides_or_pages": 2,
+    "batch_slide_range": "2-2",
+    "extraction_timestamp": "2026-06-11T23:16:25.142484+00:00"
+  },
+  "segments": [
+    {
+      "segment_id": "SEG-001",
+      "slide_or_page": 2,
+      "element_type": "body_text",
+      "element_id": "page_2_para_9",
+      "source_text": "You are keen to take the Shore Family current boat as you have another dealer you can sell it onto straight away for £43k. If though you held onto it would probably sell for around £48k on the open market, but with current economic conditions this may be a gamble.",
+      "character_count": 264,
+      "is_in_text_box": true,
+      "is_in_table": false,
+      "layout_context": "Document paragraph",
+      "translation_status": "TRANSLATED",
+      "translated_text": "Vous souhaitez vivement reprendre le bateau actuel de la Shore Family, car vous avez un autre concessionnaire à qui vous pouvez le revendre immédiatement pour 43\u00A0000\u00A0£. Cependant, si vous le conserviez, il se vendrait probablement environ 48\u00A0000\u00A0£ sur le marché libre, mais compte tenu de la conjoncture économique actuelle, cela pourrait être un pari risqué.",
+      "flag_status": "TRANSLATE",
+      "flag_options": null,
+      "term_annotations": [
+        {
+          "term": "Shore Family",
+          "reference_file_status": "KEEP",
+          "preferred_translation": null,
+          "locale_override_applied": false,
+          "inline_instruction": "Proper noun (case study characters) — retain in English exactly as written per Section 11 of the global reference file."
+        }
+      ],
+      "first_occurrence_tracking": null,
+      "expansion_risk": "LOW",
+      "inline_instruction": "Use the formal 'vous' form throughout. Retain 'Shore Family' as a proper noun. Apply French numerical conventions to currency values: retain the £ symbol and use a non-breaking space as a thousands separator if values are expanded.",
+      "translated_character_count": 322,
+      "expansion_percentage": 22.0,
+      "expansion_note": null
+    },
+    {
+      "segment_id": "SEG-002",
+      "slide_or_page": 2,
+      "element_type": "body_text",
+      "element_id": "page_2_para_10",
+      "source_text": "For every credit agreement your team pass onto your credit agent, you receive a commission payment which is 1 % of the about financed, which is shared amongst the sale team. This is a very attractive incentive to your team, who are always looking for extra income. The interest rate offered on a part exchange balance is 8.5%, which is competitive with the rates being offered by banks (around 6%), plus you can arrange for all the paperwork to be completed that day with a provisional acceptance.",
+      "character_count": 497,
+      "is_in_text_box": true,
+      "is_in_table": false,
+      "layout_context": "Document paragraph",
+      "translation_status": "TRANSLATED",
+      "translated_text": "Pour chaque contrat de crédit que votre équipe transmet à votre agent de crédit, vous recevez une commission de 1\u00A0% du montant financé, laquelle est répartie entre les membres de l'équipe de vente. C'est une prime très attrayante pour votre équipe, qui cherche toujours des revenus supplémentaires. Le taux d'intérêt proposé sur le solde d'une reprise est de 8,5\u00A0%, ce qui est compétitif par rapport aux taux bancaires (environ 6\u00A0%)\u00A0; de plus, vous pouvez faire en sorte que tous les documents soient remplis le jour même avec une acceptation provisoire.",
+      "flag_status": "TRANSLATE",
+      "flag_options": null,
+      "term_annotations": [],
+      "first_occurrence_tracking": null,
+      "expansion_risk": "LOW",
+      "inline_instruction": "Use the formal 'vous' form. Apply French typographic and numerical conventions from Section 3 of the locale file: use a comma as the decimal separator (e.g., 8,5 %) and ensure a non-breaking space is placed before the percent sign (%) and within parentheses where applicable.",
+      "translated_character_count": 566,
+      "expansion_percentage": 13.9,
+      "expansion_note": null
+    },
+    {
+      "segment_id": "SEG-003",
+      "slide_or_page": 2,
+      "element_type": "body_text",
+      "element_id": "page_2_para_11",
+      "source_text": "This is the last likely prospect of the day and your team want that bonus",
+      "character_count": 73,
+      "is_in_text_box": true,
+      "is_in_table": false,
+      "layout_context": "Document paragraph",
+      "translation_status": "TRANSLATED",
+      "translated_text": "C'est le dernier prospect potentiel de la journée et votre équipe veut obtenir ce bonus.",
+      "flag_status": "TRANSLATE",
+      "flag_options": null,
+      "term_annotations": [],
+      "first_occurrence_tracking": null,
+      "expansion_risk": "MEDIUM",
+      "inline_instruction": "Use the formal 'vous' form. Maintain conciseness to account for the French expansion factor within the text box.",
+      "translated_character_count": 85,
+      "expansion_percentage": 16.4,
+      "expansion_note": null
+    }
+  ]
+}
