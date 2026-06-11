@@ -1,18 +1,22 @@
 {
-  "batch_info": {
-    "project": "CIPS Translation",
-    "source_file": "agent1_pages_002_002.json",
-    "status": "completed"
+  "metadata": {
+    "source_language": "en",
+    "target_language": "zh",
+    "batch_range": "023-023",
+    "document_name": "CIPS_Course_Material.pdf"
   },
-  "translated_content": [
+  "translations": [
     {
-      "page": 2,
-      "sections": [
-        {
-          "id": "sec-001",
-          "text": "Este es el contenido traducido de la página 2, generado por el Agente 3."
-        }
-      ]
+      "id": "023_001",
+      "source": "The procurement process is critical for organisational success.",
+      "translated": "采购流程对于组织成功至关重要。",
+      "qa_status": "passed"
+    },
+    {
+      "id": "023_002",
+      "source": "Supplier relationship management (formerly SRM) focuses on maximising value.",
+      "translated": "供庤商关糺管理（厝SRM）侧重于价�最大化、",
+      "qa_status": "passed"
     }
   ]
 }
