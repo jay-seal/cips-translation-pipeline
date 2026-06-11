@@ -1,43 +1,63 @@
 name: Merge Translation Batches
 
 # ---------------------------------------------------------------------------
-# Triggered manually from the GitHub Actions UI.
+# Merges Agent 3 batch JSON files from inputs/ into a single merged JSON.
 #
-# Provide the batch JSON filenames (space-separated) in the order they should
-# be merged. All files must already exist in the inputs/ directory of the
-# repository.
+# Can be triggered two ways:
 #
-# After a successful merge, this workflow commits the merged JSON back to
-# inputs/ and optionally triggers the reconstruction workflow automatically.
+# 1. Manual / legacy — pass batch_files and output_file explicitly:
+#      batch_files : agent3_pages_001_001.json agent3_pages_002_002.json
+#      output_file : agent3_merged_FR-FR_pages.json
 #
-# Example inputs:
-#   batch_files  : agent3_m1_fr-fr_slides_001_020.json agent3_m1_fr-fr_slides_021_040.json
-#   output_file  : agent3_m1_fr-fr_merged.json
-#   run_reconstruct : true
+# 2. Automated (from Opal Merge Trigger Agent) — pass locale_code and
+#    document_type only. The workflow auto-discovers all matching batch files
+#    in inputs/ and constructs the output filename automatically.
+#      locale_code   : FR-FR
+#      document_type : docx
 # ---------------------------------------------------------------------------
 
 on:
   workflow_dispatch:
     inputs:
+      locale_code:
+        description: >
+          Target locale code, e.g. FR-FR. Used for auto-discovery and to
+          construct the output filename. Required when batch_files is empty.
+        required: false
+        default: 'FR-FR'
+        type: string
+
+      document_type:
+        description: >
+          Source document format: pptx or docx. Used for auto-discovery.
+        required: false
+        default: 'pptx'
+        type: choice
+        options:
+          - pptx
+          - docx
+
       batch_files:
         description: >
-          Space-separated Agent 3 batch JSON filenames in inputs/, in slide order.
-          Example: agent3_m1_fr-fr_slides_001_020.json agent3_m1_fr-fr_slides_021_040.json
-        required: true
+          Optional. Space-separated Agent 3 batch JSON filenames in inputs/,
+          in page order. Leave empty to auto-discover all matching files.
+          Example: agent3_pages_001_001.json agent3_pages_002_002.json
+        required: false
+        default: ''
         type: string
 
       output_file:
         description: >
-          Filename for the merged JSON, written to inputs/.
-          Example: agent3_m1_fr-fr_merged.json
-        required: true
-        default: agent3_merged.json
+          Optional. Output merged filename written to inputs/.
+          Leave empty to auto-generate from locale_code and document_type.
+          Example: agent3_merged_FR-FR_pages.json
+        required: false
+        default: ''
         type: string
 
       run_reconstruct:
         description: >
-          Trigger the reconstruction workflow automatically after a successful merge?
-          Set to false if you want to review the merged JSON before reconstructing.
+          Trigger the reconstruction workflow automatically after merge?
         required: false
         default: 'false'
         type: choice
@@ -45,19 +65,10 @@ on:
           - 'true'
           - 'false'
 
-      source_pptx:
+      source_url:
         description: >
           (Only used if run_reconstruct is true.)
-          R2 public URL or inputs/ path of the source PPTX.
-        required: false
-        default: ''
-        type: string
-
-      output_pptx:
-        description: >
-          (Only used if run_reconstruct is true.)
-          Output PPTX filename written to outputs/.
-          Example: m1_driving_value_fr-fr.pptx
+          R2 public URL of the source PPTX or DOCX.
         required: false
         default: ''
         type: string
@@ -69,6 +80,8 @@ jobs:
   merge:
     name: Merge batch JSONs
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
 
     steps:
       # -----------------------------------------------------------------------
@@ -82,59 +95,94 @@ jobs:
           python-version: '3.11'
 
       # -----------------------------------------------------------------------
-      # Build the full --inputs argument by prepending inputs/ to each filename.
-      - name: Resolve input paths
-        id: paths
+      # Resolve which batch files to merge and what to name the output.
+      # If batch_files is empty, auto-discover from inputs/ using document_type.
+      # If output_file is empty, auto-generate from locale_code + document_type.
+      - name: Resolve batch files and output filename
+        id: resolve
         run: |
-          ARGS=""
-          for f in ${{ github.event.inputs.batch_files }}; do
-            ARGS="$ARGS inputs/$f"
+          BATCH_FILES="${{ github.event.inputs.batch_files }}"
+          OUTPUT_FILE="${{ github.event.inputs.output_file }}"
+          DOC_TYPE="${{ github.event.inputs.document_type }}"
+          LOCALE="${{ github.event.inputs.locale_code }}"
+
+          # Auto-discover batch files if not provided
+          if [ -z "$BATCH_FILES" ]; then
+            echo "No batch_files provided — auto-discovering from inputs/..."
+            if [ "$DOC_TYPE" = "docx" ]; then
+              PATTERN="inputs/agent3_pages_*.json"
+            else
+              PATTERN="inputs/agent3_slides_*.json"
+            fi
+            DISCOVERED=$(ls $PATTERN 2>/dev/null | sort | xargs -I{} basename {} | tr '\n' ' ' | sed 's/ $//')
+            if [ -z "$DISCOVERED" ]; then
+              echo "ERROR: No matching batch files found in inputs/ for pattern $PATTERN"
+              exit 1
+            fi
+            BATCH_FILES="$DISCOVERED"
+            echo "Auto-discovered: $BATCH_FILES"
+          fi
+
+          # Auto-generate output filename if not provided
+          if [ -z "$OUTPUT_FILE" ]; then
+            if [ "$DOC_TYPE" = "docx" ]; then
+              OUTPUT_FILE="agent3_merged_${LOCALE}_pages.json"
+            else
+              OUTPUT_FILE="agent3_merged_${LOCALE}_slides.json"
+            fi
+            echo "Auto-generated output filename: $OUTPUT_FILE"
+          fi
+
+          # Build --inputs argument with full paths
+          INPUT_ARGS=""
+          for f in $BATCH_FILES; do
+            INPUT_ARGS="$INPUT_ARGS inputs/$f"
           done
-          echo "input_args=$ARGS" >> "$GITHUB_OUTPUT"
-          echo "output_path=inputs/${{ github.event.inputs.output_file }}" >> "$GITHUB_OUTPUT"
+
+          echo "batch_files=$BATCH_FILES"    >> "$GITHUB_OUTPUT"
+          echo "input_args=$INPUT_ARGS"      >> "$GITHUB_OUTPUT"
+          echo "output_file=$OUTPUT_FILE"    >> "$GITHUB_OUTPUT"
+          echo "output_path=inputs/$OUTPUT_FILE" >> "$GITHUB_OUTPUT"
 
       # -----------------------------------------------------------------------
       - name: Merge batch JSONs
         run: |
           python cips_merge_batches.py \
-            --inputs ${{ steps.paths.outputs.input_args }} \
-            --output ${{ steps.paths.outputs.output_path }}
+            --inputs ${{ steps.resolve.outputs.input_args }} \
+            --output ${{ steps.resolve.outputs.output_path }}
 
       # -----------------------------------------------------------------------
       - name: Commit merged JSON to repository
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add -f "${{ steps.paths.outputs.output_path }}"
+          git add -f "${{ steps.resolve.outputs.output_path }}"
           git diff --cached --quiet \
             && echo "Nothing new to commit — merged file is unchanged." \
             || git commit -m \
-                "chore: merge translation batches into ${{ github.event.inputs.output_file }}
+                "chore: merge translation batches into ${{ steps.resolve.outputs.output_file }}
 
-          Batches merged:
-          ${{ github.event.inputs.batch_files }}
+          Locale: ${{ github.event.inputs.locale_code }}
+          Format: ${{ github.event.inputs.document_type }}
+          Batches: ${{ steps.resolve.outputs.batch_files }}
 
           Triggered by: ${{ github.actor }}"
           git push
 
       # -----------------------------------------------------------------------
-      # Optional: trigger reconstruction immediately after merge.
-      # reconstruct.yml is called with the merged filename — no changes to
-      # that workflow are required.
       - name: Trigger reconstruction workflow
-        if: ${{ github.event.inputs.run_reconstruct == 'true' }}
+        if: ${{ github.event.inputs.run_reconstruct == 'true' && github.event.inputs.source_url != '' }}
         uses: actions/github-script@v7
         with:
           script: |
             await github.rest.actions.createWorkflowDispatch({
-              owner:   context.repo.owner,
-              repo:    context.repo.repo,
+              owner:       context.repo.owner,
+              repo:        context.repo.repo,
               workflow_id: 'reconstruct.yml',
-              ref:     context.ref,
+              ref:         context.ref,
               inputs: {
-                translations: '${{ github.event.inputs.output_file }}',
-                source:       '${{ github.event.inputs.source_pptx }}',
-                output:       '${{ github.event.inputs.output_pptx }}',
+                source_url:   '${{ github.event.inputs.source_url }}',
+                translations: '${{ steps.resolve.outputs.output_file }}',
               }
             });
             core.info('Reconstruction workflow triggered.');
