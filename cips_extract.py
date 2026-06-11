@@ -488,6 +488,11 @@ def main():
                         help="Source document format.")
     parser.add_argument('--batch-size', type=int, default=20,
                         help="Slides/pages per batch (default 20).")
+    parser.add_argument('--source-filename', default=None,
+                        help="Original filename to embed in JSON metadata. "
+                             "Overrides the name derived from --source path. "
+                             "Use when the source file was downloaded with a "
+                             "generic name (e.g. source.pptx).")
     args = parser.parse_args()
 
     source_path = Path(args.source)
@@ -504,6 +509,10 @@ def main():
     else:
         segments, total_pages, source_filename = extract_docx(
             source_path, args.locale)
+
+    # Override the filename with the original name if provided
+    if args.source_filename:
+        source_filename = args.source_filename
 
     batch_filenames = write_batches(
         segments, total_pages, source_filename,
