@@ -449,9 +449,11 @@ def write_manifest(
     total_pages: int,
     batch_size: int,
     output_dir: Path,
+    source_url: str = "",
 ) -> None:
     manifest = {
         "source_filename": source_filename,
+        "source_url":      source_url or "",
         "document_type":   doc_type,
         "locale_code":     locale,
         "total_pages":     total_pages,
@@ -488,6 +490,10 @@ def main():
                         help="Source document format.")
     parser.add_argument('--batch-size', type=int, default=20,
                         help="Slides/pages per batch (default 20).")
+    parser.add_argument('--source-url', default=None,
+                        help="Original R2 URL of the source file. Stored in the manifest "
+                             "so downstream workflows can retrieve it without it being "
+                             "passed through every trigger.")
     parser.add_argument('--source-filename', default=None,
                         help="Original filename to embed in JSON metadata. "
                              "Overrides the name derived from --source path. "
@@ -521,6 +527,7 @@ def main():
     write_manifest(
         batch_filenames, source_filename, args.document_type,
         args.locale, total_pages, args.batch_size, output_dir,
+        source_url=args.source_url,
     )
 
     log.info("=" * 60)
