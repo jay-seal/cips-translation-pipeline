@@ -1,0 +1,76 @@
+{
+  "translation_summary": {
+    "total_segments": 4,
+    "translated_count": 0,
+    "partial_translated_count": 0,
+    "kept_count": 0,
+    "image_text_count": 0,
+    "flagged_count": 0,
+    "expansion_warnings": 0,
+    "locale_code": null,
+    "merged_from": [
+      "inputs/agent3_pages_001_001.json",
+      "inputs/agent3_pages_002_002.json"
+    ]
+  },
+  "document_metadata": {
+    "source_filename": "Handout - Boat Exercise - Marina Ltd Seller v2.docx",
+    "document_type": "docx",
+    "target_locale": "FR-FR",
+    "total_slides_or_pages": 2,
+    "batch_slide_range": "1-1",
+    "extraction_timestamp": "2026-06-11T19:35:21.707765+00:00"
+  },
+  "segments": [
+    {
+      "segment_id": "SEG-001",
+      "slide_or_page": 1,
+      "element_type": "body_text",
+      "element_id": "page_1_para_1",
+      "source_text": "Boat Exercise - Marina Ltd (Sellers)",
+      "character_count": 36,
+      "is_in_text_box": true,
+      "is_in_table": false,
+      "layout_context": "Document paragraph",
+      "translation_status": "COMPLETED",
+      "translated_text": "Exercice de bateau - Marina Ltd (Vendeurs)",
+      "flag_status": "NONE",
+      "flag_options": [],
+      "expansion_risk": "LOW",
+      "original_segment_id": "SEG-001"
+    },
+    {
+      "segment_id": "SEG-002",
+      "slide_or_page": 2,
+      "element_type": "body_text",
+      "element_id": "page_2_para_9",
+      "source_text": "You are keen to take the Shore Family current boat as you have another dealer you can sell it onto straight away for £43k. If though you held onto it would probably sell for around £48k on the open market, but with current economic conditions this may be a gamble.",
+      "character_count": 264,
+      "translation_status": "COMPLETED",
+      "translated_text": "Vous tenez à reprendre le bateau de la Shore Family car un autre concessionnaire l'achèterait immédiatement pour £43 000. En le gardant, il se vendrait environ £48 000 sur le marché libre, mais vu la conjuncture economique actuelle, ce serait un pari risqué.",
+      "original_segment_id": "SEG-001"
+    },
+    {
+      "segment_id": "SEG-003",
+      "slide_or_page": 2,
+      "element_type": "body_text",
+      "element_id": "page_2_para_10",
+      "source_text": "For every credit agreement your team pass onto your credit agent, you receive a commission payment which is 1 % of the about financed, which is shared amongst the sale team. This is a very attractive incentive to your team, who are always looking for extra income. The interest rate offered on a part exchange balance is 8.5%, which is competitive with the rates being offered by banks (around 6%), plus you can arrange for all the paperwork to be completed that day with a provisional acceptance.",
+      "character_count": 497,
+      "translation_status": "COMPLETED",
+      "translated_text": "Pour chaque accord de crédit transmis à votre agent, vous recevez une commission de 1 % du montant finance, partagée entre les vendeurs. C'est une incentation attractive pour votre équipe, toujours en quÚte de revenus. Le taux d'intérêt sur le solde de la reprise est de 8,5 %, ce qui est compétitif par rapport iux banques (environ 6 %) ; de plus, vous pouvez finaliser les documents le jour même avec une acceptation provisoire.",
+      "original_segment_id": "SEG-002"
+    },
+    {
+      "segment_id": "SEG-004",
+      "slide_or_page": 2,
+      "element_type": "body_text",
+      "element_id": "page_2_para_11",
+      "source_text": "This is the last likely prospect of the day and your team want that bonus",
+      "character_count": 73,
+      "translation_status": "COMPLETED",
+      "translated_text": "C'est la derbière opportunité de la journée et votre équipe veut cette prime.",
+      "original_segment_id": "SEG-003"
+    }
+  ]
+}
