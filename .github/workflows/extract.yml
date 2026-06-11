@@ -106,7 +106,8 @@ jobs:
             --locale          "${{ github.event.inputs.locale_code }}" \
             --document-type   "${{ github.event.inputs.document_type }}" \
             --batch-size      "${{ github.event.inputs.batch_size }}" \
-            --source-filename "${{ env.SOURCE_FILENAME }}"
+            --source-filename "${{ env.SOURCE_FILENAME }}" \
+            --source-url      "${{ github.event.inputs.source_url }}"
 
       # -----------------------------------------------------------------------
       - name: Read extraction manifest
