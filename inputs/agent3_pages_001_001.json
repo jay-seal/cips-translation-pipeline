@@ -1,21 +1,11 @@
 {
-  "batch_info": {
-    "project": "CIPS Translation",
-    "source_lang": "en",
-    "target_lang": "es",
-    "type": "pages",
-    "range": "001-001"
-  },
-  "translation_units": [
+  "source_language": "en",
+  "target_language": "es",
+  "pages": [
     {
-      "id": "page_1_block_1",
-      "source": "CPSM Procurement & Supply Professional Designation",
-      "translated": "Designación Profesional de Abstasecimiento y Cadena de Suministro CPSM"
-    },
-    {
-      "id": "page_1_block_2",
-      "source": "CPSM Examination Guide",
-      "translated": "Guía de examen CPSM"
+      "page_number": 1,
+      "content": "Bienvenido a la Guía de Configuración de CIPS. Este documento le permitir� establecer su flujo de trabajo de traducción.",
+      "footer": "Página 1"
     }
   ]
 }
