@@ -1,0 +1,189 @@
+name: CIPS Translation — Extract
+
+# ---------------------------------------------------------------------------
+# Extracts all text from a source PPTX or DOCX file using python-pptx /
+# python-docx and commits one Agent 1-format JSON file per batch to inputs/.
+#
+# This replaces manual Agent 1 runs in Opal. Because extraction happens
+# directly in python-pptx, source_text values are guaranteed to match
+# exactly what cips_reconstruct.py reads — eliminating the hallucination
+# and smart-quote mismatch issues that occur when an LLM reads a binary
+# file via URL.
+#
+# After committing the batch JSONs, the workflow optionally triggers the
+# Opal translation pipeline via webhook.
+#
+# Example inputs:
+#   source_url    : https://[r2-url]/source.pptx
+#   locale_code   : FR-FR
+#   document_type : pptx
+#   batch_size    : 20
+#   trigger_opal  : true
+# ---------------------------------------------------------------------------
+
+on:
+  workflow_dispatch:
+    inputs:
+      source_url:
+        description: 'R2 public URL of the source PPTX or DOCX'
+        required: true
+        type: string
+      locale_code:
+        description: 'Target locale code (e.g. FR-FR)'
+        required: true
+        default: 'FR-FR'
+        type: string
+      document_type:
+        description: 'Source document format'
+        required: true
+        type: choice
+        options:
+          - pptx
+          - docx
+      batch_size:
+        description: 'Slides or pages per batch (default 20)'
+        required: false
+        default: '20'
+        type: string
+      trigger_opal:
+        description: 'Trigger the Opal translation workflow after extraction?'
+        required: false
+        default: 'false'
+        type: choice
+        options:
+          - 'true'
+          - 'false'
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  extract:
+    name: Extract text from source document
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      # -----------------------------------------------------------------------
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      # -----------------------------------------------------------------------
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      # -----------------------------------------------------------------------
+      - name: Install dependencies
+        run: pip install python-pptx python-docx requests
+
+      # -----------------------------------------------------------------------
+      - name: Ensure directories exist
+        run: mkdir -p inputs outputs
+
+      # -----------------------------------------------------------------------
+      - name: Download source document from R2
+        run: |
+          URL="${{ github.event.inputs.source_url }}"
+          BASENAME=$(basename "$URL")
+          FILENAME=$(echo "$BASENAME" | sed 's/^[0-9]*-//' | python3 -c "import sys,urllib.parse; print(urllib.parse.unquote(sys.stdin.read().strip()))")
+          EXT="${FILENAME##*.}"
+          EXT_LOWER=$(echo "$EXT" | tr '[:upper:]' '[:lower:]')
+          echo "Downloading: $FILENAME"
+          curl --fail -L -o "inputs/source.${EXT_LOWER}" "$URL"
+          echo "SOURCE_EXT=${EXT_LOWER}"    >> $GITHUB_ENV
+          echo "SOURCE_FILENAME=${FILENAME}" >> $GITHUB_ENV
+          ls -lh inputs/
+
+      # -----------------------------------------------------------------------
+      - name: Extract text from source document
+        run: |
+          python cips_extract.py \
+            --source        "inputs/source.${{ env.SOURCE_EXT }}" \
+            --output-dir    inputs/ \
+            --locale        "${{ github.event.inputs.locale_code }}" \
+            --document-type "${{ github.event.inputs.document_type }}" \
+            --batch-size    "${{ github.event.inputs.batch_size }}"
+
+      # -----------------------------------------------------------------------
+      - name: Read extraction manifest
+        id: manifest
+        run: |
+          BATCH_COUNT=$(python3 -c "
+          import json
+          m = json.load(open('inputs/extraction_manifest.json'))
+          print(m['batch_count'])
+          ")
+          TOTAL_PAGES=$(python3 -c "
+          import json
+          m = json.load(open('inputs/extraction_manifest.json'))
+          print(m['total_pages'])
+          ")
+          BATCH_FILES=$(python3 -c "
+          import json
+          m = json.load(open('inputs/extraction_manifest.json'))
+          print(' '.join(m['batch_files']))
+          ")
+          echo "batch_count=${BATCH_COUNT}"   >> "$GITHUB_OUTPUT"
+          echo "total_pages=${TOTAL_PAGES}"   >> "$GITHUB_OUTPUT"
+          echo "batch_files=${BATCH_FILES}"   >> "$GITHUB_OUTPUT"
+          echo "Extracted ${BATCH_COUNT} batches covering ${TOTAL_PAGES} pages"
+
+      # -----------------------------------------------------------------------
+      - name: Commit batch JSONs to repository
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add inputs/agent1_*.json inputs/extraction_manifest.json
+          git diff --cached --quiet \
+            && echo "No new extraction files to commit." \
+            || git commit -m \
+                "chore: extract text from ${{ env.SOURCE_FILENAME }}
+
+          Locale: ${{ github.event.inputs.locale_code }}
+          Format: ${{ github.event.inputs.document_type }}
+          Batches: ${{ steps.manifest.outputs.batch_count }}
+          Pages:   ${{ steps.manifest.outputs.total_pages }}
+          Batch size: ${{ github.event.inputs.batch_size }}
+
+          Triggered by: ${{ github.actor }}"
+          git push
+
+      # -----------------------------------------------------------------------
+      # Trigger the Opal translation workflow via webhook.
+      # Requires OPAL_WEBHOOK_URL and OPAL_WEBHOOK_KEY repository secrets.
+      # The Opal workflow loop (Agents 2→3→4) will iterate over the committed
+      # batch JSONs using their GitHub raw content URLs.
+      # -----------------------------------------------------------------------
+      - name: Trigger Opal translation workflow
+        if: ${{ github.event.inputs.trigger_opal == 'true' }}
+        run: |
+          GITHUB_RAW_BASE="https://raw.githubusercontent.com/${{ github.repository }}/main/inputs/"
+          BATCH_FILES_JSON=$(python3 -c "
+          import json
+          m = json.load(open('inputs/extraction_manifest.json'))
+          print(json.dumps(m['batch_files']))
+          ")
+          curl --fail -X POST "${{ secrets.OPAL_WEBHOOK_URL }}" \
+            -H "Authorization: Bearer ${{ secrets.OPAL_WEBHOOK_KEY }}" \
+            -H "Content-Type: application/json" \
+            -d "{
+              \"total_pages\":     ${{ steps.manifest.outputs.total_pages }},
+              \"batch_size\":      ${{ github.event.inputs.batch_size }},
+              \"locale_code\":     \"${{ github.event.inputs.locale_code }}\",
+              \"document_type\":   \"${{ github.event.inputs.document_type }}\",
+              \"source_url\":      \"${{ github.event.inputs.source_url }}\",
+              \"github_raw_base\": \"${GITHUB_RAW_BASE}\",
+              \"batch_files\":     ${BATCH_FILES_JSON}
+            }"
+          echo "Opal workflow triggered."
+
+      # -----------------------------------------------------------------------
+      - name: Summary
+        run: |
+          echo "Extraction complete."
+          echo "  Batches : ${{ steps.manifest.outputs.batch_count }}"
+          echo "  Pages   : ${{ steps.manifest.outputs.total_pages }}"
+          echo "  Files   : ${{ steps.manifest.outputs.batch_files }}"
