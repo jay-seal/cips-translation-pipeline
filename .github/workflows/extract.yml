@@ -101,11 +101,12 @@ jobs:
       - name: Extract text from source document
         run: |
           python cips_extract.py \
-            --source        "inputs/source.${{ env.SOURCE_EXT }}" \
-            --output-dir    inputs/ \
-            --locale        "${{ github.event.inputs.locale_code }}" \
-            --document-type "${{ github.event.inputs.document_type }}" \
-            --batch-size    "${{ github.event.inputs.batch_size }}"
+            --source          "inputs/source.${{ env.SOURCE_EXT }}" \
+            --output-dir      inputs/ \
+            --locale          "${{ github.event.inputs.locale_code }}" \
+            --document-type   "${{ github.event.inputs.document_type }}" \
+            --batch-size      "${{ github.event.inputs.batch_size }}" \
+            --source-filename "${{ env.SOURCE_FILENAME }}"
 
       # -----------------------------------------------------------------------
       - name: Read extraction manifest
