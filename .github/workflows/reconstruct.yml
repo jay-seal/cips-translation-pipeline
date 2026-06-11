@@ -50,9 +50,23 @@ jobs:
         run: mkdir -p inputs outputs
 
       # -----------------------------------------------------------------------
-      - name: Download source document from R2
+      - name: Resolve source URL
+        id: source
         run: |
           URL="${{ github.event.inputs.source_url }}"
+          if [ -z "$URL" ] && [ -f "inputs/extraction_manifest.json" ]; then
+            URL=$(python3 -c "import json; print(json.load(open('inputs/extraction_manifest.json')).get('source_url',''))")
+            echo "Read source_url from manifest: $URL"
+          fi
+          if [ -z "$URL" ]; then
+            echo "ERROR: No source_url provided and none found in extraction_manifest.json"
+            exit 1
+          fi
+          echo "SOURCE_URL=$URL" >> $GITHUB_ENV
+
+      - name: Download source document from R2
+        run: |
+          URL="${{ env.SOURCE_URL }}"
           BASENAME=$(basename "$URL")
           FILENAME=$(echo "$BASENAME" | sed 's/^[0-9]*-//')
           EXT="${FILENAME##*.}"
