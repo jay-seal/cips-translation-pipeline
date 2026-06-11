@@ -177,7 +177,9 @@ jobs:
               \"document_type\":   \"${{ github.event.inputs.document_type }}\",
               \"source_url\":      \"${{ github.event.inputs.source_url }}\",
               \"github_raw_base\": \"${GITHUB_RAW_BASE}\",
-              \"batch_files\":     ${BATCH_FILES_JSON}
+              \"batch_files\":     ${BATCH_FILES_JSON},
+              \"bridge_url\":      \"${{ secrets.BRIDGE_URL }}\",
+              \"bridge_token\":    \"${{ secrets.BRIDGE_TOKEN }}\"
             }"
           echo "Opal workflow triggered."
 
