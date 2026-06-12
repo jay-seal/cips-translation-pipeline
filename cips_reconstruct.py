@@ -321,7 +321,8 @@ def replace_paragraph_range(shape, start: int, count: int,
 # ---------------------------------------------------------------------------
 
 def _match_shape(shape, norm_source: str, translated_text: str,
-                 segment_id: str, slide_id, tier_prefix: str = ""):
+                 segment_id: str, slide_id, tier_prefix: str = "",
+                 source_text_raw: str = ""):
     """
     Apply Tiers 1, 1b, 2, 3, and 3b to a single shape.
     Returns a result dict on match, else None.
@@ -381,27 +382,34 @@ def _match_shape(shape, norm_source: str, translated_text: str,
                     "para_index": idx}
 
     # Tier 3b — Contiguous paragraph range match (multi-line source texts).
-    # Only attempted when source_text contains at least one newline, meaning
-    # the segment spans multiple paragraphs within the shape.
-    source_lines = norm_source.split('\n')
-    n = len(source_lines)
-    if n > 1:
-        paragraphs = shape.text_frame.paragraphs
-        para_texts = [normalise(paragraph_text(p)) for p in paragraphs]
-        for start in range(len(paragraphs) - n + 1):
-            if para_texts[start:start + n] == source_lines:
-                replace_paragraph_range(shape, start, n, translated_text)
-                log.info(
-                    "%-24s seg=%-12s  slide=%s  shape=%s  paras=%d-%d",
-                    f"{tier_prefix}T3b_RANGE", segment_id, slide_id,
-                    label, start, start + n - 1,
-                )
-                return {
-                    "result": f"{tier_prefix}T3b_PARA_RANGE",
-                    "shape": label,
-                    "para_start": start,
-                    "para_end": start + n - 1,
-                }
+    # IMPORTANT: norm_source has had all whitespace (including \n) collapsed to
+    # spaces, so we cannot split norm_source to recover the original lines.
+    # Instead, split source_text_raw on \n and normalise each line individually.
+    # Only attempted when source_text_raw contains at least one newline.
+    if source_text_raw and '\n' in source_text_raw:
+        raw_lines = source_text_raw.split('\n')
+        norm_lines = [normalise(l) for l in raw_lines]
+        # Strip trailing empty lines (e.g. trailing newline in extraction)
+        while norm_lines and not norm_lines[-1]:
+            norm_lines.pop()
+        n = len(norm_lines)
+        if n > 1:
+            paragraphs = shape.text_frame.paragraphs
+            para_texts = [normalise(paragraph_text(p)) for p in paragraphs]
+            for start in range(len(paragraphs) - n + 1):
+                if para_texts[start:start + n] == norm_lines:
+                    replace_paragraph_range(shape, start, n, translated_text)
+                    log.info(
+                        "%-24s seg=%-12s  slide=%s  shape=%s  paras=%d-%d",
+                        f"{tier_prefix}T3b_RANGE", segment_id, slide_id,
+                        label, start, start + n - 1,
+                    )
+                    return {
+                        "result": f"{tier_prefix}T3b_PARA_RANGE",
+                        "shape": label,
+                        "para_start": start,
+                        "para_end": start + n - 1,
+                    }
 
     return None
 
@@ -428,7 +436,8 @@ def _match_notes(slide, source_text: str, translated_text: str,
     norm_source = normalise(source_text)
 
     result = _match_shape(proxy, norm_source, translated_text,
-                          segment_id, slide_id, tier_prefix="NOTES_")
+                          segment_id, slide_id, tier_prefix="NOTES_",
+                          source_text_raw=source_text)
     if result:
         result["segment_id"] = segment_id
         return result
@@ -465,7 +474,8 @@ def find_and_replace(
     # Tiers 1–3b: individual slide shapes
     for shape in _iter_shapes(slide.shapes):
         result = _match_shape(shape, norm_source, translated_text,
-                              segment_id, slide_id)
+                              segment_id, slide_id,
+                              source_text_raw=source_text)
         if result:
             result["segment_id"] = segment_id
             return result
@@ -483,7 +493,8 @@ def find_and_replace(
         if para_ids & state['modified_layout_ids']:
             continue
         result = _match_shape(shape, norm_source, translated_text,
-                              segment_id, slide_id, tier_prefix="LAYOUT_")
+                              segment_id, slide_id, tier_prefix="LAYOUT_",
+                              source_text_raw=source_text)
         if result:
             for p in shape.text_frame.paragraphs:
                 state['modified_layout_ids'].add(id(p._p))
@@ -505,7 +516,8 @@ def find_and_replace(
         if para_ids & state['modified_master_ids']:
             continue
         result = _match_shape(shape, norm_source, translated_text,
-                              segment_id, slide_id, tier_prefix="MASTER_")
+                              segment_id, slide_id, tier_prefix="MASTER_",
+                              source_text_raw=source_text)
         if result:
             for p in shape.text_frame.paragraphs:
                 state['modified_master_ids'].add(id(p._p))
