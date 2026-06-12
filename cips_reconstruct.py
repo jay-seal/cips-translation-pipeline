@@ -32,6 +32,8 @@ Matching strategy — applied in order per segment, stopping at first success:
     Tier 3   Per-paragraph match — replaces only the matched paragraph.
     Tier 4   Layout shapes — Tiers 1–1b–2–3 on slide.slide_layout.shapes.
     Tier 5   Master shapes — Tiers 1–1b–2–3 on slide_layout.slide_master.shapes.
+    Notes    Speaker notes — Tiers 1 and 3 on slide.notes_slide.notes_text_frame.
+             Applied only for segments with element_type='speaker_note'.
 
     Once a layout or master shape is translated, all subsequent slides that
     reference the same text return LAYOUT_ALREADY_TRANSLATED or
@@ -50,22 +52,26 @@ Field element handling:
     slides added or removed after translation.
 
 Non-text-box segment filtering:
-    Segments where Agent 1 has set is_in_text_box=False and whose
-    element_type is NOT in _ALWAYS_PROCESS_TYPES are excluded from the
-    matching loop and logged as SKIP_NOT_TEXT_BOX. This prevents a short
-    source string (e.g. "CIPS" in a logo graphic) from claiming an editable
-    shape via Tier 2 substring match.
+    Segments where is_in_text_box=False and whose element_type is NOT in
+    _ALWAYS_PROCESS_TYPES are excluded from the matching loop and logged as
+    SKIP_NOT_TEXT_BOX. This prevents a short source string (e.g. "CIPS" in a
+    logo graphic) from claiming an editable shape via Tier 2 substring match.
 
-    Agent 1 infers is_in_text_box from PDF layout and cannot reliably
-    distinguish PPTX content placeholders (titles, body, bullets) from
-    non-editable graphics. The _ALWAYS_PROCESS_TYPES set therefore overrides
-    is_in_text_box=False for element types that are always editable in a PPTX
-    regardless of visual layout — ensuring slide titles, body text, bullets,
-    table cells, and similar standard content are never silently skipped.
+    The _ALWAYS_PROCESS_TYPES set overrides is_in_text_box=False for element
+    types that are always editable in a PPTX regardless of visual layout —
+    ensuring slide titles, body text, bullets, labels in accessible shapes
+    (TextBox, Rectangle, AutoShape), and similar standard content are never
+    silently skipped.
 
     SKIP_NOT_TEXT_BOX segments are recorded in the match report JSON but
     excluded from the manual corrections HTML, since they are not reachable
     by clicking on shapes in PowerPoint.
+
+Speaker notes:
+    Segments with element_type='speaker_note' are matched and replaced in
+    slide.notes_slide.notes_text_frame. They bypass the main shape-matching
+    loop. Speaker note NO_MATCH segments are included in the manual
+    corrections HTML since they are accessible via PowerPoint's Notes view.
 
 Known permanent failures:
     Text embedded in raster images or SmartArt is not accessible to
@@ -132,16 +138,24 @@ _LEADING_BULLET_RE = re.compile(
 _TRAILING_PAGE_RE = re.compile(r'\s*\|\s*\d+\s*$')
 
 # ---------------------------------------------------------------------------
-# Element types that are always editable PPTX placeholders or content shapes.
+# Element types that are always editable PPTX content shapes.
 #
-# Agent 1 works from a PDF and cannot reliably distinguish PPTX content
-# placeholders from non-editable graphics. Segments whose element_type
-# appears in this set are always sent to the matching loop, regardless of
-# the is_in_text_box value Agent 1 assigned.
-#
+# Segments whose element_type appears in this set are always sent to the
+# matching loop, regardless of the is_in_text_box value set by extraction.
 # The is_in_text_box=False guard is retained only for types NOT in this set
-# (primarily 'label', 'footer', 'speaker_note') where non-editable elements
-# legitimately occur and the risk of accidental substring matching is real.
+# (e.g. 'footer', 'speaker_note') where non-editable elements legitimately
+# occur and the risk of accidental substring matching is real.
+#
+# 'label' is included here because labels appear in fully accessible shapes
+# (TextBox, Rectangle, AutoShape) as well as in inaccessible ones (SmartArt).
+# Including it means inaccessible labels produce NO_MATCH (visible in the
+# corrections report) rather than being silently skipped. Accessible labels
+# — such as diagram quadrant headings, recording banners, and section titles
+# — are correctly translated.
+#
+# 'speaker_note' is NOT included here because speaker notes are handled via
+# a dedicated notes-matching path that reads slide.notes_slide directly,
+# not via the shape-matching loop.
 # ---------------------------------------------------------------------------
 _ALWAYS_PROCESS_TYPES = frozenset({
     'slide_title',
@@ -152,6 +166,7 @@ _ALWAYS_PROCESS_TYPES = frozenset({
     'table_cell',
     'text_box',
     'caption',
+    'label',
 })
 
 
@@ -228,6 +243,20 @@ class _TableCellProxy:
         self.has_text_frame = True
         self.text_frame = cell.text_frame
         self.name = f"{parent_name}[r{row_idx}c{col_idx}]"
+
+
+# ---------------------------------------------------------------------------
+# Notes proxy
+# ---------------------------------------------------------------------------
+
+class _NotesProxy:
+    """Wraps a slide's notes text frame to expose the same interface as a Shape."""
+    __slots__ = ('has_text_frame', 'text_frame', 'name')
+
+    def __init__(self, text_frame, slide_id):
+        self.has_text_frame = True
+        self.text_frame = text_frame
+        self.name = f"notes_slide_{slide_id}"
 
 
 # ---------------------------------------------------------------------------
@@ -412,6 +441,42 @@ def _match_shape(shape, norm_source: str, translated_text: str,
             return {"result": f"{tier_prefix}T3_PARAGRAPH", "shape": label,
                     "para_index": idx}
     return None
+
+
+# ---------------------------------------------------------------------------
+# Speaker notes matching
+# ---------------------------------------------------------------------------
+
+def _match_notes(slide, source_text: str, translated_text: str,
+                 segment_id: str) -> dict:
+    """
+    Match and replace text in a slide's speaker notes.
+
+    Uses Tiers 1 and 3 via the standard _match_shape helper applied to a
+    _NotesProxy wrapping the notes text frame. Tier 2 substring matching is
+    not applied to notes to avoid false positives on short strings.
+    """
+    try:
+        notes_tf = slide.notes_slide.notes_text_frame
+    except AttributeError:
+        log.warning("NO NOTES  seg=%-12s — slide has no notes_slide.", segment_id)
+        return {"segment_id": segment_id, "result": "NO_MATCH",
+                "source_text": source_text}
+
+    slide_id = getattr(slide, 'slide_id', '?')
+    proxy = _NotesProxy(notes_tf, slide_id)
+    norm_source = normalise(source_text)
+
+    result = _match_shape(proxy, norm_source, translated_text,
+                          segment_id, slide_id, tier_prefix="NOTES_")
+    if result:
+        result["segment_id"] = segment_id
+        return result
+
+    log.warning("NO MATCH (notes)  seg=%-12s  source_text=%r",
+                segment_id, source_text[:80])
+    return {"segment_id": segment_id, "result": "NO_MATCH",
+            "source_text": source_text}
 
 
 # ---------------------------------------------------------------------------
@@ -621,7 +686,8 @@ def _write_html_report(
       as a visual element rather than editable text. Open the translated PPTX,
       navigate to the slide shown, locate the text in the
       <em>English (source)</em> column, and replace it with the text in the
-      <em>French (target)</em> column.
+      <em>French (target)</em> column. Speaker notes can be edited via
+      PowerPoint's Notes view (View &rarr; Notes).
     </div>
   </header>
   <div class="table-wrap">
@@ -685,6 +751,7 @@ def reconstruct(pptx_path: Path, json_path: Path, output_path: Path) -> dict:
         "MASTER_T1_EXACT": 0, "MASTER_T1b_FUZZY": 0,
         "MASTER_T2_SUBSTRING": 0, "MASTER_T3_PARAGRAPH": 0,
         "LAYOUT_ALREADY_TRANSLATED": 0, "MASTER_ALREADY_TRANSLATED": 0,
+        "NOTES_T1_EXACT": 0, "NOTES_T3_PARAGRAPH": 0,
         "NO_MATCH": 0, "SKIP_EMPTY_SOURCE": 0,
     }
 
@@ -704,11 +771,8 @@ def reconstruct(pptx_path: Path, json_path: Path, output_path: Path) -> dict:
             counts["skipped_do_not_translate"] += 1
             continue
 
-        # Skip segments that Agent 1 flagged as non-text-box elements, UNLESS
-        # the element_type is a standard editable PPTX type. Agent 1 works from
-        # a PDF and cannot reliably distinguish content placeholders (titles,
-        # body text, bullets) from non-editable graphics — so is_in_text_box=False
-        # is not trusted for element types in _ALWAYS_PROCESS_TYPES.
+        # Skip segments flagged as non-text-box elements, UNLESS the
+        # element_type is a standard editable PPTX type. See _ALWAYS_PROCESS_TYPES.
         if seg.get("is_in_text_box") is False:
             if element_type not in _ALWAYS_PROCESS_TYPES:
                 log.debug("SKIP_NOT_TEXT_BOX  seg=%-12s  type=%-16s  source=%r",
@@ -720,7 +784,6 @@ def reconstruct(pptx_path: Path, json_path: Path, output_path: Path) -> dict:
                     "slide": slide_number,
                 })
                 continue
-            # element_type is always-editable — override the is_in_text_box flag
             log.debug("OVERRIDE_NOT_TEXT_BOX  seg=%-12s  type=%-16s  source=%r",
                       segment_id, element_type, source_text[:60])
 
@@ -736,9 +799,14 @@ def reconstruct(pptx_path: Path, json_path: Path, output_path: Path) -> dict:
         slide = slide_map[slide_number]
         counts["translated"] += 1
 
-        outcome = find_and_replace(
-            slide, source_text, translated, segment_id, state
-        )
+        # Speaker notes — handled via dedicated notes path, not shape matching.
+        if element_type == 'speaker_note':
+            outcome = _match_notes(slide, source_text, translated, segment_id)
+        else:
+            outcome = find_and_replace(
+                slide, source_text, translated, segment_id, state
+            )
+
         outcome["slide"] = slide_number
         if outcome.get("result") == "NO_MATCH":
             outcome["translated_text"] = translated
@@ -758,9 +826,11 @@ def reconstruct(pptx_path: Path, json_path: Path, output_path: Path) -> dict:
                       + counts["LAYOUT_T2_SUBSTRING"] + counts["LAYOUT_T3_PARAGRAPH"])
     master_matched = (counts["MASTER_T1_EXACT"] + counts["MASTER_T1b_FUZZY"]
                       + counts["MASTER_T2_SUBSTRING"] + counts["MASTER_T3_PARAGRAPH"])
+    notes_matched  = counts["NOTES_T1_EXACT"] + counts["NOTES_T3_PARAGRAPH"]
     already_handled = (counts["LAYOUT_ALREADY_TRANSLATED"]
                        + counts["MASTER_ALREADY_TRANSLATED"])
-    total_handled  = slide_matched + layout_matched + master_matched + already_handled
+    total_handled  = (slide_matched + layout_matched + master_matched
+                      + notes_matched + already_handled)
     no_match       = counts["NO_MATCH"]
     handle_pct     = (total_handled / counts["translated"] * 100) if counts["translated"] else 0
     fail_rate      = no_match / counts["translated"] if counts["translated"] else 0
@@ -784,6 +854,9 @@ def reconstruct(pptx_path: Path, json_path: Path, output_path: Path) -> dict:
     log.info("    T5 page-tolerant          : %d", counts["MASTER_T1b_FUZZY"])
     log.info("    T5 substring              : %d", counts["MASTER_T2_SUBSTRING"])
     log.info("    T5 paragraph              : %d", counts["MASTER_T3_PARAGRAPH"])
+    log.info("  Notes-level matches")
+    log.info("    Notes exact               : %d", counts["NOTES_T1_EXACT"])
+    log.info("    Notes paragraph           : %d", counts["NOTES_T3_PARAGRAPH"])
     log.info("  Already handled (deduped)")
     log.info("    Layout already translated : %d", counts["LAYOUT_ALREADY_TRANSLATED"])
     log.info("    Master already translated : %d", counts["MASTER_ALREADY_TRANSLATED"])
