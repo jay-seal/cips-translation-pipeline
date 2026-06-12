@@ -33,6 +33,9 @@ jobs:
   reconstruct:
     runs-on: ubuntu-latest
 
+    permissions:
+      contents: write   # Required to commit outputs/latest-translation.json
+
     steps:
       # -----------------------------------------------------------------------
       - name: Check out repository
@@ -54,7 +57,6 @@ jobs:
 
       # -----------------------------------------------------------------------
       - name: Resolve source URL
-        id: source
         run: |
           URL="${{ github.event.inputs.source_url }}"
           if [ -z "$URL" ] && [ -f "inputs/extraction_manifest.json" ]; then
@@ -67,6 +69,7 @@ jobs:
           fi
           echo "SOURCE_URL=$URL" >> $GITHUB_ENV
 
+      # -----------------------------------------------------------------------
       - name: Download source document from R2
         run: |
           URL="${{ env.SOURCE_URL }}"
@@ -78,7 +81,7 @@ jobs:
           echo "Filename   : $FILENAME"
           echo "Extension  : $EXT_LOWER"
           curl --fail -L -o "inputs/source.${EXT_LOWER}" "$URL"
-          echo "SOURCE_EXT=${EXT_LOWER}"          >> $GITHUB_ENV
+          echo "SOURCE_EXT=${EXT_LOWER}"    >> $GITHUB_ENV
           echo "SOURCE_STEM=${FILENAME%.*}" >> $GITHUB_ENV
           ls -lh inputs/
 
@@ -94,14 +97,14 @@ jobs:
             echo "ERROR: inputs/source.${{ env.SOURCE_EXT }} not found."
             exit 1
           fi
-          echo "Source     : inputs/source.${{ env.SOURCE_EXT }}"
+          echo "Source      : inputs/source.${{ env.SOURCE_EXT }}"
           echo "Translations: ${TRANSLATIONS}"
 
       # -----------------------------------------------------------------------
       - name: Determine output filename
         id: naming
         run: |
-          LOCALE=$(python -c "
+          LOCALE=$(python3 -c "
           import json
           with open('inputs/${{ github.event.inputs.translations }}') as f:
               data = json.load(f)
@@ -115,9 +118,9 @@ jobs:
           echo "Output file will be: ${OUTPUT}"
 
       # -----------------------------------------------------------------------
-      # Select the reconstruction script and failure threshold based on format.
-      # PPTX: cips_reconstruct.py      threshold 0.40 (image-embedded content)
-      # DOCX: cips_reconstruct_docx.py threshold 0.20 (fewer inaccessible elements)
+      # Select reconstruction script and failure threshold based on format.
+      # PPTX: cips_reconstruct.py      default threshold 0.40
+      # DOCX: cips_reconstruct_docx.py default threshold 0.20
       # -----------------------------------------------------------------------
       - name: Run reconstruction
         run: |
@@ -136,7 +139,6 @@ jobs:
 
           OVERRIDE="${{ github.event.inputs.failure_threshold }}"
           THRESHOLD="${OVERRIDE:-$DEFAULT_THRESHOLD}"
-
           echo "Script    : $SCRIPT"
           echo "Threshold : $THRESHOLD"
 
@@ -158,10 +160,101 @@ jobs:
           fi
 
       # -----------------------------------------------------------------------
+      - name: Upload translated file to R2
+        env:
+          AWS_ACCESS_KEY_ID:     ${{ secrets.R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION:    auto
+        run: |
+          OUTPUT_FILE="outputs/${{ steps.naming.outputs.output_filename }}"
+          R2_KEY="translations/${{ steps.naming.outputs.locale }}/${{ steps.naming.outputs.output_filename }}"
+          R2_ENDPOINT="https://${{ secrets.R2_ACCOUNT_ID }}.r2.cloudflarestorage.com"
+
+          echo "Uploading: ${OUTPUT_FILE} → ${R2_KEY}"
+          aws s3 cp "$OUTPUT_FILE" "s3://cips-translation-inputs/${R2_KEY}" \
+            --endpoint-url "$R2_ENDPOINT"
+
+          # Generate 7-day presigned URL. Multiline env var syntax handles
+          # URL special characters (ampersands, equals signs) safely.
+          PRESIGNED=$(aws s3 presign "s3://cips-translation-inputs/${R2_KEY}" \
+            --expires-in 604800 \
+            --endpoint-url "$R2_ENDPOINT")
+
+          echo "DOWNLOAD_URL<<URLEOF" >> $GITHUB_ENV
+          echo "$PRESIGNED"          >> $GITHUB_ENV
+          echo "URLEOF"              >> $GITHUB_ENV
+
+          EXPIRES=$(date -u -d "+7 days" "+%Y-%m-%dT%H:%M:%SZ")
+          echo "EXPIRES_AT=${EXPIRES}"   >> $GITHUB_ENV
+          echo "COMPLETED=$(date -u '+%Y-%m-%dT%H:%M:%SZ')" >> $GITHUB_ENV
+
+          echo "Upload complete. Link expires: ${EXPIRES}"
+
+      # -----------------------------------------------------------------------
+      - name: Write translation status JSON
+        run: |
+          python3 - << 'PYEOF'
+import json, os
+
+# Derive match report path from output filename
+output_filename = os.environ["OUTPUT_FILENAME"]
+base = output_filename.rsplit(".", 1)[0]
+report_path = f"outputs/{base}_match_report.json"
+
+try:
+    with open(report_path) as f:
+        report = json.load(f)
+    handle_rate = report.get("handle_rate_pct", 0)
+    no_match    = report.get("summary", {}).get("NO_MATCH", 0)
+    total       = report.get("summary", {}).get("translated", 0)
+except Exception as ex:
+    print(f"Warning: could not read match report ({ex}) — using defaults.")
+    handle_rate, no_match, total = 0, 0, 0
+
+status = {
+    "source_filename":     os.environ["SOURCE_STEM"] + "." + os.environ["SOURCE_EXT"],
+    "locale":              os.environ["LOCALE"],
+    "document_type":       os.environ["SOURCE_EXT"],
+    "completed_at":        os.environ["COMPLETED"],
+    "handle_rate_pct":     handle_rate,
+    "no_match_count":      no_match,
+    "total_segments":      total,
+    "translated_filename": output_filename,
+    "download_url":        os.environ["DOWNLOAD_URL"],
+    "expires_at":          os.environ["EXPIRES_AT"],
+}
+
+os.makedirs("outputs", exist_ok=True)
+with open("outputs/latest-translation.json", "w") as f:
+    json.dump(status, f, indent=2)
+
+print("Status JSON written:")
+print(json.dumps(status, indent=2))
+PYEOF
+        env:
+          OUTPUT_FILENAME: ${{ steps.naming.outputs.output_filename }}
+          SOURCE_STEM:     ${{ env.SOURCE_STEM }}
+          SOURCE_EXT:      ${{ env.SOURCE_EXT }}
+          LOCALE:          ${{ steps.naming.outputs.locale }}
+          COMPLETED:       ${{ env.COMPLETED }}
+          EXPIRES_AT:      ${{ env.EXPIRES_AT }}
+
+      # -----------------------------------------------------------------------
+      - name: Commit translation status to repository
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add outputs/latest-translation.json
+          git diff --staged --quiet \
+            && echo "No changes to commit." \
+            || git commit -m "chore: update translation status (${{ steps.naming.outputs.locale }}) [skip ci]"
+          git push
+
+      # -----------------------------------------------------------------------
       - name: Upload outputs as artifact
         uses: actions/upload-artifact@v4
         with:
           name: "${{ steps.naming.outputs.output_filename }}"
           path: "outputs/"
-          retention-days: 30
+          retention-days: 7
           if-no-files-found: error
