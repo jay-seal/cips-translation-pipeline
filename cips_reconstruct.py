@@ -526,29 +526,8 @@ def find_and_replace(
             result["note"] = "Master shape — applies to all slides in the presentation."
             return result
 
-    # Diagnostic: log norm_source and the closest shape text seen
-    # to help identify whether this is a text mismatch or missing shape.
-    best_shape_text = ""
-    best_overlap = 0
-    for shape in _iter_shapes(slide.shapes):
-        if not shape.has_text_frame:
-            continue
-        nt = normalise(shape_full_text(shape))
-        if not nt:
-            continue
-        # Score by how many characters of norm_source appear in norm_shape
-        overlap = sum(1 for c in norm_source if c in nt)
-        if overlap > best_overlap:
-            best_overlap = overlap
-            best_shape_text = nt
-    log.warning(
-        "NO MATCH  seg=%-12s\n"
-        "  norm_source  = %r\n"
-        "  best_shape   = %r",
-        segment_id,
-        norm_source[:120],
-        best_shape_text[:120],
-    )
+    log.warning("NO MATCH  seg=%-12s  source_text=%r",
+                segment_id, source_text[:80])
     return {"segment_id": segment_id, "result": "NO_MATCH",
             "source_text": source_text}
 
@@ -739,6 +718,15 @@ def reconstruct(pptx_path: Path, json_path: Path, output_path: Path) -> dict:
         translated   = seg.get("translated_text")
         status       = seg.get("translation_status", "")
         element_type = seg.get("element_type", "")
+
+        # Decode literal \n (backslash+n) to actual newline characters.
+        # LLM agents may double-escape newlines when outputting JSON, producing
+        # the two-character sequence \+n instead of a real newline (U+000A).
+        # This affects both source matching (T1, T3b) and paragraph replacement.
+        if source_text:
+            source_text = source_text.replace('\\n', '\x0a')
+        if translated:
+            translated = translated.replace('\\n', '\x0a')
 
         if not translated:
             counts["skipped_no_translation"] += 1
