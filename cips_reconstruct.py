@@ -30,9 +30,13 @@ Matching strategy — applied in order per segment, stopping at first success:
              individually with its own correct static page number.
     Tier 2   Substring normalised match (single-paragraph shapes only).
     Tier 3   Per-paragraph match — replaces only the matched paragraph.
-    Tier 4   Layout shapes — Tiers 1–1b–2–3 on slide.slide_layout.shapes.
-    Tier 5   Master shapes — Tiers 1–1b–2–3 on slide_layout.slide_master.shapes.
-    Notes    Speaker notes — Tiers 1 and 3 on slide.notes_slide.notes_text_frame.
+    Tier 3b  Contiguous paragraph range match — for multi-line segments,
+             tries matching N consecutive paragraphs against the N lines of
+             source_text. Handles quotation blocks, agenda lists, and other
+             multi-paragraph segments extracted from a larger shape.
+    Tier 4   Layout shapes — Tiers 1–1b–2–3–3b on slide.slide_layout.shapes.
+    Tier 5   Master shapes — Tiers 1–1b–2–3–3b on slide_layout.slide_master.shapes.
+    Notes    Speaker notes — Tiers 1–3–3b on slide.notes_slide.notes_text_frame.
              Applied only for segments with element_type='speaker_note'.
 
     Once a layout or master shape is translated, all subsequent slides that
@@ -41,31 +45,20 @@ Matching strategy — applied in order per segment, stopping at first success:
 
 Normalisation (comparison only — never applied to output text):
     1. NFKC unicode normalisation.
-    2. Collapse all whitespace to a single ASCII space.
-    3. Strip leading/trailing whitespace.
-    4. Strip leading bullet/list characters (•, ❶–❿ etc.).
+    2. Smart quote / typographic punctuation normalisation.
+    3. Collapse all whitespace to a single ASCII space.
+    4. Strip leading/trailing whitespace.
+    5. Strip leading bullet/list characters (•, ❶–❿ etc.).
 
 Field element handling:
     All field elements (<a:fld>) in replaced paragraphs are removed and the
     full translated text (including any literal page number) is written as
-    static text. This is correct for a translated deck that will not have
-    slides added or removed after translation.
+    static text.
 
 Non-text-box segment filtering:
     Segments where is_in_text_box=False and whose element_type is NOT in
     _ALWAYS_PROCESS_TYPES are excluded from the matching loop and logged as
-    SKIP_NOT_TEXT_BOX. This prevents a short source string (e.g. "CIPS" in a
-    logo graphic) from claiming an editable shape via Tier 2 substring match.
-
-    The _ALWAYS_PROCESS_TYPES set overrides is_in_text_box=False for element
-    types that are always editable in a PPTX regardless of visual layout —
-    ensuring slide titles, body text, bullets, labels in accessible shapes
-    (TextBox, Rectangle, AutoShape), and similar standard content are never
-    silently skipped.
-
-    SKIP_NOT_TEXT_BOX segments are recorded in the match report JSON but
-    excluded from the manual corrections HTML, since they are not reachable
-    by clicking on shapes in PowerPoint.
+    SKIP_NOT_TEXT_BOX.
 
 Speaker notes:
     Segments with element_type='speaker_note' are matched and replaced in
@@ -75,9 +68,7 @@ Speaker notes:
 
 Known permanent failures:
     Text embedded in raster images or SmartArt is not accessible to
-    python-pptx and will always produce NO_MATCH. Set --failure-threshold
-    to accommodate the proportion of such content in the source deck
-    (default 0.30).
+    python-pptx and will always produce NO_MATCH.
 
 Exit codes:
     0   Success.
@@ -133,29 +124,15 @@ _LEADING_BULLET_RE = re.compile(
     ']+' + r'\s*'
 )
 
-# Strips trailing "| N" page-number literals for footer deduplication keys
-# and Tier 1b matching.
 _TRAILING_PAGE_RE = re.compile(r'\s*\|\s*\d+\s*$')
 
 # ---------------------------------------------------------------------------
 # Element types that are always editable PPTX content shapes.
-#
-# Segments whose element_type appears in this set are always sent to the
-# matching loop, regardless of the is_in_text_box value set by extraction.
-# The is_in_text_box=False guard is retained only for types NOT in this set
-# (e.g. 'footer', 'speaker_note') where non-editable elements legitimately
-# occur and the risk of accidental substring matching is real.
-#
-# 'label' is included here because labels appear in fully accessible shapes
-# (TextBox, Rectangle, AutoShape) as well as in inaccessible ones (SmartArt).
-# Including it means inaccessible labels produce NO_MATCH (visible in the
-# corrections report) rather than being silently skipped. Accessible labels
-# — such as diagram quadrant headings, recording banners, and section titles
-# — are correctly translated.
-#
-# 'speaker_note' is NOT included here because speaker notes are handled via
-# a dedicated notes-matching path that reads slide.notes_slide directly,
-# not via the shape-matching loop.
+# 'label' is included: labels appear in accessible TextBox/Rectangle/AutoShape
+# elements as well as inaccessible SmartArt. Including it ensures accessible
+# label shapes are translated; inaccessible ones produce NO_MATCH (visible in
+# the corrections report) rather than being silently skipped.
+# 'speaker_note' is NOT included: notes are handled via a dedicated path.
 # ---------------------------------------------------------------------------
 _ALWAYS_PROCESS_TYPES = frozenset({
     'slide_title',
@@ -175,25 +152,11 @@ _ALWAYS_PROCESS_TYPES = frozenset({
 # ---------------------------------------------------------------------------
 
 def normalise(text: str) -> str:
-    """
-    Normalise for comparison only. Never applied to output text.
-    1. NFKC unicode normalisation.
-    2. Smart quote / typographic punctuation normalisation — converts curly
-       quotes and em/en dashes to their plain ASCII equivalents so that text
-       extracted by AI agents (which may produce straight quotes) matches
-       DOCX/PPTX content (which typically uses Word's smart quote characters).
-    3. Collapse whitespace to single space.
-    4. Strip edges.
-    5. Strip leading bullet/list characters.
-    """
     if not text:
         return ""
     text = unicodedata.normalize("NFKC", text)
-    # Smart single quotes → straight apostrophe
     text = text.replace('\u2018', "'").replace('\u2019', "'")
-    # Smart double quotes → straight double quote
     text = text.replace('\u201C', '"').replace('\u201D', '"')
-    # En dash / em dash → hyphen
     text = text.replace('\u2013', '-').replace('\u2014', '-')
     text = re.sub(r"\s+", " ", text)
     text = text.strip()
@@ -202,11 +165,6 @@ def normalise(text: str) -> str:
 
 
 def _source_key(norm_source: str) -> str:
-    """
-    Deduplication key for layout/master already-translated tracking.
-    Strips trailing page-number patterns so footer segments across all
-    slides map to the same key once the master is translated once.
-    """
     return _TRAILING_PAGE_RE.sub('', norm_source).strip()
 
 
@@ -215,19 +173,16 @@ def _source_key(norm_source: str) -> str:
 # ---------------------------------------------------------------------------
 
 def _para_full_text(para) -> str:
-    """Return all text in a paragraph, including <a:fld> field element text."""
     return ''.join(elem.text or '' for elem in para._p.iter(_A_T))
 
 
 def shape_full_text(shape) -> str:
-    """Return full shape text, joining paragraphs with newlines."""
     if not shape.has_text_frame:
         return ""
     return "\n".join(_para_full_text(p) for p in shape.text_frame.paragraphs)
 
 
 def paragraph_text(para) -> str:
-    """Return full text of a single paragraph, including field elements."""
     return _para_full_text(para)
 
 
@@ -236,7 +191,6 @@ def paragraph_text(para) -> str:
 # ---------------------------------------------------------------------------
 
 class _TableCellProxy:
-    """Wraps a table cell to expose the same interface as a Shape."""
     __slots__ = ('has_text_frame', 'text_frame', 'name')
 
     def __init__(self, cell, row_idx: int, col_idx: int, parent_name: str):
@@ -250,7 +204,6 @@ class _TableCellProxy:
 # ---------------------------------------------------------------------------
 
 class _NotesProxy:
-    """Wraps a slide's notes text frame to expose the same interface as a Shape."""
     __slots__ = ('has_text_frame', 'text_frame', 'name')
 
     def __init__(self, text_frame, slide_id):
@@ -264,12 +217,11 @@ class _NotesProxy:
 # ---------------------------------------------------------------------------
 
 def _iter_shapes(shape_collection):
-    """Yield all shapes, recursing into groups and expanding table cells."""
     for shape in shape_collection:
         st = shape.shape_type
-        if st == 6:     # GROUP
+        if st == 6:
             yield from _iter_group(shape)
-        elif st == 19:  # TABLE
+        elif st == 19:
             yield from _iter_table(shape)
         else:
             yield shape
@@ -301,20 +253,6 @@ def _shape_label(shape) -> str:
 # ---------------------------------------------------------------------------
 
 def _replace_runs_in_paragraph(paragraph, new_text: str) -> None:
-    """
-    Replace paragraph text whilst preserving run-level formatting.
-
-    All field elements (<a:fld>) are removed and the full translated text
-    is written as static text. This is correct for a translated deck: the
-    translated text from Agent 3 already contains the correct page number
-    as a literal for each slide, so dynamic field updating is not needed.
-
-    - Runs present: write new_text to run[0], clear remaining runs,
-      remove fields.
-    - Fields only (no runs): insert a new plain run with new_text,
-      remove fields.
-    - Neither: do nothing.
-    """
     p_elem = paragraph._p
     runs = paragraph.runs
     field_elements = p_elem.findall(_A_FLD)
@@ -331,19 +269,9 @@ def _replace_runs_in_paragraph(paragraph, new_text: str) -> None:
         t_elem.text = new_text
         for fld in field_elements:
             p_elem.remove(fld)
-    # else: no runs, no fields — nothing to replace.
 
 
 def replace_shape_text(shape, translated_text: str) -> None:
-    """Write translated_text into a shape, distributing lines across paragraphs.
-
-    Logs a warning when the number of lines in translated_text differs from
-    the number of non-empty paragraphs in the shape. This indicates that
-    Agent 3 has merged or split bullet points, which causes content to be
-    dropped (too few lines) or paragraphs to be blanked (too many lines).
-    The root fix is in the Agent 3 line count preservation rule; this warning
-    makes the problem visible in the Actions log.
-    """
     if not shape.has_text_frame:
         return
     paragraphs = shape.text_frame.paragraphs
@@ -354,9 +282,7 @@ def replace_shape_text(shape, translated_text: str) -> None:
     if len(non_empty_paras) > 1 and len(translated_lines) != len(non_empty_paras):
         log.warning(
             "LINE_COUNT_MISMATCH  shape=%-30s  "
-            "shape_paragraphs=%d  translated_lines=%d — "
-            "Agent 3 may have merged or split bullet points; "
-            "check line count preservation rule.",
+            "shape_paragraphs=%d  translated_lines=%d",
             _shape_label(shape), len(non_empty_paras), len(translated_lines),
         )
     for i, para in enumerate(paragraphs):
@@ -367,13 +293,27 @@ def replace_shape_text(shape, translated_text: str) -> None:
 
 
 def replace_paragraph_text(shape, para_index: int, translated_text: str) -> None:
-    """Replace a single paragraph by index. Used for Tier 3 matches."""
     if not shape.has_text_frame:
         return
     paragraphs = shape.text_frame.paragraphs
     if para_index >= len(paragraphs):
         return
     _replace_runs_in_paragraph(paragraphs[para_index], translated_text)
+
+
+def replace_paragraph_range(shape, start: int, count: int,
+                             translated_text: str) -> None:
+    """Replace `count` consecutive paragraphs starting at `start`."""
+    if not shape.has_text_frame:
+        return
+    paragraphs = shape.text_frame.paragraphs
+    translated_lines = translated_text.split("\n")
+    for i in range(count):
+        idx = start + i
+        if idx >= len(paragraphs):
+            break
+        line = translated_lines[i] if i < len(translated_lines) else ""
+        _replace_runs_in_paragraph(paragraphs[idx], line)
 
 
 # ---------------------------------------------------------------------------
@@ -383,16 +323,15 @@ def replace_paragraph_text(shape, para_index: int, translated_text: str) -> None
 def _match_shape(shape, norm_source: str, translated_text: str,
                  segment_id: str, slide_id, tier_prefix: str = ""):
     """
-    Apply Tiers 1, 1b, 2, and 3 to a single shape.
+    Apply Tiers 1, 1b, 2, 3, and 3b to a single shape.
     Returns a result dict on match, else None.
 
-    Tier 1b handles footer shapes where the slide-number field element
-    has an empty or mismatched cached value, causing the shape text to
-    differ from source_text only by the trailing page number. It fires
-    when stripping "| N" from both sides produces an exact match.
-
-    Tier 2 is restricted to single-paragraph shapes to prevent a bullet
-    item matching as a substring of a multi-bullet placeholder.
+    Tier 3b — Contiguous paragraph range match:
+    For multi-line segments (source_text contains newlines), tries to find N
+    consecutive paragraphs in the shape whose normalised texts exactly match
+    the N lines of source_text. This handles quotation blocks, agenda lists,
+    and other multi-paragraph segments that were extracted from a larger shape
+    and cannot be matched by T1 (full shape) or T3 (single paragraph).
     """
     if not shape.has_text_frame:
         return None
@@ -431,7 +370,7 @@ def _match_shape(shape, norm_source: str, translated_text: str,
                  f"{tier_prefix}T2_SUBSTR", segment_id, slide_id, label)
         return {"result": f"{tier_prefix}T2_SUBSTRING", "shape": label}
 
-    # Tier 3 — Per-paragraph match.
+    # Tier 3 — Per-paragraph match (single-line source texts).
     for idx, para in enumerate(shape.text_frame.paragraphs):
         norm_para = normalise(paragraph_text(para))
         if norm_para == norm_source and len(norm_source) > 1:
@@ -440,6 +379,30 @@ def _match_shape(shape, norm_source: str, translated_text: str,
                      f"{tier_prefix}T3_PARA", segment_id, slide_id, label, idx)
             return {"result": f"{tier_prefix}T3_PARAGRAPH", "shape": label,
                     "para_index": idx}
+
+    # Tier 3b — Contiguous paragraph range match (multi-line source texts).
+    # Only attempted when source_text contains at least one newline, meaning
+    # the segment spans multiple paragraphs within the shape.
+    source_lines = norm_source.split('\n')
+    n = len(source_lines)
+    if n > 1:
+        paragraphs = shape.text_frame.paragraphs
+        para_texts = [normalise(paragraph_text(p)) for p in paragraphs]
+        for start in range(len(paragraphs) - n + 1):
+            if para_texts[start:start + n] == source_lines:
+                replace_paragraph_range(shape, start, n, translated_text)
+                log.info(
+                    "%-24s seg=%-12s  slide=%s  shape=%s  paras=%d-%d",
+                    f"{tier_prefix}T3b_RANGE", segment_id, slide_id,
+                    label, start, start + n - 1,
+                )
+                return {
+                    "result": f"{tier_prefix}T3b_PARA_RANGE",
+                    "shape": label,
+                    "para_start": start,
+                    "para_end": start + n - 1,
+                }
+
     return None
 
 
@@ -451,10 +414,7 @@ def _match_notes(slide, source_text: str, translated_text: str,
                  segment_id: str) -> dict:
     """
     Match and replace text in a slide's speaker notes.
-
-    Uses Tiers 1 and 3 via the standard _match_shape helper applied to a
-    _NotesProxy wrapping the notes text frame. Tier 2 substring matching is
-    not applied to notes to avoid false positives on short strings.
+    Uses Tiers 1, 3, and 3b via the standard _match_shape helper.
     """
     try:
         notes_tf = slide.notes_slide.notes_text_frame
@@ -490,15 +450,6 @@ def find_and_replace(
     segment_id: str,
     state: dict,
 ) -> dict:
-    """
-    Apply Tiers 1–5 to find and replace source_text on a slide.
-
-    state keys:
-        modified_layout_ids   set of lxml element IDs of translated layout paragraphs
-        modified_master_ids   set of lxml element IDs of translated master paragraphs
-        matched_layout_keys   set of _source_key() values translated via layout
-        matched_master_keys   set of _source_key() values translated via master
-    """
     norm_source = normalise(source_text)
     if not norm_source:
         return {"segment_id": segment_id, "result": "SKIP_EMPTY_SOURCE"}
@@ -506,13 +457,12 @@ def find_and_replace(
     slide_id = getattr(slide, 'slide_id', '?')
     src_key = _source_key(norm_source)
 
-    # --- Fast path: already handled by a previous layout/master translation ---
     if src_key in state['matched_master_keys']:
         return {"segment_id": segment_id, "result": "MASTER_ALREADY_TRANSLATED"}
     if src_key in state['matched_layout_keys']:
         return {"segment_id": segment_id, "result": "LAYOUT_ALREADY_TRANSLATED"}
 
-    # --- Tiers 1–3: individual slide shapes ---
+    # Tiers 1–3b: individual slide shapes
     for shape in _iter_shapes(slide.shapes):
         result = _match_shape(shape, norm_source, translated_text,
                               segment_id, slide_id)
@@ -520,7 +470,7 @@ def find_and_replace(
             result["segment_id"] = segment_id
             return result
 
-    # --- Tier 4: slide layout shapes ---
+    # Tier 4: slide layout shapes
     try:
         layout_shapes = slide.slide_layout.shapes
     except AttributeError:
@@ -542,7 +492,7 @@ def find_and_replace(
             result["note"] = "Layout shape — applies to all slides using this layout."
             return result
 
-    # --- Tier 5: slide master shapes ---
+    # Tier 5: slide master shapes
     try:
         master_shapes = slide.slide_layout.slide_master.shapes
     except AttributeError:
@@ -574,16 +524,8 @@ def find_and_replace(
 # HTML mop-up report
 # ---------------------------------------------------------------------------
 
-def _write_html_report(
-    report: dict,
-    output_path: Path,
-    source_filename: str,
-) -> None:
-    """
-    Write a human-readable HTML file listing every NO_MATCH segment with
-    the slide number, English source text, and the correct French translation
-    for manual correction in PowerPoint.
-    """
+def _write_html_report(report: dict, output_path: Path,
+                       source_filename: str) -> None:
     no_match = report.get("no_match_segments", [])
     summary  = report.get("summary", {})
     ts       = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
@@ -681,13 +623,11 @@ def _write_html_report(
     </div>
     <div class="notice">
       <strong>How to use this file:</strong> Each row below is a text segment
-      that the pipeline could not apply automatically. The most common cause is
-      text embedded inside an image or SmartArt diagram, which PowerPoint stores
-      as a visual element rather than editable text. Open the translated PPTX,
-      navigate to the slide shown, locate the text in the
-      <em>English (source)</em> column, and replace it with the text in the
-      <em>French (target)</em> column. Speaker notes can be edited via
-      PowerPoint's Notes view (View &rarr; Notes).
+      the pipeline could not apply automatically. The most common cause is text
+      embedded in a raster image or SmartArt diagram. Open the translated PPTX,
+      go to the slide shown, find the text in the <em>English (source)</em>
+      column, and replace it with the <em>French (target)</em> text.
+      Speaker notes are accessible via PowerPoint's Notes view (View &rarr; Notes).
     </div>
   </header>
   <div class="table-wrap">
@@ -718,7 +658,6 @@ def _write_html_report(
 # ---------------------------------------------------------------------------
 
 def reconstruct(pptx_path: Path, json_path: Path, output_path: Path) -> dict:
-    """Load, translate, and save the presentation. Returns a match report dict."""
     log.info("Loading presentation: %s", pptx_path)
     prs = Presentation(str(pptx_path))
 
@@ -745,13 +684,17 @@ def reconstruct(pptx_path: Path, json_path: Path, output_path: Path) -> dict:
         "skipped_no_translation": 0, "skipped_do_not_translate": 0,
         "skipped_slide_out_of_range": 0,
         "skipped_not_text_box": 0,
-        "T1_EXACT": 0, "T1b_FUZZY": 0, "T2_SUBSTRING": 0, "T3_PARAGRAPH": 0,
+        "T1_EXACT": 0, "T1b_FUZZY": 0, "T2_SUBSTRING": 0,
+        "T3_PARAGRAPH": 0, "T3b_PARA_RANGE": 0,
         "LAYOUT_T1_EXACT": 0, "LAYOUT_T1b_FUZZY": 0,
         "LAYOUT_T2_SUBSTRING": 0, "LAYOUT_T3_PARAGRAPH": 0,
+        "LAYOUT_T3b_PARA_RANGE": 0,
         "MASTER_T1_EXACT": 0, "MASTER_T1b_FUZZY": 0,
         "MASTER_T2_SUBSTRING": 0, "MASTER_T3_PARAGRAPH": 0,
+        "MASTER_T3b_PARA_RANGE": 0,
         "LAYOUT_ALREADY_TRANSLATED": 0, "MASTER_ALREADY_TRANSLATED": 0,
         "NOTES_T1_EXACT": 0, "NOTES_T3_PARAGRAPH": 0,
+        "NOTES_T3b_PARA_RANGE": 0,
         "NO_MATCH": 0, "SKIP_EMPTY_SOURCE": 0,
     }
 
@@ -771,8 +714,6 @@ def reconstruct(pptx_path: Path, json_path: Path, output_path: Path) -> dict:
             counts["skipped_do_not_translate"] += 1
             continue
 
-        # Skip segments flagged as non-text-box elements, UNLESS the
-        # element_type is a standard editable PPTX type. See _ALWAYS_PROCESS_TYPES.
         if seg.get("is_in_text_box") is False:
             if element_type not in _ALWAYS_PROCESS_TYPES:
                 log.debug("SKIP_NOT_TEXT_BOX  seg=%-12s  type=%-16s  source=%r",
@@ -799,7 +740,6 @@ def reconstruct(pptx_path: Path, json_path: Path, output_path: Path) -> dict:
         slide = slide_map[slide_number]
         counts["translated"] += 1
 
-        # Speaker notes — handled via dedicated notes path, not shape matching.
         if element_type == 'speaker_note':
             outcome = _match_notes(slide, source_text, translated, segment_id)
         else:
@@ -821,12 +761,16 @@ def reconstruct(pptx_path: Path, json_path: Path, output_path: Path) -> dict:
     log.info("Save complete.")
 
     slide_matched  = (counts["T1_EXACT"] + counts["T1b_FUZZY"]
-                      + counts["T2_SUBSTRING"] + counts["T3_PARAGRAPH"])
+                      + counts["T2_SUBSTRING"] + counts["T3_PARAGRAPH"]
+                      + counts["T3b_PARA_RANGE"])
     layout_matched = (counts["LAYOUT_T1_EXACT"] + counts["LAYOUT_T1b_FUZZY"]
-                      + counts["LAYOUT_T2_SUBSTRING"] + counts["LAYOUT_T3_PARAGRAPH"])
+                      + counts["LAYOUT_T2_SUBSTRING"] + counts["LAYOUT_T3_PARAGRAPH"]
+                      + counts["LAYOUT_T3b_PARA_RANGE"])
     master_matched = (counts["MASTER_T1_EXACT"] + counts["MASTER_T1b_FUZZY"]
-                      + counts["MASTER_T2_SUBSTRING"] + counts["MASTER_T3_PARAGRAPH"])
-    notes_matched  = counts["NOTES_T1_EXACT"] + counts["NOTES_T3_PARAGRAPH"]
+                      + counts["MASTER_T2_SUBSTRING"] + counts["MASTER_T3_PARAGRAPH"]
+                      + counts["MASTER_T3b_PARA_RANGE"])
+    notes_matched  = (counts["NOTES_T1_EXACT"] + counts["NOTES_T3_PARAGRAPH"]
+                      + counts["NOTES_T3b_PARA_RANGE"])
     already_handled = (counts["LAYOUT_ALREADY_TRANSLATED"]
                        + counts["MASTER_ALREADY_TRANSLATED"])
     total_handled  = (slide_matched + layout_matched + master_matched
@@ -844,19 +788,23 @@ def reconstruct(pptx_path: Path, json_path: Path, output_path: Path) -> dict:
     log.info("    Tier 1b (page-tolerant)   : %d", counts["T1b_FUZZY"])
     log.info("    Tier 2  (substring)       : %d", counts["T2_SUBSTRING"])
     log.info("    Tier 3  (paragraph)       : %d", counts["T3_PARAGRAPH"])
+    log.info("    Tier 3b (para range)      : %d", counts["T3b_PARA_RANGE"])
     log.info("  Layout-level matches (Tier 4)")
     log.info("    T4 exact                  : %d", counts["LAYOUT_T1_EXACT"])
     log.info("    T4 page-tolerant          : %d", counts["LAYOUT_T1b_FUZZY"])
     log.info("    T4 substring              : %d", counts["LAYOUT_T2_SUBSTRING"])
     log.info("    T4 paragraph              : %d", counts["LAYOUT_T3_PARAGRAPH"])
+    log.info("    T4 para range             : %d", counts["LAYOUT_T3b_PARA_RANGE"])
     log.info("  Master-level matches (Tier 5)")
     log.info("    T5 exact                  : %d", counts["MASTER_T1_EXACT"])
     log.info("    T5 page-tolerant          : %d", counts["MASTER_T1b_FUZZY"])
     log.info("    T5 substring              : %d", counts["MASTER_T2_SUBSTRING"])
     log.info("    T5 paragraph              : %d", counts["MASTER_T3_PARAGRAPH"])
+    log.info("    T5 para range             : %d", counts["MASTER_T3b_PARA_RANGE"])
     log.info("  Notes-level matches")
     log.info("    Notes exact               : %d", counts["NOTES_T1_EXACT"])
     log.info("    Notes paragraph           : %d", counts["NOTES_T3_PARAGRAPH"])
+    log.info("    Notes para range          : %d", counts["NOTES_T3b_PARA_RANGE"])
     log.info("  Already handled (deduped)")
     log.info("    Layout already translated : %d", counts["LAYOUT_ALREADY_TRANSLATED"])
     log.info("    Master already translated : %d", counts["MASTER_ALREADY_TRANSLATED"])
