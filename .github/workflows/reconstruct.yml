@@ -170,7 +170,7 @@ jobs:
           R2_KEY="translations/${{ steps.naming.outputs.locale }}/${{ steps.naming.outputs.output_filename }}"
           R2_ENDPOINT="https://${{ secrets.R2_ACCOUNT_ID }}.r2.cloudflarestorage.com"
 
-          echo "Uploading: ${OUTPUT_FILE} → ${R2_KEY}"
+          echo "Uploading: ${OUTPUT_FILE} to ${R2_KEY}"
           aws s3 cp "$OUTPUT_FILE" "s3://cips-translation-inputs/${R2_KEY}" \
             --endpoint-url "$R2_ENDPOINT"
 
@@ -192,45 +192,6 @@ jobs:
 
       # -----------------------------------------------------------------------
       - name: Write translation status JSON
-        run: |
-          python3 - << 'PYEOF'
-import json, os
-
-# Derive match report path from output filename
-output_filename = os.environ["OUTPUT_FILENAME"]
-base = output_filename.rsplit(".", 1)[0]
-report_path = f"outputs/{base}_match_report.json"
-
-try:
-    with open(report_path) as f:
-        report = json.load(f)
-    handle_rate = report.get("handle_rate_pct", 0)
-    no_match    = report.get("summary", {}).get("NO_MATCH", 0)
-    total       = report.get("summary", {}).get("translated", 0)
-except Exception as ex:
-    print(f"Warning: could not read match report ({ex}) — using defaults.")
-    handle_rate, no_match, total = 0, 0, 0
-
-status = {
-    "source_filename":     os.environ["SOURCE_STEM"] + "." + os.environ["SOURCE_EXT"],
-    "locale":              os.environ["LOCALE"],
-    "document_type":       os.environ["SOURCE_EXT"],
-    "completed_at":        os.environ["COMPLETED"],
-    "handle_rate_pct":     handle_rate,
-    "no_match_count":      no_match,
-    "total_segments":      total,
-    "translated_filename": output_filename,
-    "download_url":        os.environ["DOWNLOAD_URL"],
-    "expires_at":          os.environ["EXPIRES_AT"],
-}
-
-os.makedirs("outputs", exist_ok=True)
-with open("outputs/latest-translation.json", "w") as f:
-    json.dump(status, f, indent=2)
-
-print("Status JSON written:")
-print(json.dumps(status, indent=2))
-PYEOF
         env:
           OUTPUT_FILENAME: ${{ steps.naming.outputs.output_filename }}
           SOURCE_STEM:     ${{ env.SOURCE_STEM }}
@@ -238,6 +199,36 @@ PYEOF
           LOCALE:          ${{ steps.naming.outputs.locale }}
           COMPLETED:       ${{ env.COMPLETED }}
           EXPIRES_AT:      ${{ env.EXPIRES_AT }}
+        run: |
+          python3 -c '
+          import json, os
+          output_filename = os.environ["OUTPUT_FILENAME"]
+          base = output_filename.rsplit(".", 1)[0]
+          report_path = "outputs/" + base + "_match_report.json"
+          try:
+              report = json.load(open(report_path))
+              handle_rate = report.get("handle_rate_pct", 0)
+              no_match    = report.get("summary", {}).get("NO_MATCH", 0)
+              total       = report.get("summary", {}).get("translated", 0)
+          except Exception as ex:
+              print("Warning: could not read match report:", ex)
+              handle_rate, no_match, total = 0, 0, 0
+          status = {
+              "source_filename":     os.environ["SOURCE_STEM"] + "." + os.environ["SOURCE_EXT"],
+              "locale":              os.environ["LOCALE"],
+              "document_type":       os.environ["SOURCE_EXT"],
+              "completed_at":        os.environ["COMPLETED"],
+              "handle_rate_pct":     handle_rate,
+              "no_match_count":      no_match,
+              "total_segments":      total,
+              "translated_filename": output_filename,
+              "download_url":        os.environ["DOWNLOAD_URL"],
+              "expires_at":          os.environ["EXPIRES_AT"],
+          }
+          os.makedirs("outputs", exist_ok=True)
+          json.dump(status, open("outputs/latest-translation.json", "w"), indent=2)
+          print("Status JSON written")
+          '
 
       # -----------------------------------------------------------------------
       - name: Commit translation status to repository
