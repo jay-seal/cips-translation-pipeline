@@ -216,25 +216,55 @@ def _replace_runs_in_paragraph(paragraph, new_text: str) -> None:
 
 
 def replace_shape_text(shape, translated_text: str) -> None:
-    """Write translated_text into a shape, distributing lines across paragraphs."""
+    """
+    Write translated_text into a shape, distributing lines across paragraphs.
+
+    When the shape contains a mix of content paragraphs and empty spacer
+    paragraphs, translated lines are mapped only to the non-empty (content)
+    paragraphs in order. Spacer paragraphs are left unchanged. This preserves
+    visual spacing and paragraph styles when the PPTX uses empty paragraphs
+    between content — a common pattern that would otherwise cause translated
+    lines to land in the wrong paragraphs.
+
+    When all paragraphs are non-empty (the common case), a direct
+    line-to-paragraph mapping is used.
+    """
     if not shape.has_text_frame:
         return
     paragraphs = shape.text_frame.paragraphs
     if not paragraphs:
         return
     translated_lines = translated_text.split("\n")
-    non_empty_paras = [p for p in paragraphs if _para_full_text(p).strip()]
-    if len(non_empty_paras) > 1 and len(translated_lines) != len(non_empty_paras):
-        log.warning(
-            "LINE_COUNT_MISMATCH  shape=%-30s  "
-            "shape_paragraphs=%d  translated_lines=%d",
-            _shape_label(shape), len(non_empty_paras), len(translated_lines),
-        )
-    for i, para in enumerate(paragraphs):
-        if i < len(translated_lines):
-            _replace_runs_in_paragraph(para, translated_lines[i])
-        else:
-            _replace_runs_in_paragraph(para, "")
+
+    para_texts = [_para_full_text(p).strip() for p in paragraphs]
+    has_spacers = any(t == "" for t in para_texts) and any(t != "" for t in para_texts)
+
+    if has_spacers:
+        # Smart mapping: leave spacer paragraphs unchanged; distribute
+        # translated lines only to non-empty (content) paragraphs in order.
+        content_trans = iter(translated_lines)
+        for i, para in enumerate(paragraphs):
+            if not para_texts[i]:
+                continue  # spacer — leave unchanged
+            try:
+                line = next(content_trans)
+            except StopIteration:
+                line = ""
+            _replace_runs_in_paragraph(para, line)
+    else:
+        # No spacers — direct line-to-paragraph mapping.
+        non_empty_paras = [p for p in paragraphs if _para_full_text(p).strip()]
+        if len(non_empty_paras) > 1 and len(translated_lines) != len(non_empty_paras):
+            log.warning(
+                "LINE_COUNT_MISMATCH  shape=%-30s  "
+                "shape_paragraphs=%d  translated_lines=%d",
+                _shape_label(shape), len(non_empty_paras), len(translated_lines),
+            )
+        for i, para in enumerate(paragraphs):
+            if i < len(translated_lines):
+                _replace_runs_in_paragraph(para, translated_lines[i])
+            else:
+                _replace_runs_in_paragraph(para, "")
 
 
 def replace_paragraph_text(shape, para_index: int, translated_text: str) -> None:
