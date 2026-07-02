@@ -2,13 +2,20 @@ name: CIPS Translation — Extract
 
 # ---------------------------------------------------------------------------
 # Extracts all text from a source PPTX or DOCX file using python-pptx /
-# python-docx and commits one Agent 1-format JSON file per batch to inputs/.
+# python-docx and commits one Agent 1-format JSON file per batch to a
+# job-scoped folder under inputs/.
 #
-# This replaces manual Agent 1 runs in Opal. Because extraction happens
-# directly in python-pptx, source_text values are guaranteed to match
-# exactly what cips_reconstruct.py reads — eliminating the hallucination
-# and smart-quote mismatch issues that occur when an LLM reads a binary
-# file via URL.
+# Every run gets its own folder: inputs/{job_id}/, where job_id is a
+# timestamp + GitHub run ID (e.g. 20260702T105032Z-16234567890). This keeps
+# batch files from different documents, locales, or repeated runs from ever
+# colliding with each other during merge auto-discovery, no matter how many
+# jobs have been run before. A separate cleanup.yml workflow removes job
+# folders older than the retention window.
+#
+# Because extraction happens directly in python-pptx, source_text values
+# are guaranteed to match exactly what the reconstruction scripts read —
+# eliminating the hallucination and smart-quote mismatch issues that occur
+# when an LLM reads a binary file via URL.
 #
 # After committing the batch JSONs, the workflow optionally triggers the
 # Opal translation pipeline via webhook.
@@ -80,8 +87,19 @@ jobs:
         run: pip install python-pptx python-docx requests
 
       # -----------------------------------------------------------------------
+      # Generate a unique, self-describing job ID for this run. The timestamp
+      # prefix lets cleanup.yml determine a folder's age just by reading its
+      # name, with no need to inspect git history.
+      - name: Generate job ID
+        id: job
+        run: |
+          JOB_ID="$(date -u +%Y%m%dT%H%M%SZ)-${{ github.run_id }}"
+          echo "job_id=${JOB_ID}" >> "$GITHUB_OUTPUT"
+          echo "Job ID: ${JOB_ID}"
+
+      # -----------------------------------------------------------------------
       - name: Ensure directories exist
-        run: mkdir -p inputs outputs
+        run: mkdir -p "inputs/${{ steps.job.outputs.job_id }}" outputs
 
       # -----------------------------------------------------------------------
       - name: Download source document from R2
@@ -102,7 +120,7 @@ jobs:
         run: |
           python cips_extract.py \
             --source          "inputs/source.${{ env.SOURCE_EXT }}" \
-            --output-dir      inputs/ \
+            --output-dir      "inputs/${{ steps.job.outputs.job_id }}/" \
             --locale          "${{ github.event.inputs.locale_code }}" \
             --document-type   "${{ github.event.inputs.document_type }}" \
             --batch-size      "${{ github.event.inputs.batch_size }}" \
@@ -110,24 +128,25 @@ jobs:
             --source-url      "${{ github.event.inputs.source_url }}"
 
       # -----------------------------------------------------------------------
-      - name: Read extraction manifest
+      # Record the job ID inside the manifest itself for traceability, then
+      # read back the values needed for the webhook payload below.
+      - name: Read and annotate extraction manifest
         id: manifest
         run: |
-          BATCH_COUNT=$(python3 -c "
+          MANIFEST="inputs/${{ steps.job.outputs.job_id }}/extraction_manifest.json"
+
+          python3 -c "
           import json
-          m = json.load(open('inputs/extraction_manifest.json'))
-          print(m['batch_count'])
-          ")
-          TOTAL_PAGES=$(python3 -c "
-          import json
-          m = json.load(open('inputs/extraction_manifest.json'))
-          print(m['total_pages'])
-          ")
-          BATCH_FILES=$(python3 -c "
-          import json
-          m = json.load(open('inputs/extraction_manifest.json'))
-          print(' '.join(m['batch_files']))
-          ")
+          path = '${MANIFEST}'
+          m = json.load(open(path))
+          m['job_id'] = '${{ steps.job.outputs.job_id }}'
+          json.dump(m, open(path, 'w'), indent=2)
+          "
+
+          BATCH_COUNT=$(python3 -c "import json; print(json.load(open('${MANIFEST}'))['batch_count'])")
+          TOTAL_PAGES=$(python3 -c "import json; print(json.load(open('${MANIFEST}'))['total_pages'])")
+          BATCH_FILES=$(python3 -c "import json; print(' '.join(json.load(open('${MANIFEST}'))['batch_files']))")
+
           echo "batch_count=${BATCH_COUNT}"   >> "$GITHUB_OUTPUT"
           echo "total_pages=${TOTAL_PAGES}"   >> "$GITHUB_OUTPUT"
           echo "batch_files=${BATCH_FILES}"   >> "$GITHUB_OUTPUT"
@@ -138,14 +157,15 @@ jobs:
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add inputs/agent1_*.json inputs/extraction_manifest.json
+          git add "inputs/${{ steps.job.outputs.job_id }}/"
           git diff --cached --quiet \
             && echo "No new extraction files to commit." \
             || git commit -m \
                 "chore: extract text from ${{ env.SOURCE_FILENAME }}
 
-          Locale: ${{ github.event.inputs.locale_code }}
-          Format: ${{ github.event.inputs.document_type }}
+          Job ID:  ${{ steps.job.outputs.job_id }}
+          Locale:  ${{ github.event.inputs.locale_code }}
+          Format:  ${{ github.event.inputs.document_type }}
           Batches: ${{ steps.manifest.outputs.batch_count }}
           Pages:   ${{ steps.manifest.outputs.total_pages }}
           Batch size: ${{ github.event.inputs.batch_size }}
@@ -156,22 +176,24 @@ jobs:
       # -----------------------------------------------------------------------
       # Trigger the Opal translation workflow via webhook.
       # Requires OPAL_WEBHOOK_URL and OPAL_WEBHOOK_KEY repository secrets.
-      # The Opal workflow loop (Agents 2→3→4) will iterate over the committed
-      # batch JSONs using their GitHub raw content URLs.
+      # github_raw_base now points into this job's own subfolder, so the
+      # Prep Agent and JSON Loader need no changes — they simply read from
+      # wherever github_raw_base points.
       # -----------------------------------------------------------------------
       - name: Trigger Opal translation workflow
         if: ${{ github.event.inputs.trigger_opal == 'true' }}
         run: |
-          GITHUB_RAW_BASE="https://raw.githubusercontent.com/${{ github.repository }}/main/inputs/"
+          GITHUB_RAW_BASE="https://raw.githubusercontent.com/${{ github.repository }}/main/inputs/${{ steps.job.outputs.job_id }}/"
           BATCH_FILES_JSON=$(python3 -c "
           import json
-          m = json.load(open('inputs/extraction_manifest.json'))
+          m = json.load(open('inputs/${{ steps.job.outputs.job_id }}/extraction_manifest.json'))
           print(json.dumps(m['batch_files']))
           ")
           curl --fail -X POST "${{ secrets.OPAL_WEBHOOK_URL }}" \
             -H "Authorization: Bearer ${{ secrets.OPAL_WEBHOOK_KEY }}" \
             -H "Content-Type: application/json" \
             -d "{
+              \"job_id\":          \"${{ steps.job.outputs.job_id }}\",
               \"total_pages\":     ${{ steps.manifest.outputs.total_pages }},
               \"batch_size\":      ${{ github.event.inputs.batch_size }},
               \"locale_code\":     \"${{ github.event.inputs.locale_code }}\",
@@ -188,6 +210,7 @@ jobs:
       - name: Summary
         run: |
           echo "Extraction complete."
+          echo "  Job ID  : ${{ steps.job.outputs.job_id }}"
           echo "  Batches : ${{ steps.manifest.outputs.batch_count }}"
           echo "  Pages   : ${{ steps.manifest.outputs.total_pages }}"
           echo "  Files   : ${{ steps.manifest.outputs.batch_files }}"
