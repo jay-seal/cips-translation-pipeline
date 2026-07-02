@@ -1,12 +1,13 @@
 {
-  "source_filename": "0-Handout_-_Boat_Exercise_-_Marina_Ltd_Seller_v2.docx",
+  "job_id": "20260702T160941Z-28604479074",
+  "source_filename": "0-CIPS_Translation_Pipeline_PoC_Report.docx",
   "locale": "FR-FR",
   "document_type": "docx",
-  "completed_at": "2026-06-14T20:07:12Z",
+  "completed_at": "2026-07-02T16:35:12Z",
   "handle_rate_pct": 100.0,
   "no_match_count": 0,
-  "total_segments": 11,
-  "translated_filename": "0-Handout_-_Boat_Exercise_-_Marina_Ltd_Seller_v2_FR-FR.docx",
-  "download_url": "https://beeae181cbc7107a4ae151c96b573452.r2.cloudflarestorage.com/cips-translation-inputs/translations/FR-FR/0-Handout_-_Boat_Exercise_-_Marina_Ltd_Seller_v2_FR-FR.docx?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=c42f90ffe92df8f7b95a9ab4ce5d92bd%2F20260614%2Fauto%2Fs3%2Faws4_request&X-Amz-Date=20260614T200712Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=617bb4ee3036bda046abf3f8424094ec217cbb09a510506839a5b889e3d52e55",
-  "expires_at": "2026-06-21T20:07:12Z"
+  "total_segments": 103,
+  "translated_filename": "0-CIPS_Translation_Pipeline_PoC_Report_FR-FR.docx",
+  "download_url": "https://beeae181cbc7107a4ae151c96b573452.r2.cloudflarestorage.com/cips-translation-inputs/translations/FR-FR/0-CIPS_Translation_Pipeline_PoC_Report_FR-FR.docx?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=c42f90ffe92df8f7b95a9ab4ce5d92bd%2F20260702%2Fauto%2Fs3%2Faws4_request&X-Amz-Date=20260702T163512Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=e98a582816597145374e9ad55863189a2eab2c571b7c5d49ab56681f6f00a159",
+  "expires_at": "2026-07-09T16:35:12Z"
 }
