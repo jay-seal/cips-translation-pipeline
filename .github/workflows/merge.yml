@@ -1,17 +1,23 @@
 name: Merge Translation Batches
 
 # ---------------------------------------------------------------------------
-# Merges Agent 3 batch JSON files from inputs/ into a single merged JSON.
+# Merges Agent 3 batch JSON files from a single job's folder in inputs/ into
+# one merged JSON. Every run operates on exactly one job_id, so batch files
+# from unrelated documents or earlier runs can never be picked up by
+# mistake, regardless of how many other job folders exist in the repo.
 #
 # Can be triggered two ways:
 #
 # 1. Manual / legacy — pass batch_files and output_file explicitly:
+#      job_id      : 20260702T105032Z-16234567890
 #      batch_files : agent3_pages_001_001.json agent3_pages_002_002.json
 #      output_file : agent3_merged_FR-FR_pages.json
 #
-# 2. Automated (from Opal Merge Trigger Agent) — pass locale_code and
-#    document_type only. The workflow auto-discovers all matching batch files
-#    in inputs/ and constructs the output filename automatically.
+# 2. Automated (from Opal Merge Trigger Agent) — pass job_id, locale_code
+#    and document_type. The workflow auto-discovers all matching batch
+#    files inside inputs/{job_id}/ and constructs the output filename
+#    automatically.
+#      job_id        : 20260702T105032Z-16234567890
 #      locale_code   : FR-FR
 #      document_type : docx
 # ---------------------------------------------------------------------------
@@ -19,6 +25,14 @@ name: Merge Translation Batches
 on:
   workflow_dispatch:
     inputs:
+      job_id:
+        description: >
+          Required. The job folder under inputs/ to operate on, e.g.
+          20260702T105032Z-16234567890. This is the value extract.yml
+          generated and committed the batch files under.
+        required: true
+        type: string
+
       locale_code:
         description: >
           Target locale code, e.g. FR-FR. Used for auto-discovery and to
@@ -39,16 +53,16 @@ on:
 
       batch_files:
         description: >
-          Optional. Space-separated Agent 3 batch JSON filenames in inputs/,
-          in page order. Leave empty to auto-discover all matching files.
-          Example: agent3_pages_001_001.json agent3_pages_002_002.json
+          Optional. Space-separated Agent 3 batch JSON filenames inside
+          inputs/{job_id}/, in page order. Leave empty to auto-discover all
+          matching files. Example: agent3_pages_001_001.json agent3_pages_002_002.json
         required: false
         default: ''
         type: string
 
       output_file:
         description: >
-          Optional. Output merged filename written to inputs/.
+          Optional. Output merged filename written to inputs/{job_id}/.
           Leave empty to auto-generate from locale_code and document_type.
           Example: agent3_merged_FR-FR_pages.json
         required: false
@@ -81,7 +95,8 @@ jobs:
     name: Merge batch JSONs
     runs-on: ubuntu-latest
     permissions:
-      contents: write
+      contents: write   # Required to commit the merged JSON
+      actions: write    # Required to dispatch reconstruct.yml when run_reconstruct is true
 
     steps:
       # -----------------------------------------------------------------------
@@ -95,28 +110,43 @@ jobs:
           python-version: '3.11'
 
       # -----------------------------------------------------------------------
-      # Resolve which batch files to merge and what to name the output.
-      # If batch_files is empty, auto-discover from inputs/ using document_type.
-      # If output_file is empty, auto-generate from locale_code + document_type.
+      # Confirm the job folder actually exists before doing anything else.
+      - name: Validate job folder
+        run: |
+          JOB_DIR="inputs/${{ github.event.inputs.job_id }}"
+          if [ ! -d "$JOB_DIR" ]; then
+            echo "ERROR: Job folder $JOB_DIR does not exist."
+            echo "Check that job_id matches the folder extract.yml created."
+            exit 1
+          fi
+          echo "Job folder confirmed: $JOB_DIR"
+
+      # -----------------------------------------------------------------------
+      # Resolve which batch files to merge and what to name the output, both
+      # scoped to inputs/{job_id}/. If batch_files is empty, auto-discover
+      # from that folder only using document_type. If output_file is empty,
+      # auto-generate from locale_code + document_type.
       - name: Resolve batch files and output filename
         id: resolve
         run: |
+          JOB_ID="${{ github.event.inputs.job_id }}"
+          JOB_DIR="inputs/${JOB_ID}"
           BATCH_FILES="${{ github.event.inputs.batch_files }}"
           OUTPUT_FILE="${{ github.event.inputs.output_file }}"
           DOC_TYPE="${{ github.event.inputs.document_type }}"
           LOCALE="${{ github.event.inputs.locale_code }}"
 
-          # Auto-discover batch files if not provided
+          # Auto-discover batch files within this job's folder only
           if [ -z "$BATCH_FILES" ]; then
-            echo "No batch_files provided — auto-discovering from inputs/..."
+            echo "No batch_files provided — auto-discovering from ${JOB_DIR}/..."
             if [ "$DOC_TYPE" = "docx" ]; then
-              PATTERN="inputs/agent3_pages_*.json"
+              PATTERN="${JOB_DIR}/agent3_pages_*.json"
             else
-              PATTERN="inputs/agent3_slides_*.json"
+              PATTERN="${JOB_DIR}/agent3_slides_*.json"
             fi
             DISCOVERED=$(ls $PATTERN 2>/dev/null | sort | xargs -I{} basename {} | tr '\n' ' ' | sed 's/ $//')
             if [ -z "$DISCOVERED" ]; then
-              echo "ERROR: No matching batch files found in inputs/ for pattern $PATTERN"
+              echo "ERROR: No matching batch files found in ${JOB_DIR}/ for pattern $PATTERN"
               exit 1
             fi
             BATCH_FILES="$DISCOVERED"
@@ -133,16 +163,16 @@ jobs:
             echo "Auto-generated output filename: $OUTPUT_FILE"
           fi
 
-          # Build --inputs argument with full paths
+          # Build --inputs argument with full paths inside the job folder
           INPUT_ARGS=""
           for f in $BATCH_FILES; do
-            INPUT_ARGS="$INPUT_ARGS inputs/$f"
+            INPUT_ARGS="$INPUT_ARGS ${JOB_DIR}/$f"
           done
 
-          echo "batch_files=$BATCH_FILES"    >> "$GITHUB_OUTPUT"
-          echo "input_args=$INPUT_ARGS"      >> "$GITHUB_OUTPUT"
-          echo "output_file=$OUTPUT_FILE"    >> "$GITHUB_OUTPUT"
-          echo "output_path=inputs/$OUTPUT_FILE" >> "$GITHUB_OUTPUT"
+          echo "batch_files=$BATCH_FILES"          >> "$GITHUB_OUTPUT"
+          echo "input_args=$INPUT_ARGS"            >> "$GITHUB_OUTPUT"
+          echo "output_file=$OUTPUT_FILE"          >> "$GITHUB_OUTPUT"
+          echo "output_path=${JOB_DIR}/$OUTPUT_FILE" >> "$GITHUB_OUTPUT"
 
       # -----------------------------------------------------------------------
       - name: Merge batch JSONs
@@ -162,8 +192,9 @@ jobs:
             || git commit -m \
                 "chore: merge translation batches into ${{ steps.resolve.outputs.output_file }}
 
-          Locale: ${{ github.event.inputs.locale_code }}
-          Format: ${{ github.event.inputs.document_type }}
+          Job ID:  ${{ github.event.inputs.job_id }}
+          Locale:  ${{ github.event.inputs.locale_code }}
+          Format:  ${{ github.event.inputs.document_type }}
           Batches: ${{ steps.resolve.outputs.batch_files }}
 
           Triggered by: ${{ github.actor }}"
@@ -181,6 +212,7 @@ jobs:
               workflow_id: 'reconstruct.yml',
               ref:         context.ref,
               inputs: {
+                job_id:       '${{ github.event.inputs.job_id }}',
                 source_url:   '${{ github.event.inputs.source_url }}',
                 translations: '${{ steps.resolve.outputs.output_file }}',
               }
