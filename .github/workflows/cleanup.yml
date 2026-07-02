@@ -1,0 +1,135 @@
+name: Clean Up Old Job Folders
+
+# ---------------------------------------------------------------------------
+# Removes job folders under inputs/ once they're older than the retention
+# window. Every extraction run creates its own folder named
+# {timestamp}-{run_id}, e.g. 20260702T105032Z-16234567890 — this workflow
+# only ever touches folders matching that exact pattern, so nothing else in
+# inputs/ (or elsewhere in the repo) is at risk.
+#
+# Runs automatically once a day. Can also be run manually from the Actions
+# tab, which is useful for checking what would be removed (dry_run) before
+# trusting the schedule, or for triggering an out-of-cycle clean-up.
+# ---------------------------------------------------------------------------
+
+on:
+  schedule:
+    - cron: '0 3 * * *'   # Daily at 03:00 UTC
+  workflow_dispatch:
+    inputs:
+      retention_days:
+        description: 'Delete job folders older than this many days'
+        required: false
+        default: '7'
+        type: string
+      dry_run:
+        description: 'List what would be deleted without deleting it'
+        required: false
+        default: 'false'
+        type: choice
+        options:
+          - 'false'
+          - 'true'
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  cleanup:
+    name: Remove expired job folders
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      # -----------------------------------------------------------------------
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # -----------------------------------------------------------------------
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      # -----------------------------------------------------------------------
+      # Identify job folders older than the retention window. Only folders
+      # whose name matches {timestamp}-{run_id} exactly are considered —
+      # anything else under inputs/ is left untouched.
+      - name: Identify expired job folders
+        id: scan
+        env:
+          RETENTION_DAYS: ${{ github.event.inputs.retention_days || '7' }}
+        run: |
+          python3 -c "
+          import os, re, sys
+          from datetime import datetime, timezone, timedelta
+
+          retention_days = int(os.environ['RETENTION_DAYS'])
+          cutoff = datetime.now(timezone.utc) - timedelta(days=retention_days)
+          pattern = re.compile(r'^(\d{8}T\d{6}Z)-\d+$')
+
+          inputs_dir = 'inputs'
+          expired = []
+          kept = []
+
+          if os.path.isdir(inputs_dir):
+              for name in sorted(os.listdir(inputs_dir)):
+                  full_path = os.path.join(inputs_dir, name)
+                  if not os.path.isdir(full_path):
+                      continue
+                  match = pattern.match(name)
+                  if not match:
+                      continue
+                  try:
+                      folder_time = datetime.strptime(match.group(1), '%Y%m%dT%H%M%SZ').replace(tzinfo=timezone.utc)
+                  except ValueError:
+                      continue
+                  if folder_time < cutoff:
+                      expired.append(name)
+                  else:
+                      kept.append(name)
+
+          print(f'Retention window : {retention_days} day(s)')
+          print(f'Job folders kept    : {len(kept)}')
+          print(f'Job folders expired : {len(expired)}')
+          if expired:
+              print('Expired folders:')
+              for name in expired:
+                  print(f'  - {name}')
+
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
+              f.write('expired_folders=' + ' '.join(expired) + '\n')
+              f.write('expired_count=' + str(len(expired)) + '\n')
+          "
+
+      # -----------------------------------------------------------------------
+      - name: Delete expired job folders
+        if: ${{ steps.scan.outputs.expired_count != '0' && github.event.inputs.dry_run != 'true' }}
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          for folder in ${{ steps.scan.outputs.expired_folders }}; do
+            echo "Removing inputs/${folder}"
+            git rm -rq "inputs/${folder}"
+          done
+
+          git diff --cached --quiet \
+            && echo "Nothing to commit." \
+            || git commit -m "chore: remove job folders older than ${{ github.event.inputs.retention_days || '7' }} days
+
+          Removed: ${{ steps.scan.outputs.expired_folders }}"
+          git push
+
+      # -----------------------------------------------------------------------
+      - name: Dry run summary
+        if: ${{ github.event.inputs.dry_run == 'true' }}
+        run: |
+          echo "Dry run — no folders were deleted."
+          echo "Would have removed: ${{ steps.scan.outputs.expired_folders }}"
+
+      # -----------------------------------------------------------------------
+      - name: Nothing to clean up
+        if: ${{ steps.scan.outputs.expired_count == '0' }}
+        run: echo "No job folders older than the retention window were found."
