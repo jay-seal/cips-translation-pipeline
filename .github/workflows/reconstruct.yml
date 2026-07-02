@@ -1,19 +1,36 @@
 name: CIPS Translation — Reconstruct
 
+# ---------------------------------------------------------------------------
+# Reads the merged Agent 3 translations JSON and the extraction manifest
+# from a single job's folder under inputs/{job_id}/, reconstructs the
+# translated document, uploads it to R2, and commits a status record.
+#
+# job_id ties this run to the exact extract.yml / merge.yml run it belongs
+# to, so it always reads the correct source_url and translations file even
+# if other jobs' files exist elsewhere in inputs/.
+# ---------------------------------------------------------------------------
+
 on:
   workflow_dispatch:
     inputs:
+      job_id:
+        description: >
+          Required. The job folder under inputs/ to read from, e.g.
+          20260702T105032Z-16234567890. This is the same job_id used by
+          extract.yml and merge.yml for this run.
+        required: true
+        type: string
       source_url:
         description: >
           R2 public URL of the source document (PPTX or DOCX).
-          Leave empty to read from inputs/extraction_manifest.json.
+          Leave empty to read from inputs/{job_id}/extraction_manifest.json.
         required: false
         default: ''
         type: string
       translations:
         description: >
-          Filename of the Agent 3 translations JSON in inputs/.
-          Example: agent3_m1_fr-fr_merged.json
+          Filename of the Agent 3 translations JSON inside inputs/{job_id}/.
+          Example: agent3_merged_FR-FR_pages.json
         required: true
         default: 'agent3_output.json'
         type: string
@@ -52,24 +69,39 @@ jobs:
         run: pip install python-pptx python-docx requests
 
       # -----------------------------------------------------------------------
-      - name: Ensure input and output directories exist
-        run: mkdir -p inputs outputs
+      # Confirm the job folder actually exists before doing anything else.
+      - name: Validate job folder
+        run: |
+          JOB_DIR="inputs/${{ github.event.inputs.job_id }}"
+          if [ ! -d "$JOB_DIR" ]; then
+            echo "ERROR: Job folder $JOB_DIR does not exist."
+            echo "Check that job_id matches the folder extract.yml created."
+            exit 1
+          fi
+          echo "Job folder confirmed: $JOB_DIR"
+
+      # -----------------------------------------------------------------------
+      - name: Ensure output directory exists
+        run: mkdir -p outputs
 
       # -----------------------------------------------------------------------
       - name: Resolve source URL
         run: |
+          JOB_DIR="inputs/${{ github.event.inputs.job_id }}"
           URL="${{ github.event.inputs.source_url }}"
-          if [ -z "$URL" ] && [ -f "inputs/extraction_manifest.json" ]; then
-            URL=$(python3 -c "import json; print(json.load(open('inputs/extraction_manifest.json')).get('source_url',''))")
+          if [ -z "$URL" ] && [ -f "${JOB_DIR}/extraction_manifest.json" ]; then
+            URL=$(python3 -c "import json; print(json.load(open('${JOB_DIR}/extraction_manifest.json')).get('source_url',''))")
             echo "Read source_url from manifest: $URL"
           fi
           if [ -z "$URL" ]; then
-            echo "ERROR: No source_url provided and none found in extraction_manifest.json"
+            echo "ERROR: No source_url provided and none found in ${JOB_DIR}/extraction_manifest.json"
             exit 1
           fi
           echo "SOURCE_URL=$URL" >> $GITHUB_ENV
 
       # -----------------------------------------------------------------------
+      # Source is downloaded to a run-local, uncommitted path. It doesn't
+      # need job-folder scoping since each workflow run has its own runner.
       - name: Download source document from R2
         run: |
           URL="${{ env.SOURCE_URL }}"
@@ -88,7 +120,7 @@ jobs:
       # -----------------------------------------------------------------------
       - name: Check required files exist
         run: |
-          TRANSLATIONS="inputs/${{ github.event.inputs.translations }}"
+          TRANSLATIONS="inputs/${{ github.event.inputs.job_id }}/${{ github.event.inputs.translations }}"
           if [ ! -f "$TRANSLATIONS" ]; then
             echo "ERROR: ${TRANSLATIONS} not found."
             exit 1
@@ -104,9 +136,10 @@ jobs:
       - name: Determine output filename
         id: naming
         run: |
+          TRANSLATIONS="inputs/${{ github.event.inputs.job_id }}/${{ github.event.inputs.translations }}"
           LOCALE=$(python3 -c "
           import json
-          with open('inputs/${{ github.event.inputs.translations }}') as f:
+          with open('${TRANSLATIONS}') as f:
               data = json.load(f)
           summary = data.get('translation_summary', {})
           meta    = data.get('document_metadata', {})
@@ -119,12 +152,15 @@ jobs:
 
       # -----------------------------------------------------------------------
       # Select reconstruction script and failure threshold based on format.
-      # PPTX: cips_reconstruct.py      default threshold 0.40
-      # DOCX: cips_reconstruct_docx.py default threshold 0.20
+      # PPTX: cips_reconstruct.py        default threshold 0.40
+      # DOCX: cips_reconstruct_docx.py   default threshold 0.20
       # -----------------------------------------------------------------------
       - name: Run reconstruction
         run: |
           EXT="${{ env.SOURCE_EXT }}"
+          JOB_DIR="inputs/${{ github.event.inputs.job_id }}"
+          TRANSLATIONS="${JOB_DIR}/${{ github.event.inputs.translations }}"
+          QA_FILE="${JOB_DIR}/agent4_output.json"
 
           if [ "$EXT" = "pptx" ]; then
             SCRIPT="cips_reconstruct.py"
@@ -139,22 +175,23 @@ jobs:
 
           OVERRIDE="${{ github.event.inputs.failure_threshold }}"
           THRESHOLD="${OVERRIDE:-$DEFAULT_THRESHOLD}"
-          echo "Script    : $SCRIPT"
-          echo "Threshold : $THRESHOLD"
+          echo "Script      : $SCRIPT"
+          echo "Threshold   : $THRESHOLD"
+          echo "Translations: $TRANSLATIONS"
 
-          if [ -f "inputs/agent4_output.json" ]; then
+          if [ -f "$QA_FILE" ]; then
             echo "Agent 4 QA file found — passing to reconstruction script."
             python "$SCRIPT" \
               --source        "inputs/source.${EXT}" \
-              --translations  "inputs/${{ github.event.inputs.translations }}" \
-              --qa            inputs/agent4_output.json \
+              --translations  "$TRANSLATIONS" \
+              --qa            "$QA_FILE" \
               --output        "outputs/${{ steps.naming.outputs.output_filename }}" \
               --failure-threshold "$THRESHOLD"
           else
             echo "No agent4_output.json found — running without QA file."
             python "$SCRIPT" \
               --source        "inputs/source.${EXT}" \
-              --translations  "inputs/${{ github.event.inputs.translations }}" \
+              --translations  "$TRANSLATIONS" \
               --output        "outputs/${{ steps.naming.outputs.output_filename }}" \
               --failure-threshold "$THRESHOLD"
           fi
@@ -199,6 +236,7 @@ jobs:
           LOCALE:          ${{ steps.naming.outputs.locale }}
           COMPLETED:       ${{ env.COMPLETED }}
           EXPIRES_AT:      ${{ env.EXPIRES_AT }}
+          JOB_ID:          ${{ github.event.inputs.job_id }}
         run: |
           python3 -c '
           import json, os
@@ -214,6 +252,7 @@ jobs:
               print("Warning: could not read match report:", ex)
               handle_rate, no_match, total = 0, 0, 0
           status = {
+              "job_id":              os.environ["JOB_ID"],
               "source_filename":     os.environ["SOURCE_STEM"] + "." + os.environ["SOURCE_EXT"],
               "locale":              os.environ["LOCALE"],
               "document_type":       os.environ["SOURCE_EXT"],
