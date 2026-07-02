@@ -1,13 +1,13 @@
 {
-  "source_filename": "0-Handout_-_Boat_Exercise_-_Marina_Ltd_Seller_v2.docx",
-  "source_url": "https://pub-6cfe0921c0964d5782ebc8d272f4f476.r2.dev/uploads/1781467286742-0-Handout_-_Boat_Exercise_-_Marina_Ltd_Seller_v2.docx",
+  "source_filename": "0-CIPS_Translation_Pipeline_PoC_Report.docx",
+  "source_url": "https://pub-6cfe0921c0964d5782ebc8d272f4f476.r2.dev/uploads/1782989420687-0-CIPS_Translation_Pipeline_PoC_Report.docx",
   "document_type": "docx",
   "locale_code": "FR-FR",
-  "total_pages": 2,
+  "total_pages": 8,
   "batch_size": 20,
   "batch_count": 1,
   "batch_files": [
-    "agent1_pages_001_002.json"
+    "agent1_pages_001_008.json"
   ],
-  "created_at": "2026-06-14T20:01:44.336421+00:00"
+  "created_at": "2026-07-02T10:50:32.796869+00:00"
 }
