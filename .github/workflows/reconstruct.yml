@@ -275,10 +275,29 @@ jobs:
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add outputs/latest-translation.json
-          git diff --staged --quiet \
-            && echo "No changes to commit." \
-            || git commit -m "chore: update translation status (${{ steps.naming.outputs.locale }}) [skip ci]"
-          git push
+
+          if git diff --staged --quiet; then
+            echo "No changes to commit."
+            exit 0
+          fi
+
+          git commit -m "chore: update translation status (${{ steps.naming.outputs.locale }}) [skip ci]"
+
+          # Another reconstruction run may finish and push between this run's
+          # checkout and this push. Retry with a rebase on top of whatever
+          # landed on main in the meantime, rather than failing outright.
+          ATTEMPTS=0
+          MAX_ATTEMPTS=5
+          until git push; do
+            ATTEMPTS=$((ATTEMPTS + 1))
+            if [ "$ATTEMPTS" -ge "$MAX_ATTEMPTS" ]; then
+              echo "ERROR: Push failed after ${MAX_ATTEMPTS} attempts."
+              exit 1
+            fi
+            echo "Push rejected (attempt ${ATTEMPTS}/${MAX_ATTEMPTS}) — another job likely pushed first. Rebasing and retrying..."
+            sleep $((RANDOM % 5 + 2))
+            git pull --rebase origin main
+          done
 
       # -----------------------------------------------------------------------
       - name: Upload outputs as artifact
