@@ -187,10 +187,13 @@ jobs:
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add -f "${{ steps.resolve.outputs.output_path }}"
-          git diff --cached --quiet \
-            && echo "Nothing new to commit — merged file is unchanged." \
-            || git commit -m \
-                "chore: merge translation batches into ${{ steps.resolve.outputs.output_file }}
+
+          if git diff --cached --quiet; then
+            echo "Nothing new to commit — merged file is unchanged."
+            exit 0
+          fi
+
+          git commit -m "chore: merge translation batches into ${{ steps.resolve.outputs.output_file }}
 
           Job ID:  ${{ github.event.inputs.job_id }}
           Locale:  ${{ github.event.inputs.locale_code }}
@@ -198,7 +201,19 @@ jobs:
           Batches: ${{ steps.resolve.outputs.batch_files }}
 
           Triggered by: ${{ github.actor }}"
-          git push
+
+          ATTEMPTS=0
+          MAX_ATTEMPTS=5
+          until git push; do
+            ATTEMPTS=$((ATTEMPTS + 1))
+            if [ "$ATTEMPTS" -ge "$MAX_ATTEMPTS" ]; then
+              echo "ERROR: Push failed after ${MAX_ATTEMPTS} attempts."
+              exit 1
+            fi
+            echo "Push rejected (attempt ${ATTEMPTS}/${MAX_ATTEMPTS}) — another job likely pushed first. Rebasing and retrying..."
+            sleep $((RANDOM % 5 + 2))
+            git pull --rebase origin main
+          done
 
       # -----------------------------------------------------------------------
       - name: Trigger reconstruction workflow
