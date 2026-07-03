@@ -115,12 +115,27 @@ jobs:
             git rm -rq "inputs/${folder}"
           done
 
-          git diff --cached --quiet \
-            && echo "Nothing to commit." \
-            || git commit -m "chore: remove job folders older than ${{ github.event.inputs.retention_days || '7' }} days
+          if git diff --cached --quiet; then
+            echo "Nothing to commit."
+            exit 0
+          fi
+
+          git commit -m "chore: remove job folders older than ${{ github.event.inputs.retention_days || '7' }} days
 
           Removed: ${{ steps.scan.outputs.expired_folders }}"
-          git push
+
+          ATTEMPTS=0
+          MAX_ATTEMPTS=5
+          until git push; do
+            ATTEMPTS=$((ATTEMPTS + 1))
+            if [ "$ATTEMPTS" -ge "$MAX_ATTEMPTS" ]; then
+              echo "ERROR: Push failed after ${MAX_ATTEMPTS} attempts."
+              exit 1
+            fi
+            echo "Push rejected (attempt ${ATTEMPTS}/${MAX_ATTEMPTS}) — another job likely pushed first. Rebasing and retrying..."
+            sleep $((RANDOM % 5 + 2))
+            git pull --rebase origin main
+          done
 
       # -----------------------------------------------------------------------
       - name: Dry run summary
