@@ -158,10 +158,13 @@ jobs:
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add "inputs/${{ steps.job.outputs.job_id }}/"
-          git diff --cached --quiet \
-            && echo "No new extraction files to commit." \
-            || git commit -m \
-                "chore: extract text from ${{ env.SOURCE_FILENAME }}
+
+          if git diff --cached --quiet; then
+            echo "No new extraction files to commit."
+            exit 0
+          fi
+
+          git commit -m "chore: extract text from ${{ env.SOURCE_FILENAME }}
 
           Job ID:  ${{ steps.job.outputs.job_id }}
           Locale:  ${{ github.event.inputs.locale_code }}
@@ -171,7 +174,23 @@ jobs:
           Batch size: ${{ github.event.inputs.batch_size }}
 
           Triggered by: ${{ github.actor }}"
-          git push
+
+          # Another pipeline run may push between this run's checkout and
+          # this push. Retry with a rebase rather than failing outright —
+          # job-scoped folders mean there's never a real content conflict,
+          # only a stale local HEAD.
+          ATTEMPTS=0
+          MAX_ATTEMPTS=5
+          until git push; do
+            ATTEMPTS=$((ATTEMPTS + 1))
+            if [ "$ATTEMPTS" -ge "$MAX_ATTEMPTS" ]; then
+              echo "ERROR: Push failed after ${MAX_ATTEMPTS} attempts."
+              exit 1
+            fi
+            echo "Push rejected (attempt ${ATTEMPTS}/${MAX_ATTEMPTS}) — another job likely pushed first. Rebasing and retrying..."
+            sleep $((RANDOM % 5 + 2))
+            git pull --rebase origin main
+          done
 
       # -----------------------------------------------------------------------
       # Trigger the Opal translation workflow via webhook.
@@ -189,7 +208,8 @@ jobs:
           m = json.load(open('inputs/${{ steps.job.outputs.job_id }}/extraction_manifest.json'))
           print(json.dumps(m['batch_files']))
           ")
-          curl --fail -X POST "${{ secrets.OPAL_WEBHOOK_URL }}" \
+          curl --fail --retry 3 --retry-delay 5 --retry-all-errors \
+            -X POST "${{ secrets.OPAL_WEBHOOK_URL }}" \
             -H "Authorization: Bearer ${{ secrets.OPAL_WEBHOOK_KEY }}" \
             -H "Content-Type: application/json" \
             -d "{
