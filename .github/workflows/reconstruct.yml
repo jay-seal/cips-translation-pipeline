@@ -152,7 +152,10 @@ jobs:
 
       # -----------------------------------------------------------------------
       # Select reconstruction script and failure threshold based on format.
-      # PPTX: cips_reconstruct.py        default threshold 0.40
+      # Each format has its own script following the cips_reconstruct_<format>.py
+      # naming pattern; all share cips_reconstruct_common.py for the
+      # format-agnostic preflight validation and newline decoding.
+      # PPTX: cips_reconstruct_pptx.py   default threshold 0.40
       # DOCX: cips_reconstruct_docx.py   default threshold 0.20
       # -----------------------------------------------------------------------
       - name: Run reconstruction
@@ -160,10 +163,9 @@ jobs:
           EXT="${{ env.SOURCE_EXT }}"
           JOB_DIR="inputs/${{ github.event.inputs.job_id }}"
           TRANSLATIONS="${JOB_DIR}/${{ github.event.inputs.translations }}"
-          QA_FILE="${JOB_DIR}/agent4_output.json"
 
           if [ "$EXT" = "pptx" ]; then
-            SCRIPT="cips_reconstruct.py"
+            SCRIPT="cips_reconstruct_pptx.py"
             DEFAULT_THRESHOLD="0.40"
           elif [ "$EXT" = "docx" ]; then
             SCRIPT="cips_reconstruct_docx.py"
@@ -179,22 +181,15 @@ jobs:
           echo "Threshold   : $THRESHOLD"
           echo "Translations: $TRANSLATIONS"
 
-          if [ -f "$QA_FILE" ]; then
-            echo "Agent 4 QA file found — passing to reconstruction script."
-            python "$SCRIPT" \
-              --source        "inputs/source.${EXT}" \
-              --translations  "$TRANSLATIONS" \
-              --qa            "$QA_FILE" \
-              --output        "outputs/${{ steps.naming.outputs.output_filename }}" \
-              --failure-threshold "$THRESHOLD"
-          else
-            echo "No agent4_output.json found — running without QA file."
-            python "$SCRIPT" \
-              --source        "inputs/source.${EXT}" \
-              --translations  "$TRANSLATIONS" \
-              --output        "outputs/${{ steps.naming.outputs.output_filename }}" \
-              --failure-threshold "$THRESHOLD"
-          fi
+          # Preflight validation (line-count, FLAG, expansion) now runs inside
+          # the reconstruction script itself, replacing the former Agent 4 QA
+          # agent. Line-count mismatches warn by default; add --strict-line-count
+          # here to make them block instead.
+          python "$SCRIPT" \
+            --source        "inputs/source.${EXT}" \
+            --translations  "$TRANSLATIONS" \
+            --output        "outputs/${{ steps.naming.outputs.output_filename }}" \
+            --failure-threshold "$THRESHOLD"
 
       # -----------------------------------------------------------------------
       - name: Upload translated file to R2
