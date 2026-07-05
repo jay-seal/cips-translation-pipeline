@@ -10,7 +10,6 @@ Usage:
     python cips_reconstruct_docx.py \
         --source  inputs/source.docx \
         --translations  inputs/agent3_output.json \
-        [--qa  inputs/agent4_output.json] \
         --output  outputs/<filename>.docx \
         [--failure-threshold 0.10]
 
@@ -64,6 +63,8 @@ from pathlib import Path
 
 from docx import Document
 from docx.oxml.ns import qn
+
+from cips_reconstruct_common import decode_newlines, run_preflight
 
 # ---------------------------------------------------------------------------
 # Logging
@@ -322,7 +323,8 @@ def _combining_pass(
 # Core reconstruction
 # ---------------------------------------------------------------------------
 
-def reconstruct(docx_path: Path, json_path: Path, output_path: Path) -> dict:
+def reconstruct(docx_path: Path, json_path: Path, output_path: Path,
+                strict_line_count: bool = False) -> dict:
     """Load, translate, and save the document. Returns a match report dict."""
     log.info("Loading document: %s", docx_path)
     doc = Document(str(docx_path))
@@ -333,6 +335,11 @@ def reconstruct(docx_path: Path, json_path: Path, output_path: Path) -> dict:
 
     segments = data.get("segments", [])
     log.info("Total segments in JSON: %d", len(segments))
+
+    # Preflight validation (format-agnostic, shared across all formats).
+    # Replaces the former Agent 4 QA agent. Findings are folded into the
+    # match report; line-count mismatches block only when strict is on.
+    preflight = run_preflight(segments, strict_line_count=strict_line_count)
 
     # Collect all addressable paragraphs:
     # body paragraphs + header paragraphs + footer paragraphs
@@ -369,8 +376,8 @@ def reconstruct(docx_path: Path, json_path: Path, output_path: Path) -> dict:
     for seg in segments:
         counts["total"] += 1
         segment_id   = seg.get("segment_id", "UNKNOWN")
-        source_text  = seg.get("source_text", "")
-        translated   = seg.get("translated_text")
+        source_text  = decode_newlines(seg.get("source_text", ""))
+        translated   = decode_newlines(seg.get("translated_text"))
         status       = seg.get("translation_status", "")
         element_type = seg.get("element_type", "")
         page_number  = seg.get("slide_or_page")
@@ -492,6 +499,7 @@ def reconstruct(docx_path: Path, json_path: Path, output_path: Path) -> dict:
         "no_match_rate_pct": round(fail_rate * 100, 2),
         "results": results,
         "no_match_segments": [r for r in results if r.get("result") == "NO_MATCH"],
+        "preflight": preflight,
     }
 
 
@@ -602,8 +610,6 @@ def main():
     parser.add_argument("--source", required=True, help="Path to the source DOCX.")
     parser.add_argument("--translations", required=True,
                         help="Path to the Agent 3 translation JSON.")
-    parser.add_argument("--qa", required=False, default=None,
-                        help="Path to the Agent 4 QA JSON (optional).")
     parser.add_argument("--output", required=True,
                         help="Destination path for the translated DOCX.")
     parser.add_argument("--failure-threshold", type=float, default=0.20,
@@ -616,6 +622,14 @@ def main():
                             "than inaccessible content. Set lower once paragraph "
                             "combining is implemented in the script."
                         ))
+    parser.add_argument(
+        "--strict-line-count", action="store_true",
+        help=(
+            "Treat any source/translation line-count mismatch as a blocking "
+            "error (exit code 3). Default off: mismatches are recorded as "
+            "warnings in the match report and the run proceeds."
+        ),
+    )
     args = parser.parse_args()
 
     source_path = Path(args.source)
@@ -629,7 +643,8 @@ def main():
         log.error("Translation JSON not found: %s", json_path)
         sys.exit(1)
 
-    report = reconstruct(source_path, json_path, output_path)
+    report = reconstruct(source_path, json_path, output_path,
+                         strict_line_count=args.strict_line_count)
 
     report_path = output_path.parent / output_path.name.replace(".docx", "_match_report.json")
     report_path.write_text(json.dumps(report, ensure_ascii=False, indent=2),
@@ -638,6 +653,14 @@ def main():
 
     html_path = output_path.parent / output_path.name.replace(".docx", "_manual_corrections.html")
     _write_html_report(report, html_path, source_path.name)
+
+    # Preflight blocking gate (only fires when --strict-line-count is on and a
+    # line-count mismatch was found). The document has already been written and
+    # the report saved, so the failure is visible and diagnosable.
+    if report.get("preflight", {}).get("blocking"):
+        log.error("Preflight validation found blocking issue(s). See the "
+                  "'preflight' section of the match report.")
+        sys.exit(3)
 
     no_match_rate = (report["summary"].get("NO_MATCH", 0)
                      / max(report["summary"].get("translated", 1), 1))
