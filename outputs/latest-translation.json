@@ -1,13 +1,13 @@
 {
-  "job_id": "20260703T193509Z-28680080184",
-  "source_filename": "0-CIPS_Translation_Pipeline_PoC_Report.docx",
+  "job_id": "20260706T145502Z-28800814383",
+  "source_filename": "0-test_document.docx",
   "locale": "FR-FR",
   "document_type": "docx",
-  "completed_at": "2026-07-06T14:33:41Z",
-  "handle_rate_pct": 99.03,
-  "no_match_count": 1,
-  "total_segments": 103,
-  "translated_filename": "0-CIPS_Translation_Pipeline_PoC_Report_FR-FR.docx",
-  "download_url": "https://beeae181cbc7107a4ae151c96b573452.r2.cloudflarestorage.com/cips-translation-inputs/translations/FR-FR/0-CIPS_Translation_Pipeline_PoC_Report_FR-FR.docx?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=c42f90ffe92df8f7b95a9ab4ce5d92bd%2F20260706%2Fauto%2Fs3%2Faws4_request&X-Amz-Date=20260706T143341Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=9d58b1fda2b6b5e74253b84e5932963a01e667e0f50ab5a5348eea32f4abffc7",
-  "expires_at": "2026-07-13T14:33:41Z"
+  "completed_at": "2026-07-06T15:05:00Z",
+  "handle_rate_pct": 100.0,
+  "no_match_count": 0,
+  "total_segments": 72,
+  "translated_filename": "0-test_document_FR-FR.docx",
+  "download_url": "https://beeae181cbc7107a4ae151c96b573452.r2.cloudflarestorage.com/cips-translation-inputs/translations/FR-FR/0-test_document_FR-FR.docx?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=c42f90ffe92df8f7b95a9ab4ce5d92bd%2F20260706%2Fauto%2Fs3%2Faws4_request&X-Amz-Date=20260706T150500Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=7bab59be52cec374b7496489b8a48cfbcfdb60d02c33a5b74084a275a1bd4e8c",
+  "expires_at": "2026-07-13T15:05:00Z"
 }
