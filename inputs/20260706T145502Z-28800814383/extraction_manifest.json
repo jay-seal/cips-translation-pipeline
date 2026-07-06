@@ -1,0 +1,14 @@
+{
+  "source_filename": "0-test_document.docx",
+  "source_url": "https://pub-6cfe0921c0964d5782ebc8d272f4f476.r2.dev/uploads/1783349689724-0-test_document.docx",
+  "document_type": "docx",
+  "locale_code": "FR-FR",
+  "total_pages": 2,
+  "batch_size": 20,
+  "batch_count": 1,
+  "batch_files": [
+    "agent1_pages_001_002.json"
+  ],
+  "created_at": "2026-07-06T14:55:02.884693+00:00",
+  "job_id": "20260706T145502Z-28800814383"
+}
