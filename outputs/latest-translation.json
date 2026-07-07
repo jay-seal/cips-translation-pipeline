@@ -1,13 +1,13 @@
 {
-  "job_id": "20260707T103231Z-28859634974",
-  "source_filename": "0-CIPS_Translation_Pipeline_PoC_Report.docx",
+  "job_id": "20260707T113014Z-28862796119",
+  "source_filename": "0-Corporate_Award_Practitioner_-_M1_Tutor_Slides_-_Driving_Value_-_2018.pptx",
   "locale": "FR-FR",
-  "document_type": "docx",
-  "completed_at": "2026-07-07T10:45:46Z",
-  "handle_rate_pct": 100.0,
-  "no_match_count": 0,
-  "total_segments": 103,
-  "translated_filename": "0-CIPS_Translation_Pipeline_PoC_Report_FR-FR.docx",
-  "download_url": "https://beeae181cbc7107a4ae151c96b573452.r2.cloudflarestorage.com/cips-translation-inputs/translations/FR-FR/0-CIPS_Translation_Pipeline_PoC_Report_FR-FR.docx?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=c42f90ffe92df8f7b95a9ab4ce5d92bd%2F20260707%2Fauto%2Fs3%2Faws4_request&X-Amz-Date=20260707T104546Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=7ce3d59602cc7b5353598a889b911d51c88a60a44e862ed77727325a2c5de7e9",
-  "expires_at": "2026-07-14T10:45:46Z"
+  "document_type": "pptx",
+  "completed_at": "2026-07-07T11:49:19Z",
+  "handle_rate_pct": 99.8,
+  "no_match_count": 1,
+  "total_segments": 497,
+  "translated_filename": "0-Corporate_Award_Practitioner_-_M1_Tutor_Slides_-_Driving_Value_-_2018_FR-FR.pptx",
+  "download_url": "https://beeae181cbc7107a4ae151c96b573452.r2.cloudflarestorage.com/cips-translation-inputs/translations/FR-FR/0-Corporate_Award_Practitioner_-_M1_Tutor_Slides_-_Driving_Value_-_2018_FR-FR.pptx?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=c42f90ffe92df8f7b95a9ab4ce5d92bd%2F20260707%2Fauto%2Fs3%2Faws4_request&X-Amz-Date=20260707T114919Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=1b33e0a0eaa5a9761e20625e68434989cc2d6ae58d0c55b18724802ca0bf2216",
+  "expires_at": "2026-07-14T11:49:19Z"
 }
