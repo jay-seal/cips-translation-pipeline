@@ -1,13 +1,13 @@
 {
-  "job_id": "20260706T153011Z-28803148636",
+  "job_id": "20260707T103231Z-28859634974",
   "source_filename": "0-CIPS_Translation_Pipeline_PoC_Report.docx",
   "locale": "FR-FR",
   "document_type": "docx",
-  "completed_at": "2026-07-06T15:41:59Z",
+  "completed_at": "2026-07-07T10:45:46Z",
   "handle_rate_pct": 100.0,
   "no_match_count": 0,
   "total_segments": 103,
   "translated_filename": "0-CIPS_Translation_Pipeline_PoC_Report_FR-FR.docx",
-  "download_url": "https://beeae181cbc7107a4ae151c96b573452.r2.cloudflarestorage.com/cips-translation-inputs/translations/FR-FR/0-CIPS_Translation_Pipeline_PoC_Report_FR-FR.docx?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=c42f90ffe92df8f7b95a9ab4ce5d92bd%2F20260706%2Fauto%2Fs3%2Faws4_request&X-Amz-Date=20260706T154159Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=583a23a4d2f064092e47852f7b4168a46a026a932d3ddbb65bfb27f4c0e135ef",
-  "expires_at": "2026-07-13T15:41:59Z"
+  "download_url": "https://beeae181cbc7107a4ae151c96b573452.r2.cloudflarestorage.com/cips-translation-inputs/translations/FR-FR/0-CIPS_Translation_Pipeline_PoC_Report_FR-FR.docx?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=c42f90ffe92df8f7b95a9ab4ce5d92bd%2F20260707%2Fauto%2Fs3%2Faws4_request&X-Amz-Date=20260707T104546Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=7ce3d59602cc7b5353598a889b911d51c88a60a44e862ed77727325a2c5de7e9",
+  "expires_at": "2026-07-14T10:45:46Z"
 }
