@@ -131,8 +131,79 @@ def merge_batches(input_paths: list, output_path: Path) -> None:
     if len(batches) < 2:
         log.warning(
             "Only one input file provided. Merge is a no-op — "
-            "consider passing the file directly to cips_reconstruct.py."
+            "consider passing the file directly to cips_reconstruct_pptx.py "
+            "or cips_reconstruct_docx.py."
         )
+
+    # -----------------------------------------------------------------------
+    # 1b. Completeness guard: Agent 3 output count must equal Agent 1 input count
+    #
+    # A single Opal loop iteration can silently return fewer segments than it
+    # was given (e.g. an LLM stops generating early but still emits valid JSON
+    # with a summary matching its truncated output). Downstream everything
+    # proceeds happily and a partially-translated document ships. This guard
+    # catches that by comparing each Agent 3 batch against its Agent 1 source
+    # of truth — the extraction, which is deterministic and complete.
+    #
+    # The Agent 1 sibling is found by swapping 'agent3_' -> 'agent1_' in the
+    # filename, in the same job folder. If a sibling cannot be found, that is
+    # itself treated as a hard error rather than skipped, so the guard can
+    # never be silently bypassed.
+    # -----------------------------------------------------------------------
+    count_errors = []
+    for p, data in batches:
+        agent3_name = Path(p).name
+        if "agent3_" not in agent3_name:
+            count_errors.append(
+                f"{agent3_name}: filename does not contain 'agent3_', cannot "
+                f"locate its Agent 1 source to verify completeness."
+            )
+            continue
+
+        agent1_path = Path(p).with_name(agent3_name.replace("agent3_", "agent1_", 1))
+        if not agent1_path.is_file():
+            count_errors.append(
+                f"{agent3_name}: Agent 1 source {agent1_path.name} not found in "
+                f"the job folder, cannot verify segment completeness."
+            )
+            continue
+
+        try:
+            with agent1_path.open(encoding="utf-8") as fh:
+                agent1_data = json.load(fh)
+            agent1_count = len(agent1_data.get("segments", []))
+        except (json.JSONDecodeError, OSError) as e:
+            count_errors.append(
+                f"{agent3_name}: could not read Agent 1 source {agent1_path.name} "
+                f"to verify completeness ({e})."
+            )
+            continue
+
+        agent3_count = len(data.get("segments", []))
+        if agent3_count != agent1_count:
+            count_errors.append(
+                f"{agent3_name}: translated {agent3_count} segment(s) but the "
+                f"source batch {agent1_path.name} contains {agent1_count}. "
+                f"{agent1_count - agent3_count} segment(s) were lost during "
+                f"translation — this batch must be re-run."
+            )
+
+    if count_errors:
+        for e in count_errors:
+            log.error(e)
+        log.error(
+            "%d batch completeness error(s) — one or more batches returned "
+            "fewer segments than they were given. Merge aborted to prevent a "
+            "partially-translated document from being produced. Re-run the "
+            "affected batch(es) through the Opal pipeline, then merge again.",
+            len(count_errors),
+        )
+        sys.exit(2)
+
+    log.info(
+        "Completeness check passed: all %d batch(es) returned the same segment "
+        "count as their Agent 1 source.", len(batches),
+    )
 
     # -----------------------------------------------------------------------
     # 2. Validate locale consistency
