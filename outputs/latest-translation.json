@@ -1,13 +1,13 @@
 {
-  "job_id": "20260708T180729Z-28964931330",
+  "job_id": "20260708T190650Z-28968573227",
   "source_filename": "0-Corporate_Award_Practitioner_-_M1_Tutor_Slides_-_Driving_Value_-_2018.pptx",
   "locale": "FR-FR",
   "document_type": "pptx",
-  "completed_at": "2026-07-08T18:28:51Z",
-  "handle_rate_pct": 99.84,
-  "no_match_count": 1,
+  "completed_at": "2026-07-08T20:09:34Z",
+  "handle_rate_pct": 99.67,
+  "no_match_count": 2,
   "total_segments": 615,
   "translated_filename": "0-Corporate_Award_Practitioner_-_M1_Tutor_Slides_-_Driving_Value_-_2018_FR-FR.pptx",
-  "download_url": "https://beeae181cbc7107a4ae151c96b573452.r2.cloudflarestorage.com/cips-translation-inputs/translations/FR-FR/0-Corporate_Award_Practitioner_-_M1_Tutor_Slides_-_Driving_Value_-_2018_FR-FR.pptx?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=c42f90ffe92df8f7b95a9ab4ce5d92bd%2F20260708%2Fauto%2Fs3%2Faws4_request&X-Amz-Date=20260708T182851Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=1d85d53118dc7c088e781eeab3bce2e2a64c68a9c85266af98544de86e936981",
-  "expires_at": "2026-07-15T18:28:51Z"
+  "download_url": "https://beeae181cbc7107a4ae151c96b573452.r2.cloudflarestorage.com/cips-translation-inputs/translations/FR-FR/0-Corporate_Award_Practitioner_-_M1_Tutor_Slides_-_Driving_Value_-_2018_FR-FR.pptx?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=c42f90ffe92df8f7b95a9ab4ce5d92bd%2F20260708%2Fauto%2Fs3%2Faws4_request&X-Amz-Date=20260708T200934Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=c571a288f7ce3262624ebb5a2121f8384227a84f87c08addf369612408f015c9",
+  "expires_at": "2026-07-15T20:09:34Z"
 }
