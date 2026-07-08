@@ -1,16 +1,16 @@
 {
   "translation_summary": {
     "total_segments": 98,
-    "translated_count": 96,
+    "translated_count": 98,
     "partial_translated_count": 0,
-    "kept_count": 2,
+    "kept_count": 0,
     "image_text_count": 0,
     "flagged_count": 0,
-    "expansion_warnings": 1,
+    "expansion_warnings": 2,
     "locale_code": "FR-FR"
   },
   "document_metadata": {
-    "source_filename": "0-Corporate_Award_Practitioner_-_M1_Tutor_Slides_-_Driving_Value_-_2018.pptx",
+    "source_filename": "0-Corporate_Award_Practitioner_-M1_Tutor_Slides-Driving_Value-_2018.pptx",
     "document_type": "pptx",
     "target_locale": "FR-FR",
     "total_slides_or_pages": 99,
@@ -31,18 +31,17 @@
       "translation_status": "TRANSLATED",
       "translated_text": "Documentation utilisée en achats et approvisionnement",
       "flag_status": "TRANSLATE",
-      "flag_options": null,
-      "expansion_risk": "MEDIUM",
       "term_annotations": [
         {
           "term": "P&S",
           "reference_file_status": "TRANSLATE",
           "preferred_translation": "achats et approvisionnement",
           "locale_override_applied": true,
-          "inline_instruction": "P&S is an abbreviation of Procurement and Supply. Use the active locale's translation: 'achats et approvisionnement'."
+          "inline_instruction": "P&S corresponds to the paired term Procurement & Supply, which must be rendered in French as 'achats et approvisionnement' (or as 'A&A' if heavily constrained, but write out fully here if possible)."
         }
       ],
       "first_occurrence_tracking": null,
+      "expansion_risk": "MEDIUM",
       "translated_character_count": 52,
       "expansion_percentage": 108.0,
       "expansion_note": "Translation is 108.0% longer than source. Layout check required."
@@ -60,18 +59,17 @@
       "translation_status": "TRANSLATED",
       "translated_text": "Service achats",
       "flag_status": "TRANSLATE",
-      "flag_options": null,
-      "expansion_risk": "NONE",
       "term_annotations": [
         {
           "term": "Purchasing",
           "reference_file_status": "TRANSLATE",
           "preferred_translation": "Achat(s)",
           "locale_override_applied": false,
-          "inline_instruction": "Translate 'Purchasing department' as 'Service achats' using standard French corporate phrasing."
+          "inline_instruction": "Translate 'Purchasing department' as 'Service achats'."
         }
       ],
       "first_occurrence_tracking": null,
+      "expansion_risk": "NONE",
       "translated_character_count": 14,
       "expansion_percentage": -33.3,
       "expansion_note": null
@@ -89,10 +87,9 @@
       "translation_status": "TRANSLATED",
       "translated_text": "Service réception",
       "flag_status": "TRANSLATE",
-      "flag_options": null,
-      "expansion_risk": "NONE",
       "term_annotations": [],
       "first_occurrence_tracking": null,
+      "expansion_risk": "NONE",
       "translated_character_count": 17,
       "expansion_percentage": -15.0,
       "expansion_note": null
@@ -110,10 +107,9 @@
       "translation_status": "TRANSLATED",
       "translated_text": "Service comptabilité",
       "flag_status": "TRANSLATE",
-      "flag_options": null,
-      "expansion_risk": "NONE",
       "term_annotations": [],
       "first_occurrence_tracking": null,
+      "expansion_risk": "NONE",
       "translated_character_count": 20,
       "expansion_percentage": 5.3,
       "expansion_note": null
@@ -123,7 +119,7 @@
       "slide_or_page": 61,
       "element_type": "label",
       "element_id": "slide_61_TextBox_55",
-      "source_text": "BUYER\u2019S ORGANISATION",
+      "source_text": "BUYER’S ORGANISATION",
       "character_count": 20,
       "is_in_text_box": false,
       "is_in_table": false,
@@ -131,8 +127,6 @@
       "translation_status": "TRANSLATED",
       "translated_text": "ORGANISATION DE L'ACHETEUR",
       "flag_status": "TRANSLATE",
-      "flag_options": null,
-      "expansion_risk": "NONE",
       "term_annotations": [
         {
           "term": "BUYER",
@@ -143,6 +137,7 @@
         }
       ],
       "first_occurrence_tracking": null,
+      "expansion_risk": "NONE",
       "translated_character_count": 26,
       "expansion_percentage": 30.0,
       "expansion_note": null
@@ -152,7 +147,7 @@
       "slide_or_page": 61,
       "element_type": "label",
       "element_id": "slide_61_TextBox_56",
-      "source_text": "SUPPLIER\u2019S ORGANISATION",
+      "source_text": "SUPPLIER’S ORGANISATION",
       "character_count": 23,
       "is_in_text_box": false,
       "is_in_table": false,
@@ -160,8 +155,6 @@
       "translation_status": "TRANSLATED",
       "translated_text": "ORGANISATION DU FOURNISSEUR",
       "flag_status": "TRANSLATE",
-      "flag_options": null,
-      "expansion_risk": "NONE",
       "term_annotations": [
         {
           "term": "SUPPLIER",
@@ -172,6 +165,7 @@
         }
       ],
       "first_occurrence_tracking": null,
+      "expansion_risk": "NONE",
       "translated_character_count": 27,
       "expansion_percentage": 17.4,
       "expansion_note": null
@@ -189,10 +183,9 @@
       "translation_status": "TRANSLATED",
       "translated_text": "Service commercial",
       "flag_status": "TRANSLATE",
-      "flag_options": null,
-      "expansion_risk": "NONE",
       "term_annotations": [],
       "first_occurrence_tracking": null,
+      "expansion_risk": "NONE",
       "translated_character_count": 18,
       "expansion_percentage": 12.5,
       "expansion_note": null
@@ -210,18 +203,9 @@
       "translation_status": "TRANSLATED",
       "translated_text": "Service logistique",
       "flag_status": "TRANSLATE",
-      "flag_options": null,
-      "expansion_risk": "NONE",
-      "term_annotations": [
-        {
-          "term": "Logistics",
-          "reference_file_status": "TRANSLATE",
-          "preferred_translation": "Logistique",
-          "locale_override_applied": false,
-          "inline_instruction": "Translate as 'Service logistique'."
-        }
-      ],
+      "term_annotations": [],
       "first_occurrence_tracking": null,
+      "expansion_risk": "NONE",
       "translated_character_count": 18,
       "expansion_percentage": -10.0,
       "expansion_note": null
@@ -239,10 +223,9 @@
       "translation_status": "TRANSLATED",
       "translated_text": "Service comptabilité",
       "flag_status": "TRANSLATE",
-      "flag_options": null,
-      "expansion_risk": "NONE",
       "term_annotations": [],
       "first_occurrence_tracking": null,
+      "expansion_risk": "NONE",
       "translated_character_count": 20,
       "expansion_percentage": 5.3,
       "expansion_note": null
@@ -260,10 +243,9 @@
       "translation_status": "TRANSLATED",
       "translated_text": "Service utilisateur",
       "flag_status": "TRANSLATE",
-      "flag_options": null,
-      "expansion_risk": "NONE",
       "term_annotations": [],
       "first_occurrence_tracking": null,
+      "expansion_risk": "NONE",
       "translated_character_count": 19,
       "expansion_percentage": 26.7,
       "expansion_note": null
@@ -281,10 +263,9 @@
       "translation_status": "TRANSLATED",
       "translated_text": "Demande de prix",
       "flag_status": "TRANSLATE",
-      "flag_options": null,
-      "expansion_risk": "NONE",
       "term_annotations": [],
       "first_occurrence_tracking": null,
+      "expansion_risk": "NONE",
       "translated_character_count": 15,
       "expansion_percentage": 114.3,
       "expansion_note": null
@@ -302,10 +283,9 @@
       "translation_status": "TRANSLATED",
       "translated_text": "Devis",
       "flag_status": "TRANSLATE",
-      "flag_options": null,
-      "expansion_risk": "NONE",
       "term_annotations": [],
       "first_occurrence_tracking": null,
+      "expansion_risk": "NONE",
       "translated_character_count": 5,
       "expansion_percentage": -44.4,
       "expansion_note": null
@@ -323,10 +303,9 @@
       "translation_status": "TRANSLATED",
       "translated_text": "Accusé de réception de commande",
       "flag_status": "TRANSLATE",
-      "flag_options": null,
-      "expansion_risk": "NONE",
       "term_annotations": [],
       "first_occurrence_tracking": null,
+      "expansion_risk": "NONE",
       "translated_character_count": 32,
       "expansion_percentage": 52.4,
       "expansion_note": null
@@ -344,10 +323,9 @@
       "translation_status": "TRANSLATED",
       "translated_text": "Bon de commande",
       "flag_status": "TRANSLATE",
-      "flag_options": null,
-      "expansion_risk": "NONE",
       "term_annotations": [],
       "first_occurrence_tracking": null,
+      "expansion_risk": "NONE",
       "translated_character_count": 16,
       "expansion_percentage": 14.3,
       "expansion_note": null
@@ -365,10 +343,9 @@
       "translation_status": "TRANSLATED",
       "translated_text": "Lettre de voiture",
       "flag_status": "TRANSLATE",
-      "flag_options": null,
-      "expansion_risk": "NONE",
       "term_annotations": [],
       "first_occurrence_tracking": null,
+      "expansion_risk": "NONE",
       "translated_character_count": 17,
       "expansion_percentage": 6.2,
       "expansion_note": null
@@ -386,10 +363,9 @@
       "translation_status": "TRANSLATED",
       "translated_text": "Bon de livraison",
       "flag_status": "TRANSLATE",
-      "flag_options": null,
-      "expansion_risk": "NONE",
       "term_annotations": [],
       "first_occurrence_tracking": null,
+      "expansion_risk": "NONE",
       "translated_character_count": 16,
       "expansion_percentage": 23.1,
       "expansion_note": null
@@ -407,10 +383,9 @@
       "translation_status": "TRANSLATED",
       "translated_text": "Bon de livraison",
       "flag_status": "TRANSLATE",
-      "flag_options": null,
-      "expansion_risk": "NONE",
       "term_annotations": [],
       "first_occurrence_tracking": null,
+      "expansion_risk": "NONE",
       "translated_character_count": 16,
       "expansion_percentage": 23.1,
       "expansion_note": null
@@ -428,10 +403,9 @@
       "translation_status": "TRANSLATED",
       "translated_text": "Paiement",
       "flag_status": "TRANSLATE",
-      "flag_options": null,
-      "expansion_risk": "NONE",
       "term_annotations": [],
       "first_occurrence_tracking": null,
+      "expansion_risk": "NONE",
       "translated_character_count": 8,
       "expansion_percentage": 14.3,
       "expansion_note": null
@@ -440,7 +414,7 @@
       "segment_id": "SEG-019",
       "slide_or_page": 61,
       "element_type": "label",
-      "element_id": "slide_61_TextBox_81",
+      "element_id": "slide_61_TextBox_83",
       "source_text": "Delivery details",
       "character_count": 16,
       "is_in_text_box": false,
@@ -449,10 +423,9 @@
       "translation_status": "TRANSLATED",
       "translated_text": "Détails de livraison",
       "flag_status": "TRANSLATE",
-      "flag_options": null,
-      "expansion_risk": "NONE",
       "term_annotations": [],
       "first_occurrence_tracking": null,
+      "expansion_risk": "NONE",
       "translated_character_count": 20,
       "expansion_percentage": 25.0,
       "expansion_note": null
@@ -470,12 +443,11 @@
       "translation_status": "TRANSLATED",
       "translated_text": "Demande d'achat",
       "flag_status": "TRANSLATE",
-      "flag_options": null,
-      "expansion_risk": "NONE",
       "term_annotations": [],
       "first_occurrence_tracking": null,
-      "translated_character_count": 16,
-      "expansion_percentage": 45.5,
+      "expansion_risk": "NONE",
+      "translated_character_count": 15,
+      "expansion_percentage": 36.4,
       "expansion_note": null
     },
     {
@@ -491,10 +463,9 @@
       "translation_status": "TRANSLATED",
       "translated_text": "Commande client",
       "flag_status": "TRANSLATE",
-      "flag_options": null,
-      "expansion_risk": "NONE",
       "term_annotations": [],
       "first_occurrence_tracking": null,
+      "expansion_risk": "NONE",
       "translated_character_count": 15,
       "expansion_percentage": 36.4,
       "expansion_note": null
@@ -512,10 +483,9 @@
       "translation_status": "TRANSLATED",
       "translated_text": "Copie du bon de commande",
       "flag_status": "TRANSLATE",
-      "flag_options": null,
-      "expansion_risk": "NONE",
       "term_annotations": [],
       "first_occurrence_tracking": null,
+      "expansion_risk": "NONE",
       "translated_character_count": 25,
       "expansion_percentage": 31.6,
       "expansion_note": null
@@ -533,10 +503,9 @@
       "translation_status": "TRANSLATED",
       "translated_text": "Copie du bon de commande",
       "flag_status": "TRANSLATE",
-      "flag_options": null,
-      "expansion_risk": "NONE",
       "term_annotations": [],
       "first_occurrence_tracking": null,
+      "expansion_risk": "NONE",
       "translated_character_count": 25,
       "expansion_percentage": 31.6,
       "expansion_note": null
@@ -554,7 +523,8 @@
       "translation_status": "TRANSLATED",
       "translated_text": "Adapté des supports pédagogiques du CIPS",
       "flag_status": "TRANSLATE",
-      "flag_options": null,
+      "term_annotations": [],
+      "first_occurrence_tracking": null,
       "expansion_risk": "NONE",
       "inline_instruction": "Translate this phrase using the Named Translation Overrides in Section 8 of the locale file if a match exists. If no locale override is defined for this phrase, translate it literally and retain 'CIPS' unchanged.",
       "translated_character_count": 40,
@@ -574,21 +544,20 @@
       "translation_status": "TRANSLATED",
       "translated_text": "Documentation utilisée en achats et approvisionnement",
       "flag_status": "TRANSLATE",
-      "flag_options": null,
-      "expansion_risk": "MEDIUM",
       "term_annotations": [
         {
           "term": "P&S",
           "reference_file_status": "TRANSLATE",
           "preferred_translation": "achats et approvisionnement",
           "locale_override_applied": true,
-          "inline_instruction": "P&S is an abbreviation of Procurement and Supply. Use the active locale's translation: 'achats et approvisionnement'."
+          "inline_instruction": "P&S corresponds to the paired term Procurement & Supply, which must be rendered in French as 'achats et approvisionnement'."
         }
       ],
       "first_occurrence_tracking": null,
+      "expansion_risk": "MEDIUM",
       "translated_character_count": 52,
       "expansion_percentage": 108.0,
-      "expansion_note": null
+      "expansion_note": "Translation is 108.0% longer than source. Layout check required."
     },
     {
       "segment_id": "SEG-026",
@@ -601,22 +570,21 @@
       "is_in_table": false,
       "layout_context": "Shape: Content Placeholder 1",
       "translation_status": "TRANSLATED",
-      "translated_text": "Demande d'achat\nDemande de devis (RFQ)\nDevis\nCommande",
+      "translated_text": "Demande d'achat\ndemande de devis (RFQ)\nDevis\nCommande",
       "flag_status": "TRANSLATE",
-      "flag_options": null,
-      "expansion_risk": "MEDIUM",
       "term_annotations": [
         {
           "term": "Request for Quotation",
           "reference_file_status": "FLAG",
-          "preferred_translation": "Demande de devis (RFQ)",
+          "preferred_translation": "demande de devis (RFQ)",
           "locale_override_applied": true,
-          "inline_instruction": "Use the locale's preferred translation 'demande de devis (RFQ)'. Note that acronym RFQ is spelled out parenthetically on first occurrence."
+          "inline_instruction": "Use the FR-FR resolved preference: 'demande de devis (RFQ)'."
         }
       ],
       "first_occurrence_tracking": null,
-      "translated_character_count": 60,
-      "expansion_percentage": 22.4,
+      "expansion_risk": "MEDIUM",
+      "translated_character_count": 56,
+      "expansion_percentage": 14.3,
       "expansion_note": null
     },
     {
@@ -632,20 +600,19 @@
       "translation_status": "TRANSLATED",
       "translated_text": "Quels sont les principaux objectifs de chacun de ces documents utilisés en achats et approvisionnement ?",
       "flag_status": "TRANSLATE",
-      "flag_options": null,
-      "expansion_risk": "LOW",
       "term_annotations": [
         {
           "term": "procurement and supply",
           "reference_file_status": "TRANSLATE",
           "preferred_translation": "Achats et Approvisionnement",
-          "locale_override_applied": true,
-          "inline_instruction": "Translate as 'achats et approvisionnement' per Section 1 of the global and override files."
+          "locale_override_applied": false,
+          "inline_instruction": "Use 'achats et approvisionnement' lowercase in running text."
         }
       ],
       "first_occurrence_tracking": null,
-      "translated_character_count": 105,
-      "expansion_percentage": 23.5,
+      "expansion_risk": "LOW",
+      "translated_character_count": 102,
+      "expansion_percentage": 20.0,
       "expansion_note": null
     },
     {
@@ -661,12 +628,11 @@
       "translation_status": "TRANSLATED",
       "translated_text": "Identifiez les documents que vous utilisez au sein de votre organisation.",
       "flag_status": "TRANSLATE",
-      "flag_options": null,
-      "expansion_risk": "LOW",
       "term_annotations": [],
       "first_occurrence_tracking": null,
-      "translated_character_count": 73,
-      "expansion_percentage": 17.7,
+      "expansion_risk": "LOW",
+      "translated_character_count": 72,
+      "expansion_percentage": 16.1,
       "expansion_note": null
     },
     {
@@ -680,14 +646,13 @@
       "is_in_table": false,
       "layout_context": "Paragraph 3 in Text Placeholder 16",
       "translation_status": "TRANSLATED",
-      "translated_text": "Réfléchissez aux détails requis pour rendre ces documents efficaces.",
+      "translated_text": "Examinez les détails requis pour rendre ces documents efficaces.",
       "flag_status": "TRANSLATE",
-      "flag_options": null,
-      "expansion_risk": "LOW",
       "term_annotations": [],
       "first_occurrence_tracking": null,
-      "translated_character_count": 68,
-      "expansion_percentage": 6.3,
+      "expansion_risk": "LOW",
+      "translated_character_count": 64,
+      "expansion_percentage": 0.0,
       "expansion_note": null
     },
     {
@@ -703,10 +668,9 @@
       "translation_status": "TRANSLATED",
       "translated_text": "Terminologie",
       "flag_status": "TRANSLATE",
-      "flag_options": null,
-      "expansion_risk": "NONE",
       "term_annotations": [],
       "first_occurrence_tracking": null,
+      "expansion_risk": "NONE",
       "translated_character_count": 12,
       "expansion_percentage": 9.1,
       "expansion_note": null
@@ -722,36 +686,35 @@
       "is_in_table": false,
       "layout_context": "Shape: Content Placeholder 1",
       "translation_status": "TRANSLATED",
-      "translated_text": "Accusé de réception de commande\nAppel d'offres (AO)\nOffre\nContrat",
+      "translated_text": "Accusé de réception de commande\nAppel d'offres (ITT)\nOffre\nContrat",
       "flag_status": "TRANSLATE",
-      "flag_options": null,
-      "expansion_risk": "MEDIUM",
       "term_annotations": [
         {
           "term": "Invitation to Tender",
           "reference_file_status": "TRANSLATE",
-          "preferred_translation": "Appel d'offres (AO)",
-          "locale_override_applied": false,
-          "inline_instruction": "Translate as 'Appel d'offres (AO)' per global file."
+          "preferred_translation": "Appel d'offres (ITT)",
+          "locale_override_applied": true,
+          "inline_instruction": "Per the acronym first-occurrence table, use 'appel d'offres' with 'ITT' in parentheses."
         },
         {
           "term": "Tender",
           "reference_file_status": "FLAG",
           "preferred_translation": "Offre",
           "locale_override_applied": true,
-          "inline_instruction": "Translate as 'Offre' in the context of private sector corporate training materials."
+          "inline_instruction": "Per the FR-FR resolved preferences, translate 'Tender' as 'Offre' in this private sector/general training context."
         },
         {
           "term": "Contract",
           "reference_file_status": "TRANSLATE",
           "preferred_translation": "Contrat",
           "locale_override_applied": false,
-          "inline_instruction": "Translate as 'Contrat' per global file."
+          "inline_instruction": "Translate as 'Contrat'."
         }
       ],
       "first_occurrence_tracking": null,
-      "translated_character_count": 76,
-      "expansion_percentage": 33.3,
+      "expansion_risk": "MEDIUM",
+      "translated_character_count": 71,
+      "expansion_percentage": 24.6,
       "expansion_note": null
     },
     {
@@ -767,18 +730,17 @@
       "translation_status": "TRANSLATED",
       "translated_text": "Ce que favorisent les processus d'achats",
       "flag_status": "TRANSLATE",
-      "flag_options": null,
-      "expansion_risk": "MEDIUM",
       "term_annotations": [
         {
-          "term": "Procurement Processes",
-          "reference_file_status": "TRANSLATE",
-          "preferred_translation": "Processus d'achats",
-          "locale_override_applied": false,
-          "inline_instruction": "Translate as 'Processus d'achats'."
+          "term": "Procurement",
+          "reference_file_status": "FLAG",
+          "preferred_translation": "Achats",
+          "locale_override_applied": true,
+          "inline_instruction": "Use the strategic/professional default 'Achats'."
         }
       ],
       "first_occurrence_tracking": null,
+      "expansion_risk": "MEDIUM",
       "translated_character_count": 40,
       "expansion_percentage": 37.9,
       "expansion_note": null
@@ -796,18 +758,17 @@
       "translation_status": "TRANSLATED",
       "translated_text": "La transparence dans la prise de décision",
       "flag_status": "TRANSLATE",
-      "flag_options": null,
-      "expansion_risk": "HIGH",
       "term_annotations": [
         {
           "term": "Transparency",
           "reference_file_status": "TRANSLATE",
           "preferred_translation": "Transparence",
           "locale_override_applied": false,
-          "inline_instruction": "Translate as 'La transparence dans la prise de décision'."
+          "inline_instruction": "Translate as 'Transparence'."
         }
       ],
       "first_occurrence_tracking": null,
+      "expansion_risk": "MEDIUM",
       "translated_character_count": 41,
       "expansion_percentage": 32.3,
       "expansion_note": null
@@ -825,10 +786,9 @@
       "translation_status": "TRANSLATED",
       "translated_text": "Un processus établi, largement compris et accepté",
       "flag_status": "TRANSLATE",
-      "flag_options": null,
-      "expansion_risk": "LOW",
       "term_annotations": [],
       "first_occurrence_tracking": null,
+      "expansion_risk": "LOW",
       "translated_character_count": 49,
       "expansion_percentage": -9.3,
       "expansion_note": null
@@ -846,11 +806,9 @@
       "translation_status": "TRANSLATED",
       "translated_text": "Une piste d'audit",
       "flag_status": "TRANSLATE",
-      "flag_options": null,
-      "expansion_risk": "HIGH",
       "term_annotations": [
         {
-          "term": "audit trail",
+          "term": "Audit Trail",
           "reference_file_status": "TRANSLATE",
           "preferred_translation": "Piste d'audit",
           "locale_override_applied": false,
@@ -858,9 +816,10 @@
         }
       ],
       "first_occurrence_tracking": null,
+      "expansion_risk": "HIGH",
       "translated_character_count": 17,
       "expansion_percentage": 21.4,
-      "expansion_note": null
+      "expansion_note": "Translation is 21.4% longer than source. Layout check required."
     },
     {
       "segment_id": "SEG-036",
@@ -875,18 +834,17 @@
       "translation_status": "TRANSLATED",
       "translated_text": "La conformité aux politiques, processus et procédures",
       "flag_status": "TRANSLATE",
-      "flag_options": null,
-      "expansion_risk": "HIGH",
       "term_annotations": [
         {
           "term": "Compliance",
           "reference_file_status": "TRANSLATE",
-          "preferred_translation": "Conformit\u00e9",
+          "preferred_translation": "Conformité",
           "locale_override_applied": false,
-          "inline_instruction": "Translate as 'La conformit\u00e9 aux politiques, processus et proc\u00e9dures'."
+          "inline_instruction": "Translate as 'Conformité'."
         }
       ],
       "first_occurrence_tracking": null,
+      "expansion_risk": "MEDIUM",
       "translated_character_count": 53,
       "expansion_percentage": 15.2,
       "expansion_note": null
@@ -904,10 +862,9 @@
       "translation_status": "TRANSLATED",
       "translated_text": "L'équité envers toutes les parties",
       "flag_status": "TRANSLATE",
-      "flag_options": null,
-      "expansion_risk": "HIGH",
       "term_annotations": [],
       "first_occurrence_tracking": null,
+      "expansion_risk": "MEDIUM",
       "translated_character_count": 34,
       "expansion_percentage": 47.8,
       "expansion_note": null
@@ -925,10 +882,9 @@
       "translation_status": "TRANSLATED",
       "translated_text": "La stimulation de la concurrence",
       "flag_status": "TRANSLATE",
-      "flag_options": null,
-      "expansion_risk": "HIGH",
       "term_annotations": [],
       "first_occurrence_tracking": null,
+      "expansion_risk": "HIGH",
       "translated_character_count": 32,
       "expansion_percentage": 60.0,
       "expansion_note": null
@@ -944,14 +900,13 @@
       "is_in_table": false,
       "layout_context": "Paragraph 7 in Text Placeholder 16",
       "translation_status": "TRANSLATED",
-      "translated_text": "La création d'un document écrit, complété par des informations de soutien, répondant à des besoins définis",
+      "translated_text": "La création d'un document écrit, étayé par des informations de support, répondant à des besoins définis",
       "flag_status": "TRANSLATE",
-      "flag_options": null,
-      "expansion_risk": "LOW",
       "term_annotations": [],
       "first_occurrence_tracking": null,
-      "translated_character_count": 108,
-      "expansion_percentage": 8.0,
+      "expansion_risk": "LOW",
+      "translated_character_count": 105,
+      "expansion_percentage": 5.0,
       "expansion_note": null
     },
     {
@@ -967,18 +922,17 @@
       "translation_status": "TRANSLATED",
       "translated_text": "Documentation utilisée en achats et approvisionnement",
       "flag_status": "TRANSLATE",
-      "flag_options": null,
-      "expansion_risk": "NONE",
       "term_annotations": [
         {
           "term": "procurement and supply",
           "reference_file_status": "TRANSLATE",
           "preferred_translation": "Achats et Approvisionnement",
-          "locale_override_applied": true,
-          "inline_instruction": "Translate as 'achats et approvisionnement' per Section 1 of the global and override files."
+          "locale_override_applied": false,
+          "inline_instruction": "Translate as 'Documentation utilisée en achats et approvisionnement'."
         }
       ],
       "first_occurrence_tracking": null,
+      "expansion_risk": "NONE",
       "translated_character_count": 52,
       "expansion_percentage": 18.2,
       "expansion_note": null
@@ -994,22 +948,21 @@
       "is_in_table": false,
       "layout_context": "Shape: Content Placeholder 8",
       "translation_status": "TRANSLATED",
-      "translated_text": "Conformité aux processus par rapport à la réalisation des résultats",
+      "translated_text": "Conformité aux processus par rapport à l'atteinte des résultats",
       "flag_status": "TRANSLATE",
-      "flag_options": null,
-      "expansion_risk": "NONE",
       "term_annotations": [
         {
           "term": "Compliance",
           "reference_file_status": "TRANSLATE",
-          "preferred_translation": "Conformit\u00e9",
+          "preferred_translation": "Conformité",
           "locale_override_applied": false,
-          "inline_instruction": "Translate as 'Conformit\u00e9' per global file."
+          "inline_instruction": "Translate as 'Conformité aux processus par rapport à l'atteinte des résultats'."
         }
       ],
       "first_occurrence_tracking": null,
-      "translated_character_count": 68,
-      "expansion_percentage": 13.3,
+      "expansion_risk": "NONE",
+      "translated_character_count": 63,
+      "expansion_percentage": 5.0,
       "expansion_note": null
     },
     {
@@ -1025,18 +978,17 @@
       "translation_status": "TRANSLATED",
       "translated_text": "Budgets financiers",
       "flag_status": "TRANSLATE",
-      "flag_options": null,
-      "expansion_risk": "NONE",
       "term_annotations": [
         {
           "term": "budget",
           "reference_file_status": "KEEP",
           "preferred_translation": "Budget",
           "locale_override_applied": false,
-          "inline_instruction": "Translate as 'Budgets financiers' ('budget' is KEEP/same across locales but inflected/translated naturally in context)."
+          "inline_instruction": "Translate as 'Budgets financiers'."
         }
       ],
       "first_occurrence_tracking": null,
+      "expansion_risk": "NONE",
       "translated_character_count": 18,
       "expansion_percentage": 5.9,
       "expansion_note": null
@@ -1054,10 +1006,9 @@
       "translation_status": "TRANSLATED",
       "translated_text": "Réglementations affectant les importations",
       "flag_status": "TRANSLATE",
-      "flag_options": null,
-      "expansion_risk": "NONE",
       "term_annotations": [],
       "first_occurrence_tracking": null,
+      "expansion_risk": "NONE",
       "translated_character_count": 42,
       "expansion_percentage": 35.5,
       "expansion_note": null
@@ -1073,14 +1024,13 @@
       "is_in_table": false,
       "layout_context": "Shape: Content Placeholder 8",
       "translation_status": "TRANSLATED",
-      "translated_text": "Exigences réglementaires pouvant avoir un impact sur les procédures",
+      "translated_text": "Exigences réglementaires pouvant influer sur les procédures",
       "flag_status": "TRANSLATE",
-      "flag_options": null,
-      "expansion_risk": "NONE",
       "term_annotations": [],
       "first_occurrence_tracking": null,
-      "translated_character_count": 68,
-      "expansion_percentage": 28.3,
+      "expansion_risk": "NONE",
+      "translated_character_count": 60,
+      "expansion_percentage": 13.2,
       "expansion_note": null
     },
     {
@@ -1094,29 +1044,21 @@
       "is_in_table": false,
       "layout_context": "Shape: Content Placeholder 8",
       "translation_status": "TRANSLATED",
-      "translated_text": "La gouvernance d'entreprise appliquée aux achats et à l'approvisionnement",
+      "translated_text": "Gouvernance d'entreprise appliquée aux achats et à l'approvisionnement",
       "flag_status": "TRANSLATE",
-      "flag_options": null,
-      "expansion_risk": "NONE",
       "term_annotations": [
         {
           "term": "Corporate Governance",
           "reference_file_status": "TRANSLATE",
           "preferred_translation": "Gouvernance d'entreprise",
           "locale_override_applied": false,
-          "inline_instruction": "Translate as 'La gouvernance d'entreprise appliquée aux achats et à l'approvisionnement'."
-        },
-        {
-          "term": "procurement and supply",
-          "reference_file_status": "TRANSLATE",
-          "preferred_translation": "Achats et Approvisionnement",
-          "locale_override_applied": true,
-          "inline_instruction": "Translate as 'achats et approvisionnement' per Section 1 of the global and override files."
+          "inline_instruction": "Translate as 'Gouvernance d'entreprise appliquée aux achats et à l'approvisionnement'."
         }
       ],
       "first_occurrence_tracking": null,
-      "translated_character_count": 73,
-      "expansion_percentage": 32.7,
+      "expansion_risk": "NONE",
+      "translated_character_count": 71,
+      "expansion_percentage": 29.1,
       "expansion_note": null
     },
     {
@@ -1130,20 +1072,19 @@
       "is_in_table": false,
       "layout_context": "Shape: Content Placeholder 8",
       "translation_status": "TRANSLATED",
-      "translated_text": "L'utilisation de codes éthiques en achats et approvisionnement",
+      "translated_text": "L'utilisation de codes d'éthique en achats et approvisionnement",
       "flag_status": "TRANSLATE",
-      "flag_options": null,
-      "expansion_risk": "NONE",
       "term_annotations": [
         {
           "term": "procurement and supply",
           "reference_file_status": "TRANSLATE",
           "preferred_translation": "Achats et Approvisionnement",
-          "locale_override_applied": true,
-          "inline_instruction": "Translate as 'achats et approvisionnement' per Section 1 of the global and override files."
+          "locale_override_applied": false,
+          "inline_instruction": "Translate as 'L'utilisation de codes d'éthique en achats et approvisionnement'."
         }
       ],
       "first_occurrence_tracking": null,
+      "expansion_risk": "NONE",
       "translated_character_count": 62,
       "expansion_percentage": 24.0,
       "expansion_note": null
@@ -1161,18 +1102,17 @@
       "translation_status": "TRANSLATED",
       "translated_text": "Créer de la valeur grâce aux Achats et à l'Approvisionnement",
       "flag_status": "TRANSLATE",
-      "flag_options": null,
-      "expansion_risk": "LOW",
       "term_annotations": [
         {
           "term": "Driving Value through Procurement and Supply",
           "reference_file_status": "FLAG",
           "preferred_translation": "Créer de la valeur grâce aux Achats et à l'Approvisionnement",
           "locale_override_applied": true,
-          "inline_instruction": "This is the Module 1 title. You must translate it exactly as: 'Créer de la valeur grâce aux Achats et à l'Approvisionnement' per Section 1 of the locale file."
+          "inline_instruction": "This is the Module 1 title. Translate exactly as defined in Section 1 of the locale file."
         }
       ],
       "first_occurrence_tracking": null,
+      "expansion_risk": "MEDIUM",
       "translated_character_count": 60,
       "expansion_percentage": 36.4,
       "expansion_note": null
@@ -1190,18 +1130,17 @@
       "translation_status": "TRANSLATED",
       "translated_text": "Procédures d'achats et d'approvisionnement",
       "flag_status": "TRANSLATE",
-      "flag_options": null,
-      "expansion_risk": "NONE",
       "term_annotations": [
         {
-          "term": "Procurement and Supply",
+          "term": "procurement and supply",
           "reference_file_status": "TRANSLATE",
           "preferred_translation": "Achats et Approvisionnement",
-          "locale_override_applied": true,
+          "locale_override_applied": false,
           "inline_instruction": "Translate as 'Procédures d'achats et d'approvisionnement'."
         }
       ],
       "first_occurrence_tracking": null,
+      "expansion_risk": "NONE",
       "translated_character_count": 42,
       "expansion_percentage": 16.7,
       "expansion_note": null
@@ -1219,12 +1158,11 @@
       "translation_status": "TRANSLATED",
       "translated_text": "Dans cette unité, nous aborderons :",
       "flag_status": "TRANSLATE",
-      "flag_options": null,
-      "expansion_risk": "HIGH",
       "term_annotations": [],
       "first_occurrence_tracking": null,
-      "translated_character_count": 34,
-      "expansion_percentage": 9.7,
+      "expansion_risk": "MEDIUM",
+      "translated_character_count": 33,
+      "expansion_percentage": 6.5,
       "expansion_note": null
     },
     {
@@ -1240,11 +1178,9 @@
       "translation_status": "TRANSLATED",
       "translated_text": "Politiques et procédures",
       "flag_status": "TRANSLATE",
-      "flag_options": null,
-      "expansion_risk": "NONE",
       "term_annotations": [
         {
-          "term": "Policies and procedures",
+          "term": "Policies and Procedures",
           "reference_file_status": "TRANSLATE",
           "preferred_translation": "Politiques et procédures",
           "locale_override_applied": false,
@@ -1252,8 +1188,9 @@
         }
       ],
       "first_occurrence_tracking": null,
-      "translated_character_count": 24,
-      "expansion_percentage": 4.3,
+      "expansion_risk": "NONE",
+      "translated_character_count": 23,
+      "expansion_percentage": 0.0,
       "expansion_note": null
     },
     {
@@ -1269,11 +1206,9 @@
       "translation_status": "TRANSLATED",
       "translated_text": "Le processus d'achats",
       "flag_status": "TRANSLATE",
-      "flag_options": null,
-      "expansion_risk": "HIGH",
       "term_annotations": [
         {
-          "term": "The Procurement Process",
+          "term": "Procurement Process",
           "reference_file_status": "TRANSLATE",
           "preferred_translation": "Processus d'achats",
           "locale_override_applied": false,
@@ -1281,6 +1216,7 @@
         }
       ],
       "first_occurrence_tracking": null,
+      "expansion_risk": "MEDIUM",
       "translated_character_count": 21,
       "expansion_percentage": -8.7,
       "expansion_note": null
@@ -1296,14 +1232,13 @@
       "is_in_table": false,
       "layout_context": "Paragraph 1 in Text Placeholder 16",
       "translation_status": "TRANSLATED",
-      "translated_text": "Une représentation simple du processus est :",
+      "translated_text": "Voici une représentation simple du processus :",
       "flag_status": "TRANSLATE",
-      "flag_options": null,
-      "expansion_risk": "MEDIUM",
       "term_annotations": [],
       "first_occurrence_tracking": null,
-      "translated_character_count": 43,
-      "expansion_percentage": 2.4,
+      "expansion_risk": "MEDIUM",
+      "translated_character_count": 45,
+      "expansion_percentage": 7.1,
       "expansion_note": null
     },
     {
@@ -1317,14 +1252,13 @@
       "is_in_table": false,
       "layout_context": "Paragraph 2 in Text Placeholder 16",
       "translation_status": "TRANSLATED",
-      "translated_text": "Les organisations disposent généralement de politiques et procédures qui réglementent ce processus.",
+      "translated_text": "Les organisations disposent généralement de politiques et de procédures qui encadrent ce processus.",
       "flag_status": "TRANSLATE",
-      "flag_options": null,
-      "expansion_risk": "LOW",
       "term_annotations": [],
       "first_occurrence_tracking": null,
-      "translated_character_count": 99,
-      "expansion_percentage": 26.9,
+      "expansion_risk": "LOW",
+      "translated_character_count": 98,
+      "expansion_percentage": 25.6,
       "expansion_note": null
     },
     {
@@ -1340,18 +1274,17 @@
       "translation_status": "TRANSLATED",
       "translated_text": "Définir le besoin\nCahier des charges",
       "flag_status": "TRANSLATE",
-      "flag_options": null,
-      "expansion_risk": "MEDIUM",
       "term_annotations": [
         {
           "term": "Specification",
           "reference_file_status": "FLAG",
           "preferred_translation": "Cahier des charges",
           "locale_override_applied": true,
-          "inline_instruction": "Translate as 'Cahier des charges' per Section 1 of the locale override file."
+          "inline_instruction": "Per the FR-FR resolved preferences, use 'Cahier des charges'."
         }
       ],
       "first_occurrence_tracking": null,
+      "expansion_risk": "MEDIUM",
       "translated_character_count": 35,
       "expansion_percentage": 20.7,
       "expansion_note": null
@@ -1367,22 +1300,21 @@
       "is_in_table": false,
       "layout_context": "Shape: Rectangle 55",
       "translation_status": "TRANSLATED",
-      "translated_text": "Élaborer les conditions du contrat",
+      "translated_text": "Établir les conditions contractuelles",
       "flag_status": "TRANSLATE",
-      "flag_options": null,
-      "expansion_risk": "NONE",
       "term_annotations": [
         {
-          "term": "contract terms",
+          "term": "Contract Terms",
           "reference_file_status": "TRANSLATE",
-          "preferred_translation": "Clauses contractuelles / Conditions du contrat",
+          "preferred_translation": "Clauses contractuelles",
           "locale_override_applied": false,
-          "inline_instruction": "Translate as '\u00c9laborer les conditions du contrat'."
+          "inline_instruction": "Translate as 'Établir les conditions contractuelles'."
         }
       ],
       "first_occurrence_tracking": null,
-      "translated_character_count": 34,
-      "expansion_percentage": 54.5,
+      "expansion_risk": "NONE",
+      "translated_character_count": 37,
+      "expansion_percentage": 68.2,
       "expansion_note": null
     },
     {
@@ -1396,22 +1328,21 @@
       "is_in_table": false,
       "layout_context": "Shape: Rectangle 56",
       "translation_status": "TRANSLATED",
-      "translated_text": "Consulter le marché\nIdentifier les fournisseurs potentiels",
+      "translated_text": "Analyser le marché fournisseurs\nIdentifier les fournisseurs potentiels",
       "flag_status": "TRANSLATE",
-      "flag_options": null,
-      "expansion_risk": "MEDIUM",
       "term_annotations": [
         {
           "term": "Source the market",
           "reference_file_status": "TRANSLATE",
-          "preferred_translation": "Analyse du march\u00e9 fournisseurs / Consultation du march\u00e9",
+          "preferred_translation": "Analyse du marché fournisseurs",
           "locale_override_applied": false,
-          "inline_instruction": "Translate as 'Consulter le march\u00e9'."
+          "inline_instruction": "Translate as 'Analyser le marché fournisseurs' / 'Identifier les fournisseurs potentiels'."
         }
       ],
       "first_occurrence_tracking": null,
-      "translated_character_count": 55,
-      "expansion_percentage": 19.6,
+      "expansion_risk": "MEDIUM",
+      "translated_character_count": 71,
+      "expansion_percentage": 54.3,
       "expansion_note": null
     },
     {
@@ -1427,10 +1358,17 @@
       "translation_status": "TRANSLATED",
       "translated_text": "Évaluer les fournisseurs",
       "flag_status": "TRANSLATE",
-      "flag_options": null,
-      "expansion_risk": "NONE",
-      "term_annotations": [],
+      "term_annotations": [
+        {
+          "term": "Supplier Appraisal",
+          "reference_file_status": "TRANSLATE",
+          "preferred_translation": "Évaluation des fournisseurs",
+          "locale_override_applied": false,
+          "inline_instruction": "Translate as 'Évaluer les fournisseurs'."
+        }
+      ],
       "first_occurrence_tracking": null,
+      "expansion_risk": "NONE",
       "translated_character_count": 24,
       "expansion_percentage": 33.3,
       "expansion_note": null
@@ -1446,29 +1384,28 @@
       "is_in_table": false,
       "layout_context": "Shape: Rectangle 58",
       "translation_status": "TRANSLATED",
-      "translated_text": "Inviter à soumettre des devis ou des offres\nDemande de devis (RFQ) ou appel d'offres",
+      "translated_text": "Solliciter des devis ou des offres\nDemande de devis (RFQ) ou appel d'offres",
       "flag_status": "TRANSLATE",
-      "flag_options": null,
-      "expansion_risk": "LOW",
       "term_annotations": [
         {
           "term": "Request for quotation",
           "reference_file_status": "FLAG",
-          "preferred_translation": "Demande de devis (RFQ)",
+          "preferred_translation": "demande de devis (RFQ)",
           "locale_override_applied": true,
-          "inline_instruction": "Translate as 'demande de devis (RFQ)' using the locale acronym table."
+          "inline_instruction": "Use first-occurrence rendering for RFQ: 'demande de devis (RFQ)'."
         },
         {
           "term": "invitation to tender",
           "reference_file_status": "TRANSLATE",
-          "preferred_translation": "Appel d'offres (AO)",
-          "locale_override_applied": false,
-          "inline_instruction": "Translate as 'appel d'offres' per global file."
+          "preferred_translation": "appel d'offres",
+          "locale_override_applied": true,
+          "inline_instruction": "Since ITT is spelled out, translate as 'appel d'offres'."
         }
       ],
       "first_occurrence_tracking": null,
-      "translated_character_count": 83,
-      "expansion_percentage": 3.8,
+      "expansion_risk": "LOW",
+      "translated_character_count": 76,
+      "expansion_percentage": -5.0,
       "expansion_note": null
     },
     {
@@ -1484,10 +1421,9 @@
       "translation_status": "TRANSLATED",
       "translated_text": "Analyser les devis et sélectionner le fournisseur le plus prometteur",
       "flag_status": "TRANSLATE",
-      "flag_options": null,
-      "expansion_risk": "NONE",
       "term_annotations": [],
       "first_occurrence_tracking": null,
+      "expansion_risk": "NONE",
       "translated_character_count": 68,
       "expansion_percentage": 33.3,
       "expansion_note": null
@@ -1505,10 +1441,9 @@
       "translation_status": "TRANSLATED",
       "translated_text": "Négocier le meilleur rapport qualité-prix",
       "flag_status": "TRANSLATE",
-      "flag_options": null,
-      "expansion_risk": "NONE",
       "term_annotations": [],
       "first_occurrence_tracking": null,
+      "expansion_risk": "NONE",
       "translated_character_count": 41,
       "expansion_percentage": 105.0,
       "expansion_note": null
@@ -1526,18 +1461,17 @@
       "translation_status": "TRANSLATED",
       "translated_text": "Attribuer le contrat",
       "flag_status": "TRANSLATE",
-      "flag_options": null,
-      "expansion_risk": "NONE",
       "term_annotations": [
         {
-          "term": "Award the contract",
+          "term": "Contract Award",
           "reference_file_status": "FLAG",
           "preferred_translation": "Attribution du contrat",
           "locale_override_applied": true,
-          "inline_instruction": "Translate as 'Attribuer le contrat' per the private sector context in Section 1 of the locale file."
+          "inline_instruction": "Per the FR-FR resolved preferences, use 'Attribuer le contrat'."
         }
       ],
       "first_occurrence_tracking": null,
+      "expansion_risk": "NONE",
       "translated_character_count": 20,
       "expansion_percentage": 11.1,
       "expansion_note": null
@@ -1553,21 +1487,21 @@
       "is_in_table": false,
       "layout_context": "Shape: Rectangle 62",
       "translation_status": "TRANSLATED",
-      "translated_text": "Gestion des contrats/fournisseurs\nSuivre, évaluer et maintenir la performance",
+      "translated_text": "Gestion du contrat/fournisseur\nSuivre, évaluer et maintenir la performance",
       "flag_status": "TRANSLATE",
-      "flag_options": null,
-      "expansion_risk": "LOW",
       "term_annotations": [
         {
-          "term": "Contract/supplier management",
+          "term": "Contract Management",
           "reference_file_status": "TRANSLATE",
           "preferred_translation": "Gestion des contrats",
-          "inline_instruction": "Translate as 'Gestion des contrats/fournisseurs'."
+          "locale_override_applied": false,
+          "inline_instruction": "Translate as 'Gestion du contrat/fournisseur \n Suivre, évaluer et maintenir la performance'."
         }
       ],
       "first_occurrence_tracking": null,
-      "translated_character_count": 76,
-      "expansion_percentage": 13.4,
+      "expansion_risk": "LOW",
+      "translated_character_count": 74,
+      "expansion_percentage": 10.4,
       "expansion_note": null
     },
     {
@@ -1583,27 +1517,26 @@
       "translation_status": "TRANSLATED",
       "translated_text": "Identifier le besoin\nDemande d'achat ou nomenclature",
       "flag_status": "TRANSLATE",
-      "flag_options": null,
-      "expansion_risk": "MEDIUM",
       "term_annotations": [
         {
           "term": "Identify the need",
           "reference_file_status": "TRANSLATE",
           "preferred_translation": "Identification du besoin",
           "locale_override_applied": false,
-          "inline_instruction": "Translate as 'Identifier le besoin'."
+          "inline_instruction": "Translate as 'Identifier le besoin \n Demande d'achat ou nomenclature'."
         },
         {
-          "term": "bill of materials",
+          "term": "Bill of Materials",
           "reference_file_status": "TRANSLATE",
           "preferred_translation": "Nomenclature",
           "locale_override_applied": false,
-          "inline_instruction": "Translate as 'nomenclature' per global file."
+          "inline_instruction": "Translate as 'nomenclature'."
         }
       ],
       "first_occurrence_tracking": null,
-      "translated_character_count": 52,
-      "expansion_percentage": 4.0,
+      "expansion_risk": "LOW",
+      "translated_character_count": 51,
+      "expansion_percentage": 2.0,
       "expansion_note": null
     },
     {
@@ -1619,11 +1552,40 @@
       "translation_status": "TRANSLATED",
       "translated_text": "Adapté des supports pédagogiques du CIPS",
       "flag_status": "TRANSLATE",
-      "flag_options": null,
+      "term_annotations": [],
+      "first_occurrence_tracking": null,
       "expansion_risk": "NONE",
       "inline_instruction": "Translate this phrase using the Named Translation Overrides in Section 8 of the locale file if a match exists. If no locale override is defined for this phrase, translate it literally and retain 'CIPS' unchanged.",
       "translated_character_count": 40,
       "expansion_percentage": 21.2,
+      "expansion_note": null
+    },
+    {
+      "segment_id": "SEG-065",
+      "slide_or_page": 66,
+      "element_type": "slide_title",
+      "element_id": "slide_66_Title_3",
+      "source_text": "Why Have Structured Procurement Processes",
+      "character_count": 41,
+      "is_in_text_box": true,
+      "is_in_table": false,
+      "layout_context": "Shape: Title 3",
+      "translation_status": "TRANSLATED",
+      "translated_text": "Pourquoi mettre en place des processus d'achats structurés ?",
+      "flag_status": "TRANSLATE",
+      "term_annotations": [
+        {
+          "term": "Procurement",
+          "reference_file_status": "FLAG",
+          "preferred_translation": "Achats",
+          "locale_override_applied": true,
+          "inline_instruction": "Translate as 'Pourquoi mettre en place des processus d'achats structurés ?'"
+        }
+      ],
+      "first_occurrence_tracking": null,
+      "expansion_risk": "LOW",
+      "translated_character_count": 59,
+      "expansion_percentage": 43.9,
       "expansion_note": null
     },
     {
@@ -1637,22 +1599,21 @@
       "is_in_table": false,
       "layout_context": "Shape: Rectangle 5",
       "translation_status": "TRANSLATED",
-      "translated_text": "Garantit que toutes les tâches nécessaires soient exécutées\nAssure une coordination adéquate des efforts entre les parties prenantes\nFavorise la cohérence des processus et des résultats\nPrévient les conflits et les comportements sous-optimaux\nSoutient la bonne gouvernance et le contrôle managérial\nConformité aux normes, lois et réglementations en vigueur\nSoutient le développement systématique du personnel, des systèmes, des technologies et des autres ressources de la fonction achats\nFavorise l'efficacité",
+      "translated_text": "Garantie de l'exécution de toutes les tâches nécessaires\nMaintien d'une coordination adéquate des efforts entre les parties prenantes\nPromotion de la cohérence des processus et des résultats\nPrévention des conflits et des comportements sous-optimaux\nSoutien à la bonne gouvernance et au contrôle managérial\nConformité aux normes, lois et réglementations applicables\nSoutien au développement systématique du personnel, des systèmes, des technologies et des ressources d'achats\nFavorisation de l'efficacité",
       "flag_status": "TRANSLATE",
-      "flag_options": null,
-      "expansion_risk": "LOW",
       "term_annotations": [
         {
           "term": "Compliance",
           "reference_file_status": "TRANSLATE",
-          "preferred_translation": "Conformit\u00e9",
+          "preferred_translation": "Conformité",
           "locale_override_applied": false,
-          "inline_instruction": "Translate as 'Conformit\u00e9' per global file."
+          "inline_instruction": "Translate each line using concise French phrasing appropriate for slides (nominal lead where possible, per Section 4 of the locale file)."
         }
       ],
       "first_occurrence_tracking": null,
-      "translated_character_count": 504,
-      "expansion_percentage": 14.5,
+      "expansion_risk": "LOW",
+      "translated_character_count": 551,
+      "expansion_percentage": 25.2,
       "expansion_note": null
     },
     {
@@ -1666,14 +1627,13 @@
       "is_in_table": false,
       "layout_context": "Speaker notes",
       "translation_status": "TRANSLATED",
-      "translated_text": "Permet de documenter et de partager les bonnes pratiques\nPermet une analyse pertinente des processus, la résolution de problèmes et l'amélioration continue\nSoutient la délégation de certaines tâches d'achats à du personnel non spécialisé",
+      "translated_text": "Cela permet de documenter et de partager les bonnes pratiques\nCela permet une analyse pertinente des processus, la résolution de problèmes et l'amélioration continue\nCela soutient la délégation de certaines tâches d'achat au personnel non acheteur",
       "flag_status": "TRANSLATE",
-      "flag_options": null,
-      "expansion_risk": "NONE",
       "term_annotations": [],
       "first_occurrence_tracking": null,
-      "translated_character_count": 242,
-      "expansion_percentage": 16.9,
+      "expansion_risk": "NONE",
+      "translated_character_count": 256,
+      "expansion_percentage": 23.7,
       "expansion_note": null
     },
     {
@@ -1689,21 +1649,20 @@
       "translation_status": "TRANSLATED",
       "translated_text": "Politiques et procédures en achats et approvisionnement",
       "flag_status": "TRANSLATE",
-      "flag_options": null,
-      "expansion_risk": "MEDIUM",
       "term_annotations": [
         {
-          "term": "P&S",
+          "term": "Policies and Procedures",
           "reference_file_status": "TRANSLATE",
-          "preferred_translation": "achats et approvisionnement",
-          "locale_override_applied": true,
-          "inline_instruction": "P&S is an abbreviation of Procurement and Supply. Use the active locale's translation: 'achats et approvisionnement'."
+          "preferred_translation": "Politiques et procédures",
+          "locale_override_applied": false,
+          "inline_instruction": "Translate as 'Politiques et procédures en achats et approvisionnement'."
         }
       ],
       "first_occurrence_tracking": null,
+      "expansion_risk": "MEDIUM",
       "translated_character_count": 55,
       "expansion_percentage": 83.3,
-      "expansion_note": null
+      "expansion_note": "Translation is 83.3% longer than source. Layout check required."
     },
     {
       "segment_id": "SEG-069",
@@ -1716,22 +1675,21 @@
       "is_in_table": false,
       "layout_context": "Paragraph 1 in Text Placeholder 16",
       "translation_status": "TRANSLATED",
-      "translated_text": "Le terme séparation des tâches signifie que les processus liés à la gestion des achats et de l'approvisionnement sont répartis entre deux personnes ou plus, afin qu'aucun individu ne soit responsable de l'intégralité du processus d'achat.",
+      "translated_text": "Le terme « séparation des tâches » signifie que les processus liés à la gestion des achats et de l'approvisionnement sont répartis entre deux personnes ou plus, de sorte qu'aucun individu ne soit responsable de l'intégralité du processus d'achat.",
       "flag_status": "TRANSLATE",
-      "flag_options": null,
-      "expansion_risk": "LOW",
       "term_annotations": [
         {
-          "term": "procurement and supply management",
+          "term": "procurement and supply",
           "reference_file_status": "TRANSLATE",
-          "preferred_translation": "achats et gestion de la cha\u00eene d'approvisionnement",
-          "locale_override_applied": true,
-          "inline_instruction": "Translate as 'gestion des achats et de l'approvisionnement'."
+          "preferred_translation": "Achats et Approvisionnement",
+          "locale_override_applied": false,
+          "inline_instruction": "Translate 'separation of duties' as 'séparation des tâches'. Keep register formal 'vous' and use standard French syntax."
         }
       ],
       "first_occurrence_tracking": null,
-      "translated_character_count": 242,
-      "expansion_percentage": 14.7,
+      "expansion_risk": "LOW",
+      "translated_character_count": 249,
+      "expansion_percentage": 18.0,
       "expansion_note": null
     },
     {
@@ -1745,14 +1703,13 @@
       "is_in_table": false,
       "layout_context": "Paragraph 2 in Text Placeholder 16",
       "translation_status": "TRANSLATED",
-      "translated_text": "Elle implique essentiellement trois niveaux d'autorité clés :",
+      "translated_text": "Elle implique essentiellement trois autorités clés :",
       "flag_status": "TRANSLATE",
-      "flag_options": null,
-      "expansion_risk": "MEDIUM",
       "term_annotations": [],
       "first_occurrence_tracking": null,
-      "translated_character_count": 60,
-      "expansion_percentage": 30.4,
+      "expansion_risk": "MEDIUM",
+      "translated_character_count": 52,
+      "expansion_percentage": 13.0,
       "expansion_note": null
     },
     {
@@ -1766,14 +1723,13 @@
       "is_in_table": false,
       "layout_context": "Paragraph 3 in Text Placeholder 16",
       "translation_status": "TRANSLATED",
-      "translated_text": "L'autorité du titulaire du budget",
+      "translated_text": "L'autorité du détenteur du budget",
       "flag_status": "TRANSLATE",
-      "flag_options": null,
-      "expansion_risk": "HIGH",
       "term_annotations": [],
       "first_occurrence_tracking": null,
-      "translated_character_count": 33,
-      "expansion_percentage": 43.5,
+      "expansion_risk": "MEDIUM",
+      "translated_character_count": 34,
+      "expansion_percentage": 47.8,
       "expansion_note": null
     },
     {
@@ -1787,14 +1743,13 @@
       "is_in_table": false,
       "layout_context": "Paragraph 4 in Text Placeholder 16",
       "translation_status": "TRANSLATED",
-      "translated_text": "L'autorité de demander des devis, de négocier et de s'engager",
+      "translated_text": "L'autorité de solliciter des devis, de négocier et de s'engager",
       "flag_status": "TRANSLATE",
-      "flag_options": null,
-      "expansion_risk": "MEDIUM",
       "term_annotations": [],
       "first_occurrence_tracking": null,
-      "translated_character_count": 62,
-      "expansion_percentage": 24.0,
+      "expansion_risk": "LOW",
+      "translated_character_count": 64,
+      "expansion_percentage": 28.0,
       "expansion_note": null
     },
     {
@@ -1808,14 +1763,13 @@
       "is_in_table": false,
       "layout_context": "Paragraph 5 in Text Placeholder 16",
       "translation_status": "TRANSLATED",
-      "translated_text": "L'autorité d'accepter et de payer",
+      "translated_text": "L'autorité de réceptionner et de payer",
       "flag_status": "TRANSLATE",
-      "flag_options": null,
-      "expansion_risk": "HIGH",
       "term_annotations": [],
       "first_occurrence_tracking": null,
-      "translated_character_count": 33,
-      "expansion_percentage": 22.2,
+      "expansion_risk": "MEDIUM",
+      "translated_character_count": 39,
+      "expansion_percentage": 44.4,
       "expansion_note": null
     },
     {
@@ -1831,18 +1785,17 @@
       "translation_status": "TRANSLATED",
       "translated_text": "Autorisations et validations",
       "flag_status": "TRANSLATE",
-      "flag_options": null,
-      "expansion_risk": "MEDIUM",
       "term_annotations": [
         {
           "term": "Authorisation / Sign-off",
           "reference_file_status": "TRANSLATE",
           "preferred_translation": "Autorisation / Validation",
           "locale_override_applied": false,
-          "inline_instruction": "Translate as 'Autorisations et validations' per global file."
+          "inline_instruction": "Translate as 'Autorisations et validations'."
         }
       ],
       "first_occurrence_tracking": null,
+      "expansion_risk": "MEDIUM",
       "translated_character_count": 28,
       "expansion_percentage": 0.0,
       "expansion_note": null
@@ -1860,10 +1813,9 @@
       "translation_status": "TRANSLATED",
       "translated_text": "Des autorisations ou validations peuvent être requises :",
       "flag_status": "TRANSLATE",
-      "flag_options": null,
-      "expansion_risk": "MEDIUM",
       "term_annotations": [],
       "first_occurrence_tracking": null,
+      "expansion_risk": "MEDIUM",
       "translated_character_count": 56,
       "expansion_percentage": 27.3,
       "expansion_note": null
@@ -1881,12 +1833,11 @@
       "translation_status": "TRANSLATED",
       "translated_text": "Lorsqu'une demande d'achat émane d'un service utilisateur",
       "flag_status": "TRANSLATE",
-      "flag_options": null,
-      "expansion_risk": "LOW",
       "term_annotations": [],
       "first_occurrence_tracking": null,
-      "translated_character_count": 57,
-      "expansion_percentage": 7.5,
+      "expansion_risk": "LOW",
+      "translated_character_count": 58,
+      "expansion_percentage": 9.4,
       "expansion_note": null
     },
     {
@@ -1902,18 +1853,17 @@
       "translation_status": "TRANSLATED",
       "translated_text": "Avant qu'un cahier des charges ne soit transmis à un fournisseur",
       "flag_status": "TRANSLATE",
-      "flag_options": null,
-      "expansion_risk": "LOW",
       "term_annotations": [
         {
-          "term": "specification",
+          "term": "Specification",
           "reference_file_status": "FLAG",
           "preferred_translation": "Cahier des charges",
           "locale_override_applied": true,
-          "inline_instruction": "Translate as 'cahier des charges' per Section 1 of the locale file."
+          "inline_instruction": "Per the FR-FR resolved preferences, use 'cahier des charges'."
         }
       ],
       "first_occurrence_tracking": null,
+      "expansion_risk": "LOW",
       "translated_character_count": 64,
       "expansion_percentage": 33.3,
       "expansion_note": null
@@ -1931,10 +1881,9 @@
       "translation_status": "TRANSLATED",
       "translated_text": "Lorsque le bon de commande est finalisé",
       "flag_status": "TRANSLATE",
-      "flag_options": null,
-      "expansion_risk": "MEDIUM",
       "term_annotations": [],
       "first_occurrence_tracking": null,
+      "expansion_risk": "MEDIUM",
       "translated_character_count": 39,
       "expansion_percentage": 8.3,
       "expansion_note": null
@@ -1944,18 +1893,17 @@
       "slide_or_page": 68,
       "element_type": "body_text",
       "element_id": "slide_68_Text_Placeholder_16_para5",
-      "source_text": "When the supplier\u2019s invoice is received",
+      "source_text": "When the supplier’s invoice is received",
       "character_count": 39,
       "is_in_text_box": true,
       "is_in_table": false,
       "layout_context": "Paragraph 5 in Text Placeholder 16",
       "translation_status": "TRANSLATED",
-      "translated_text": "À la réception de la facture du fournisseur",
+      "translated_text": "Lorsque la facture du fournisseur est reçue",
       "flag_status": "TRANSLATE",
-      "flag_options": null,
-      "expansion_risk": "MEDIUM",
       "term_annotations": [],
       "first_occurrence_tracking": null,
+      "expansion_risk": "MEDIUM",
       "translated_character_count": 43,
       "expansion_percentage": 10.3,
       "expansion_note": null
@@ -1971,14 +1919,21 @@
       "is_in_table": false,
       "layout_context": "Paragraph 6 in Text Placeholder 16",
       "translation_status": "TRANSLATED",
-      "translated_text": "Les modifications de contrat doivent être autorisées par le gestionnaire de contrat concerné",
+      "translated_text": "Les modifications contractuelles doivent être autorisées par le responsable du contrat compétent",
       "flag_status": "TRANSLATE",
-      "flag_options": null,
-      "expansion_risk": "LOW",
-      "term_annotations": [],
+      "term_annotations": [
+        {
+          "term": "Contract Management",
+          "reference_file_status": "TRANSLATE",
+          "preferred_translation": "Gestion des contrats",
+          "locale_override_applied": false,
+          "inline_instruction": "Translate 'contract manager' as 'gestionnaire du contrat' or 'responsable du contrat'."
+        }
+      ],
       "first_occurrence_tracking": null,
-      "translated_character_count": 92,
-      "expansion_percentage": 35.3,
+      "expansion_risk": "LOW",
+      "translated_character_count": 96,
+      "expansion_percentage": 41.2,
       "expansion_note": null
     },
     {
@@ -1994,18 +1949,17 @@
       "translation_status": "TRANSLATED",
       "translated_text": "Autorisations et validations",
       "flag_status": "TRANSLATE",
-      "flag_options": null,
-      "expansion_risk": "MEDIUM",
       "term_annotations": [
         {
           "term": "Authorisation / Sign-off",
           "reference_file_status": "TRANSLATE",
           "preferred_translation": "Autorisation / Validation",
           "locale_override_applied": false,
-          "inline_instruction": "Translate as 'Autorisations et validations' per global file."
+          "inline_instruction": "Translate as 'Autorisations et validations'."
         }
       ],
       "first_occurrence_tracking": null,
+      "expansion_risk": "MEDIUM",
       "translated_character_count": 28,
       "expansion_percentage": 3.7,
       "expansion_note": null
@@ -2015,18 +1969,17 @@
       "slide_or_page": 69,
       "element_type": "table_cell",
       "element_id": "slide_69_Content_Placeholder_4_row0_col0",
-      "source_text": "Organisations will generally cover requirements for competition - An example\u2026",
+      "source_text": "Organisations will generally cover requirements for competition - An example…",
       "character_count": 77,
       "is_in_text_box": true,
       "is_in_table": true,
       "layout_context": "Table row 1, column 1",
       "translation_status": "TRANSLATED",
-      "translated_text": "Les organisations couvrent généralement les exigences de mise en concurrence - Exemple...",
+      "translated_text": "Les organisations couvrent généralement les exigences de mise en concurrence - Exemple…",
       "flag_status": "TRANSLATE",
-      "flag_options": null,
-      "expansion_risk": "NONE",
       "term_annotations": [],
       "first_occurrence_tracking": null,
+      "expansion_risk": "LOW",
       "translated_character_count": 89,
       "expansion_percentage": 15.6,
       "expansion_note": null
@@ -2036,28 +1989,27 @@
       "slide_or_page": 69,
       "element_type": "table_cell",
       "element_id": "slide_69_Content_Placeholder_4_row1_col0",
-      "source_text": "\u00a30 - \u00a310,000\nSeek minimum of  2 Quotations\nWhere it is not considered advantageous, administratively efficient or practical to seek comparative quotations for purchases below \u00a32,500, one quotation may be sought",
+      "source_text": "£0 - £10,000\nSeek minimum of 2 Quotations\nWhere it is not considered advantageous, administratively efficient or practical to seek comparative quotations for purchases below £2,500, one quotation may be sought",
       "character_count": 210,
       "is_in_text_box": true,
       "is_in_table": true,
       "layout_context": "Table row 2, column 1",
       "translation_status": "TRANSLATED",
-      "translated_text": "\u00a30 - \u00a310 000\nObtenir un minimum de 2 devis\nS'il n'est pas jugé avantageux, efficace sur le plan administratif ou pratique de solliciter des devis comparatifs pour des achats inférieurs à \u00a32 500, un seul devis peut être demandé.",
+      "translated_text": "£0 - £10 000\nSolliciter un minimum de 2 devis\nS'il n'est pas jugé avantageux, efficace sur le plan administratif ou pratique de solliciter des devis comparatifs pour les achats inférieurs à £2 500, un seul devis peut être demandé",
       "flag_status": "TRANSLATE",
-      "flag_options": null,
-      "expansion_risk": "NONE",
       "term_annotations": [
         {
-          "term": "comparative quotations",
+          "term": "Comparative Quotation",
           "reference_file_status": "TRANSLATE",
           "preferred_translation": "Devis comparatif",
           "locale_override_applied": false,
-          "inline_instruction": "Translate plural 'comparative quotations' as 'devis comparatifs'. Retain currency symbols (\u00a3) and apply space as the thousands separator (e.g., '10 000' and '2 500') per active locale metadata."
+          "inline_instruction": "Keep £ symbols unchanged per Section 11 of global reference. Translate 'comparative quotations' as 'devis comparatifs'."
         }
       ],
       "first_occurrence_tracking": null,
-      "translated_character_count": 235,
-      "expansion_percentage": 11.9,
+      "expansion_risk": "LOW",
+      "translated_character_count": 234,
+      "expansion_percentage": 11.4,
       "expansion_note": null
     },
     {
@@ -2065,28 +2017,27 @@
       "slide_or_page": 69,
       "element_type": "table_cell",
       "element_id": "slide_69_Content_Placeholder_4_row1_col1",
-      "source_text": "\u00a310,000 - \u00a350,000\nSeek minimum of 4 Quotations\nAll requirements must be openly advertised with the process managed using the E-Tendering system unless approval of the procurement team is obtained to run a closed  i.e. non advertised process",
+      "source_text": "£10,000 - £50,000\nSeek minimum of 4 Quotations\nAll requirements must be openly advertised with the process managed using the E-Tendering system unless approval of the procurement team is obtained to run a closed i.e. non advertised process",
       "character_count": 240,
       "is_in_text_box": true,
       "is_in_table": true,
       "layout_context": "Table row 2, column 2",
       "translation_status": "TRANSLATED",
-      "translated_text": "\u00a310 000 - \u00a350 000\nObtenir un minimum de 4 devis\nTous les besoins doivent faire l'objet d'une publicité publique, le processus étant géré via le système d'appel d'offres électronique, à moins d'obtenir l'accord de l'équipe achats pour mener un processus fermé (non publié).",
+      "translated_text": "£10 000 - £50 000\nSolliciter un minimum de 4 devis\nTous les besoins doivent faire l'objet d'une publicité ouverte, le processus étant géré via le système d'appels d'offres électronique, à moins d'obtenir l'approbation de l'équipe achats pour mener un processus fermé (non publié)",
       "flag_status": "TRANSLATE",
-      "flag_options": null,
-      "expansion_risk": "NONE",
       "term_annotations": [
         {
           "term": "E-Tendering",
           "reference_file_status": "TRANSLATE",
-          "preferred_translation": "Appel d'offres \u00e9lectronique / D\u00e9mat\u00e9rialisation des appels d'offres",
+          "preferred_translation": "Appel d'offres électronique",
           "locale_override_applied": false,
-          "inline_instruction": "Translate as 'syst\u00e8me d'appel d'offres \u00e9lectronique'."
+          "inline_instruction": "Keep currency £. Translate 'E-Tendering system' as 'système d'appels d'offres électronique'."
         }
       ],
       "first_occurrence_tracking": null,
-      "translated_character_count": 269,
-      "expansion_percentage": 12.1,
+      "expansion_risk": "LOW",
+      "translated_character_count": 272,
+      "expansion_percentage": 13.3,
       "expansion_note": null
     },
     {
@@ -2094,26 +2045,25 @@
       "slide_or_page": 69,
       "element_type": "table_cell",
       "element_id": "slide_69_Content_Placeholder_4_row2_col0",
-      "source_text": "\u00a350,000 \u2013 \u00a3100,000\nFormal Request For Quotation Process seeking 4 Quotations\nA minimum of 4 suppliers must be invited to submit quotations using an approved format Request for Quotation document.  Optionally a formal tender procedure may be used under \u00a3100,000. A formal tendering process must be carried out for all procurements above \u00a3100,000 in line with existing procedures",
+      "source_text": "£50,000 – £100,000\nFormal Request For Quotation Process seeking 4 Quotations\nA minimum of 4 suppliers must be invited to submit quotations using an approved format Request for Quotation document. Optionally a formal tender procedure may be used under £100,000. A formal tendering process must be carried out for all procurements above £100,000 in line with existing procedures",
       "character_count": 377,
       "is_in_text_box": true,
       "is_in_table": true,
       "layout_context": "Table row 3, column 1",
       "translation_status": "TRANSLATED",
-      "translated_text": "\u00a350 000 – \u00a3100 000\nProcessus de demande de devis (RFQ) formel sollicitant 4 devis\nUn minimum de 4 fournisseurs doivent être invités à soumettre des devis à l'aide d'un document type de demande de devis (RFQ). Optionnellement, une procédure d'appel d'offres formelle peut être utilisée en dessous de \u00a3100 000. Un processus d'appel d'offres formel doit être mené pour tous les achats supérieurs à \u00a3100 000 conformément aux procédures existantes.",
+      "translated_text": "£50 000 – £100 000\nProcessus formel de demande de devis (RFQ) visant à obtenir 4 devis\nUn minimum de 4 fournisseurs doit être invité à soumettre des devis à l'aide d'un document type approuvé de demande de devis. En option, une procédure d'appel d'offres formelle peut être utilisée pour les montants inférieurs à £100 000. Un processus d'appel d'offres formel doit être mis en œuvre pour tous les achats supérieurs à £100 000, conformément aux procédures existantes",
       "flag_status": "TRANSLATE",
-      "flag_options": null,
-      "expansion_risk": "NONE",
       "term_annotations": [
         {
           "term": "Request For Quotation",
           "reference_file_status": "FLAG",
           "preferred_translation": "demande de devis (RFQ)",
           "locale_override_applied": true,
-          "inline_instruction": "Translate as 'demande de devis (RFQ)' using the locale acronym table."
+          "inline_instruction": "Use 'demande de devis (RFQ)' since it's already occurred in the batch."
         }
       ],
       "first_occurrence_tracking": null,
+      "expansion_risk": "LOW",
       "translated_character_count": 427,
       "expansion_percentage": 13.3,
       "expansion_note": null
@@ -2123,28 +2073,27 @@
       "slide_or_page": 69,
       "element_type": "table_cell",
       "element_id": "slide_69_Content_Placeholder_4_row2_col1",
-      "source_text": "E-Tendering\nThe management of quotations and tenders using the E-Tendering system is required for all procurements with a value above \u00a310,000",
+      "source_text": "E-Tendering\nThe management of quotations and tenders using the E-Tendering system is required for all procurements with a value above £10,000",
       "character_count": 141,
       "is_in_text_box": true,
       "is_in_table": true,
       "layout_context": "Table row 3, column 2",
       "translation_status": "TRANSLATED",
-      "translated_text": "Appel d'offres électronique\nLa gestion des devis et des offres via l'appel d'offres électronique est obligatoire pour tous les achats d'un montant supérieur à \u00a310 000.",
+      "translated_text": "Appel d'offres électronique\nLa gestion des devis et des offres à l'aide du système d'appels d'offres électronique est requise pour tous les achats d'une valeur supérieure à £10 000",
       "flag_status": "TRANSLATE",
-      "flag_options": null,
-      "expansion_risk": "NONE",
       "term_annotations": [
         {
           "term": "E-Tendering",
           "reference_file_status": "TRANSLATE",
-          "preferred_translation": "Appel d'offres \u00e9lectronique / D\u00e9mat\u00e9rialisation des appels d'offres",
+          "preferred_translation": "Appel d'offres électronique",
           "locale_override_applied": false,
-          "inline_instruction": "Translate as 'l'appel d'offres \u00e9lectronique'."
+          "inline_instruction": "Keep £ currency. Translate 'E-Tendering system' as 'système d'appels d'offres électronique'."
         }
       ],
       "first_occurrence_tracking": null,
-      "translated_character_count": 164,
-      "expansion_percentage": 16.3,
+      "expansion_risk": "LOW",
+      "translated_character_count": 169,
+      "expansion_percentage": 19.9,
       "expansion_note": null
     },
     {
@@ -2152,18 +2101,17 @@
       "slide_or_page": 69,
       "element_type": "text_box",
       "element_id": "slide_69_Rectangle_1",
-      "source_text": "Organisations will generally cover requirements for competition - An example\u2026",
+      "source_text": "Organisations will generally cover requirements for competition - An example…",
       "character_count": 77,
       "is_in_text_box": true,
       "is_in_table": false,
       "layout_context": "Shape: Rectangle 1",
       "translation_status": "TRANSLATED",
-      "translated_text": "Les organisations couvrent généralement les exigences de mise en concurrence - Exemple...",
+      "translated_text": "Les organisations couvrent généralement les exigences de mise en concurrence - Exemple…",
       "flag_status": "TRANSLATE",
-      "flag_options": null,
-      "expansion_risk": "LOW",
       "term_annotations": [],
       "first_occurrence_tracking": null,
+      "expansion_risk": "LOW",
       "translated_character_count": 89,
       "expansion_percentage": 15.6,
       "expansion_note": null
@@ -2181,11 +2129,9 @@
       "translation_status": "TRANSLATED",
       "translated_text": "Politiques et procédures",
       "flag_status": "TRANSLATE",
-      "flag_options": null,
-      "expansion_risk": "NONE",
       "term_annotations": [
         {
-          "term": "Policies and procedures",
+          "term": "Policies and Procedures",
           "reference_file_status": "TRANSLATE",
           "preferred_translation": "Politiques et procédures",
           "locale_override_applied": false,
@@ -2193,8 +2139,9 @@
         }
       ],
       "first_occurrence_tracking": null,
-      "translated_character_count": 24,
-      "expansion_percentage": 4.3,
+      "expansion_risk": "NONE",
+      "translated_character_count": 23,
+      "expansion_percentage": 0.0,
       "expansion_note": null
     },
     {
@@ -2210,18 +2157,17 @@
       "translation_status": "TRANSLATED",
       "translated_text": "Documentation utilisée en achats et approvisionnement",
       "flag_status": "TRANSLATE",
-      "flag_options": null,
-      "expansion_risk": "NONE",
       "term_annotations": [
         {
           "term": "procurement and supply",
           "reference_file_status": "TRANSLATE",
           "preferred_translation": "Achats et Approvisionnement",
-          "locale_override_applied": true,
-          "inline_instruction": "Translate as 'achats et approvisionnement' per Section 1 of the global and override files."
+          "locale_override_applied": false,
+          "inline_instruction": "Translate as 'Documentation utilisée en achats et approvisionnement'."
         }
       ],
       "first_occurrence_tracking": null,
+      "expansion_risk": "NONE",
       "translated_character_count": 52,
       "expansion_percentage": 18.2,
       "expansion_note": null
@@ -2237,22 +2183,21 @@
       "is_in_table": false,
       "layout_context": "Shape: Content Placeholder 8",
       "translation_status": "TRANSLATED",
-      "translated_text": "Conformité aux processus par rapport à la réalisation des résultats",
+      "translated_text": "Conformité aux processus par rapport à l'atteinte des résultats",
       "flag_status": "TRANSLATE",
-      "flag_options": null,
-      "expansion_risk": "NONE",
       "term_annotations": [
         {
           "term": "Compliance",
           "reference_file_status": "TRANSLATE",
-          "preferred_translation": "Conformit\u00e9",
+          "preferred_translation": "Conformité",
           "locale_override_applied": false,
-          "inline_instruction": "Translate as 'Conformit\u00e9' per global file."
+          "inline_instruction": "Translate as 'Conformité aux processus par rapport à l'atteinte des résultats'."
         }
       ],
       "first_occurrence_tracking": null,
-      "translated_character_count": 68,
-      "expansion_percentage": 13.3,
+      "expansion_risk": "NONE",
+      "translated_character_count": 63,
+      "expansion_percentage": 5.0,
       "expansion_note": null
     },
     {
@@ -2268,8 +2213,6 @@
       "translation_status": "TRANSLATED",
       "translated_text": "Budgets financiers",
       "flag_status": "TRANSLATE",
-      "flag_options": null,
-      "expansion_risk": "NONE",
       "term_annotations": [
         {
           "term": "budget",
@@ -2280,6 +2223,7 @@
         }
       ],
       "first_occurrence_tracking": null,
+      "expansion_risk": "NONE",
       "translated_character_count": 18,
       "expansion_percentage": 5.9,
       "expansion_note": null
@@ -2297,10 +2241,9 @@
       "translation_status": "TRANSLATED",
       "translated_text": "Réglementations affectant les importations",
       "flag_status": "TRANSLATE",
-      "flag_options": null,
-      "expansion_risk": "NONE",
       "term_annotations": [],
       "first_occurrence_tracking": null,
+      "expansion_risk": "NONE",
       "translated_character_count": 42,
       "expansion_percentage": 35.5,
       "expansion_note": null
@@ -2316,14 +2259,13 @@
       "is_in_table": false,
       "layout_context": "Shape: Content Placeholder 8",
       "translation_status": "TRANSLATED",
-      "translated_text": "Exigences réglementaires pouvant avoir un impact sur les procédures",
+      "translated_text": "Exigences réglementaires pouvant influer sur les procédures",
       "flag_status": "TRANSLATE",
-      "flag_options": null,
-      "expansion_risk": "NONE",
       "term_annotations": [],
       "first_occurrence_tracking": null,
-      "translated_character_count": 68,
-      "expansion_percentage": 28.3,
+      "expansion_risk": "NONE",
+      "translated_character_count": 60,
+      "expansion_percentage": 13.2,
       "expansion_note": null
     },
     {
@@ -2337,29 +2279,21 @@
       "is_in_table": false,
       "layout_context": "Shape: Content Placeholder 8",
       "translation_status": "TRANSLATED",
-      "translated_text": "La gouvernance d'entreprise appliquée aux achats et à l'approvisionnement",
+      "translated_text": "Gouvernance d'entreprise appliquée aux achats et à l'approvisionnement",
       "flag_status": "TRANSLATE",
-      "flag_options": null,
-      "expansion_risk": "NONE",
       "term_annotations": [
         {
           "term": "Corporate Governance",
           "reference_file_status": "TRANSLATE",
           "preferred_translation": "Gouvernance d'entreprise",
           "locale_override_applied": false,
-          "inline_instruction": "Translate as 'La gouvernance d'entreprise appliquée aux achats et à l'approvisionnement'."
-        },
-        {
-          "term": "procurement and supply",
-          "reference_file_status": "TRANSLATE",
-          "preferred_translation": "Achats et Approvisionnement",
-          "locale_override_applied": true,
-          "inline_instruction": "Translate as 'achats et approvisionnement' per Section 1 of the global and override files."
+          "inline_instruction": "Translate as 'Gouvernance d'entreprise appliquée aux achats et à l'approvisionnement'."
         }
       ],
       "first_occurrence_tracking": null,
-      "translated_character_count": 73,
-      "expansion_percentage": 32.7,
+      "expansion_risk": "NONE",
+      "translated_character_count": 71,
+      "expansion_percentage": 29.1,
       "expansion_note": null
     },
     {
@@ -2375,18 +2309,17 @@
       "translation_status": "TRANSLATED",
       "translated_text": "Créer de la valeur grâce aux Achats et à l'Approvisionnement",
       "flag_status": "TRANSLATE",
-      "flag_options": null,
-      "expansion_risk": "LOW",
       "term_annotations": [
         {
           "term": "Driving Value through Procurement and Supply",
           "reference_file_status": "FLAG",
           "preferred_translation": "Créer de la valeur grâce aux Achats et à l'Approvisionnement",
           "locale_override_applied": true,
-          "inline_instruction": "This is the Module 1 title. You must translate it exactly as: 'Créer de la valeur grâce aux Achats et à l'Approvisionnement' per Section 1 of the locale file."
+          "inline_instruction": "This is the Module 1 title. Translate exactly as defined in Section 1 of the locale file."
         }
       ],
       "first_occurrence_tracking": null,
+      "expansion_risk": "MEDIUM",
       "translated_character_count": 60,
       "expansion_percentage": 36.4,
       "expansion_note": null
@@ -2404,18 +2337,17 @@
       "translation_status": "TRANSLATED",
       "translated_text": "Procédures d'achats et d'approvisionnement",
       "flag_status": "TRANSLATE",
-      "flag_options": null,
-      "expansion_risk": "NONE",
       "term_annotations": [
         {
-          "term": "Procurement and Supply",
+          "term": "procurement and supply",
           "reference_file_status": "TRANSLATE",
           "preferred_translation": "Achats et Approvisionnement",
-          "locale_override_applied": true,
+          "locale_override_applied": false,
           "inline_instruction": "Translate as 'Procédures d'achats et d'approvisionnement'."
         }
       ],
       "first_occurrence_tracking": null,
+      "expansion_risk": "NONE",
       "translated_character_count": 42,
       "expansion_percentage": 16.7,
       "expansion_note": null
@@ -2433,12 +2365,11 @@
       "translation_status": "TRANSLATED",
       "translated_text": "Dans cette unité, nous aborderons :",
       "flag_status": "TRANSLATE",
-      "flag_options": null,
-      "expansion_risk": "HIGH",
       "term_annotations": [],
       "first_occurrence_tracking": null,
-      "translated_character_count": 34,
-      "expansion_percentage": 9.7,
+      "expansion_risk": "MEDIUM",
+      "translated_character_count": 33,
+      "expansion_percentage": 6.5,
       "expansion_note": null
     },
     {
@@ -2452,20 +2383,19 @@
       "is_in_table": false,
       "layout_context": "Shape: Content Placeholder 8",
       "translation_status": "TRANSLATED",
-      "translated_text": "L'utilisation de codes éthiques en achats et approvisionnement",
+      "translated_text": "L'utilisation de codes d'éthique en achats et approvisionnement",
       "flag_status": "TRANSLATE",
-      "flag_options": null,
-      "expansion_risk": "NONE",
       "term_annotations": [
         {
           "term": "procurement and supply",
           "reference_file_status": "TRANSLATE",
           "preferred_translation": "Achats et Approvisionnement",
-          "locale_override_applied": true,
-          "inline_instruction": "Translate as 'achats et approvisionnement' per Section 1 of the global and override files."
+          "locale_override_applied": false,
+          "inline_instruction": "Translate as 'L'utilisation de codes d'éthique en achats et approvisionnement'."
         }
       ],
       "first_occurrence_tracking": null,
+      "expansion_risk": "NONE",
       "translated_character_count": 62,
       "expansion_percentage": 24.0,
       "expansion_note": null
