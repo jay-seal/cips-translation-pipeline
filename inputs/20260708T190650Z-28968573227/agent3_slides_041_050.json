@@ -1,0 +1,1782 @@
+{
+  "translation_summary": {
+    "total_segments": 64,
+    "translated_count": 62,
+    "partial_translated_count": 2,
+    "kept_count": 0,
+    "image_text_count": 0,
+    "flagged_count": 0,
+    "expansion_warnings": 4,
+    "locale_code": "FR-FR"
+  },
+  "document_metadata": {
+    "source_filename": "0-Corporate_Award_Practitioner_-_M1_Tutor_Slides_-_Driving_Value_-_2018.pptx",
+    "document_type": "pptx",
+    "target_locale": "FR-FR",
+    "total_slides_or_pages": 99,
+    "batch_slide_range": "41-50",
+    "extraction_timestamp": "2026-07-08T19:06:53.814609+00:00"
+  },
+  "segments": [
+    {
+      "segment_id": "SEG-001",
+      "slide_or_page": 41,
+      "element_type": "slide_title",
+      "element_id": "slide_41_Title_3",
+      "source_text": "The 5 Rights as Business Priorities",
+      "character_count": 35,
+      "is_in_text_box": true,
+      "is_in_table": false,
+      "layout_context": "Shape: Title 3",
+      "translation_status": "TRANSLATED",
+      "translated_text": "La règle des 5B comme priorités de l'entreprise",
+      "translated_character_count": 46,
+      "expansion_percentage": 31.4,
+      "expansion_note": "Translation is 31.4% longer than source. Layout check required.",
+      "flag_status": "TRANSLATE",
+      "first_occurrence_tracking": null,
+      "expansion_risk": "MEDIUM",
+      "term_annotations": [
+        {
+          "term": "The Five Rights",
+          "reference_file_status": "TRANSLATE",
+          "preferred_translation": "La règle des 5B",
+          "locale_override_applied": true,
+          "inline_instruction": "Translate 'The 5 Rights' as 'La règle des 5B' per Section 1 of the FR-FR override file (representing bon produit, bonne quantité, bon moment, bon lieu, bon prix)."
+        }
+      ]
+    },
+    {
+      "segment_id": "SEG-002",
+      "slide_or_page": 41,
+      "element_type": "body_text",
+      "element_id": "slide_41_Content_Placeholder_1",
+      "source_text": "Identify your key internal customers/stakeholders and assess their business priorities in terms of the 5 rights",
+      "character_count": 111,
+      "is_in_text_box": true,
+      "is_in_table": false,
+      "layout_context": "Shape: Content Placeholder 1",
+      "translation_status": "TRANSLATED",
+      "translated_text": "Identifiez vos clients internes et parties prenantes clés, et évaluez leurs priorités au regard de la règle des 5B",
+      "translated_character_count": 115,
+      "expansion_percentage": 3.6,
+      "expansion_note": null,
+      "flag_status": "TRANSLATE",
+      "first_occurrence_tracking": null,
+      "expansion_risk": "LOW",
+      "term_annotations": [
+        {
+          "term": "internal customer",
+          "reference_file_status": "TRANSLATE",
+          "preferred_translation": "client interne",
+          "locale_override_applied": false,
+          "inline_instruction": "Translate 'internal customer' as 'client interne' (use plural form 'clients internes' here to match the context)."
+        },
+        {
+          "term": "stakeholder",
+          "reference_file_status": "TRANSLATE",
+          "preferred_translation": "partie prenante",
+          "locale_override_applied": false,
+          "inline_instruction": "Translate 'stakeholders' as 'parties prenantes' (plural form)."
+        },
+        {
+          "term": "The Five Rights",
+          "reference_file_status": "TRANSLATE",
+          "preferred_translation": "La règle des 5B",
+          "locale_override_applied": true,
+          "inline_instruction": "Translate '5 rights' as 'les 5B' (or 'la règle des 5B') per the FR-FR override file."
+        }
+      ]
+    },
+    {
+      "segment_id": "SEG-003",
+      "slide_or_page": 41,
+      "element_type": "table_cell",
+      "element_id": "slide_41_Table_32_row0_col0",
+      "source_text": "Customer",
+      "character_count": 8,
+      "is_in_text_box": true,
+      "is_in_table": true,
+      "layout_context": "Table row 1, column 1",
+      "translation_status": "TRANSLATED",
+      "translated_text": "Client",
+      "translated_character_count": 6,
+      "expansion_percentage": -25.0,
+      "expansion_note": null,
+      "flag_status": "TRANSLATE",
+      "first_occurrence_tracking": null,
+      "expansion_risk": "HIGH",
+      "term_annotations": []
+    },
+    {
+      "segment_id": "SEG-004",
+      "slide_or_page": 41,
+      "element_type": "table_cell",
+      "element_id": "slide_41_Table_32_row0_col1",
+      "source_text": "Priority",
+      "character_count": 8,
+      "is_in_text_box": true,
+      "is_in_table": true,
+      "layout_context": "Table row 1, column 2",
+      "translation_status": "TRANSLATED",
+      "translated_text": "Priorité",
+      "translated_character_count": 8,
+      "expansion_percentage": 0.0,
+      "expansion_note": null,
+      "flag_status": "TRANSLATE",
+      "first_occurrence_tracking": null,
+      "expansion_risk": "HIGH",
+      "term_annotations": []
+    },
+    {
+      "segment_id": "SEG-005",
+      "slide_or_page": 41,
+      "element_type": "label",
+      "element_id": "slide_41_Rectangle_2",
+      "source_text": "How does this information assist the procurement function?",
+      "character_count": 58,
+      "is_in_text_box": false,
+      "is_in_table": false,
+      "layout_context": "Shape: Rectangle 2",
+      "translation_status": "TRANSLATED",
+      "translated_text": "Comment ces informations aident-elles la fonction Achats\u00a0?",
+      "translated_character_count": 57,
+      "expansion_percentage": -1.7,
+      "expansion_note": null,
+      "flag_status": "TRANSLATE",
+      "first_occurrence_tracking": null,
+      "expansion_risk": "MEDIUM",
+      "term_annotations": [
+        {
+          "term": "Procurement",
+          "reference_file_status": "TRANSLATE",
+          "preferred_translation": "Achats",
+          "locale_override_applied": true,
+          "inline_instruction": "Translate 'procurement function' as 'fonction Achats' (with capital A for the department name in corporate settings)."
+        }
+      ]
+    },
+    {
+      "segment_id": "SEG-006",
+      "slide_or_page": 42,
+      "element_type": "label",
+      "element_id": "slide_42_Content_Placeholder_8",
+      "source_text": "The 5 rights as business priorities",
+      "character_count": 35,
+      "is_in_text_box": false,
+      "is_in_table": false,
+      "layout_context": "Shape: Content Placeholder 8",
+      "translation_status": "TRANSLATED",
+      "translated_text": "La règle des 5B comme priorités de l'entreprise",
+      "translated_character_count": 46,
+      "expansion_percentage": 31.4,
+      "expansion_note": "Translation is 31.4% longer than source. Layout check required.",
+      "flag_status": "TRANSLATE",
+      "first_occurrence_tracking": null,
+      "expansion_risk": "MEDIUM",
+      "term_annotations": [
+        {
+          "term": "The Five Rights",
+          "reference_file_status": "TRANSLATE",
+          "preferred_translation": "La règle des 5B",
+          "locale_override_applied": true,
+          "inline_instruction": "Translate '5 rights' using 'la règle des 5B' per Section 1 of the FR-FR override file."
+        }
+      ]
+    },
+    {
+      "segment_id": "SEG-007",
+      "slide_or_page": 42,
+      "element_type": "label",
+      "element_id": "slide_42_Content_Placeholder_8",
+      "source_text": "Outsourcing of core and non-core services",
+      "character_count": 41,
+      "is_in_text_box": false,
+      "is_in_table": false,
+      "layout_context": "Shape: Content Placeholder 8",
+      "translation_status": "TRANSLATED",
+      "translated_text": "Externalisation des activités de cœur de métier et périphériques",
+      "translated_character_count": 64,
+      "expansion_percentage": 56.1,
+      "expansion_note": "Translation is 56.1% longer than source. Layout check required.",
+      "flag_status": "TRANSLATE",
+      "first_occurrence_tracking": null,
+      "expansion_risk": "MEDIUM",
+      "term_annotations": [
+        {
+          "term": "Outsourcing",
+          "reference_file_status": "TRANSLATE",
+          "preferred_translation": "Externalisation",
+          "locale_override_applied": false,
+          "inline_instruction": "Translate 'Outsourcing' as 'Externalisation'."
+        },
+        {
+          "term": "Core Services",
+          "reference_file_status": "TRANSLATE",
+          "preferred_translation": "Cœur de métier",
+          "locale_override_applied": true,
+          "inline_instruction": "Translate 'core and non-core services' idiomatically. Use 'activités de cœur de métier et périphériques' or 'services essentiels et non essentiels' depending on space. 'Cœur de métier' is the preferred rendering for core services."
+        },
+        {
+          "term": "Non-core Services",
+          "reference_file_status": "TRANSLATE",
+          "preferred_translation": "Services non essentiels / Activités périphériques",
+          "locale_override_applied": false,
+          "inline_instruction": "Translate 'non-core services' as 'services non essentiels' or 'activités périphériques'."
+        }
+      ]
+    },
+    {
+      "segment_id": "SEG-008",
+      "slide_or_page": 42,
+      "element_type": "label",
+      "element_id": "slide_42_Content_Placeholder_8",
+      "source_text": "Proportions of costs accounted for by procurement & supply",
+      "character_count": 58,
+      "is_in_text_box": false,
+      "is_in_table": false,
+      "layout_context": "Shape: Content Placeholder 8",
+      "translation_status": "TRANSLATED",
+      "translated_text": "Proportion des coûts représentée par les achats et approvisionnement",
+      "translated_character_count": 69,
+      "expansion_percentage": 19.0,
+      "expansion_note": null,
+      "flag_status": "TRANSLATE",
+      "first_occurrence_tracking": null,
+      "expansion_risk": "LOW",
+      "term_annotations": [
+        {
+          "term": "Procurement & Supply",
+          "reference_file_status": "TRANSLATE",
+          "preferred_translation": "Achats et Approvisionnement",
+          "locale_override_applied": false,
+          "inline_instruction": "Translate the paired phrase 'procurement & supply' as 'achats et approvisionnement' (with lowercase initials in general body text)."
+        }
+      ]
+    },
+    {
+      "segment_id": "SEG-009",
+      "slide_or_page": 42,
+      "element_type": "label",
+      "element_id": "slide_42_Content_Placeholder_8",
+      "source_text": "How effective procurement impacts on profitability/savings",
+      "character_count": 58,
+      "is_in_text_box": false,
+      "is_in_table": false,
+      "layout_context": "Shape: Content Placeholder 8",
+      "translation_status": "TRANSLATED",
+      "translated_text": "Impact d'achats efficaces sur la rentabilité/les économies",
+      "translated_character_count": 58,
+      "expansion_percentage": 0.0,
+      "expansion_note": null,
+      "flag_status": "TRANSLATE",
+      "first_occurrence_tracking": null,
+      "expansion_risk": "LOW",
+      "term_annotations": [
+        {
+          "term": "Procurement",
+          "reference_file_status": "TRANSLATE",
+          "preferred_translation": "Achats",
+          "locale_override_applied": true,
+          "inline_instruction": "Translate 'procurement' here as 'les achats' or 'une fonction achats'."
+        },
+        {
+          "term": "Savings",
+          "reference_file_status": "TRANSLATE",
+          "preferred_translation": "Économies / Gains",
+          "locale_override_applied": false,
+          "inline_instruction": "Translate 'savings' as 'économies'."
+        }
+      ]
+    },
+    {
+      "segment_id": "SEG-010",
+      "slide_or_page": 42,
+      "element_type": "text_box",
+      "element_id": "slide_42_Content_Placeholder_8",
+      "source_text": "The roles & benefits\nof procurement & supply",
+      "character_count": 44,
+      "is_in_text_box": true,
+      "is_in_table": false,
+      "layout_context": "Shape: Content Placeholder 8",
+      "translation_status": "TRANSLATED",
+      "translated_text": "Les rôles et bénéfices\ndes achats et approvisionnement",
+      "translated_character_count": 52,
+      "expansion_percentage": 18.2,
+      "expansion_note": null,
+      "flag_status": "TRANSLATE",
+      "first_occurrence_tracking": null,
+      "expansion_risk": "HIGH",
+      "term_annotations": [
+        {
+          "term": "Procurement & Supply",
+          "reference_file_status": "TRANSLATE",
+          "preferred_translation": "Achats et Approvisionnement",
+          "locale_override_applied": false,
+          "inline_instruction": "Translate 'procurement & supply' as 'achats et approvisionnement'."
+        }
+      ]
+    },
+    {
+      "segment_id": "SEG-011",
+      "slide_or_page": 42,
+      "element_type": "text_box",
+      "element_id": "slide_42_Content_Placeholder_8",
+      "source_text": "Procurement & Supply related\nterms",
+      "character_count": 34,
+      "is_in_text_box": true,
+      "is_in_table": false,
+      "layout_context": "Shape: Content Placeholder 8",
+      "translation_status": "TRANSLATED",
+      "translated_text": "Termes liés aux achats\net approvisionnement",
+      "translated_character_count": 42,
+      "expansion_percentage": 23.5,
+      "expansion_note": "Translation is 23.5% longer than source. Layout check required.",
+      "flag_status": "TRANSLATE",
+      "first_occurrence_tracking": null,
+      "expansion_risk": "HIGH",
+      "term_annotations": [
+        {
+          "term": "Procurement & Supply",
+          "reference_file_status": "TRANSLATE",
+          "preferred_translation": "Achats et Approvisionnement",
+          "locale_override_applied": false,
+          "inline_instruction": "Translate 'Procurement & Supply' as 'achats et approvisionnement'."
+        }
+      ]
+    },
+    {
+      "segment_id": "SEG-012",
+      "slide_or_page": 42,
+      "element_type": "label",
+      "element_id": "slide_42_Content_Placeholder_8",
+      "source_text": "The triple bottom line",
+      "character_count": 22,
+      "is_in_text_box": false,
+      "is_in_table": false,
+      "layout_context": "Shape: Content Placeholder 8",
+      "translation_status": "TRANSLATED",
+      "translated_text": "Le triple bilan (personnes, planète, profits)",
+      "translated_character_count": 45,
+      "expansion_percentage": 104.5,
+      "expansion_note": "Translation is 104.5% longer than source. Layout check required.",
+      "flag_status": "TRANSLATE",
+      "first_occurrence_tracking": null,
+      "expansion_risk": "HIGH",
+      "term_annotations": [
+        {
+          "term": "Triple Bottom Line",
+          "reference_file_status": "TRANSLATE",
+          "preferred_translation": "Triple bilan (Personnes, Planète, Profits)",
+          "locale_override_applied": false,
+          "inline_instruction": "Translate 'The triple bottom line' as 'Le triple bilan (personnes, planète, profits)'."
+        }
+      ]
+    },
+    {
+      "segment_id": "SEG-013",
+      "slide_or_page": 42,
+      "element_type": "slide_title",
+      "element_id": "slide_42_Title_2",
+      "source_text": "Driving Value through Procurement and Supply",
+      "character_count": 44,
+      "is_in_text_box": true,
+      "is_in_table": false,
+      "layout_context": "Shape: Title 2",
+      "translation_status": "TRANSLATED",
+      "translated_text": "Créer de la valeur grâce aux Achats et à l'Approvisionnement",
+      "translated_character_count": 59,
+      "expansion_percentage": 34.1,
+      "expansion_note": "Translation is 34.1% longer than source. Layout check required.",
+      "flag_status": "TRANSLATE",
+      "first_occurrence_tracking": null,
+      "expansion_risk": "MEDIUM",
+      "term_annotations": [
+        {
+          "term": "Driving Value through Procurement and Supply",
+          "reference_file_status": "FLAG",
+          "preferred_translation": "Créer de la valeur grâce aux Achats et à l'Approvisionnement",
+          "locale_override_applied": true,
+          "inline_instruction": "This is the Title of Module 1. Translate exactly as 'Créer de la valeur grâce aux Achats et à l'Approvisionnement' per Section 1 of the FR-FR override file. Consistency is critical."
+        }
+      ]
+    },
+    {
+      "segment_id": "SEG-014",
+      "slide_or_page": 42,
+      "element_type": "label",
+      "element_id": "slide_42_Content_Placeholder_8",
+      "source_text": "Objectives of the function",
+      "character_count": 26,
+      "is_in_text_box": false,
+      "is_in_table": false,
+      "layout_context": "Shape: Content Placeholder 8",
+      "translation_status": "TRANSLATED",
+      "translated_text": "Objectifs de la fonction",
+      "translated_character_count": 25,
+      "expansion_percentage": -3.8,
+      "expansion_note": null,
+      "flag_status": "TRANSLATE",
+      "first_occurrence_tracking": null,
+      "expansion_risk": "HIGH",
+      "term_annotations": []
+    },
+    {
+      "segment_id": "SEG-015",
+      "slide_or_page": 42,
+      "element_type": "label",
+      "element_id": "slide_42_Content_Placeholder_8",
+      "source_text": "Tiers of a supply chain",
+      "character_count": 23,
+      "is_in_text_box": false,
+      "is_in_table": false,
+      "layout_context": "Shape: Content Placeholder 8",
+      "translation_status": "TRANSLATED",
+      "translated_text": "Niveaux de la chaîne d'approvisionnement",
+      "translated_character_count": 39,
+      "expansion_percentage": 69.6,
+      "expansion_note": "Translation is 69.6% longer than source. Layout check required.",
+      "flag_status": "TRANSLATE",
+      "first_occurrence_tracking": null,
+      "expansion_risk": "HIGH",
+      "term_annotations": [
+        {
+          "term": "Supply Chain Tiers",
+          "reference_file_status": "TRANSLATE",
+          "preferred_translation": "Niveaux de la chaîne d'approvisionnement / Rangs de fournisseurs",
+          "locale_override_applied": false,
+          "inline_instruction": "Translate 'Tiers of a supply chain' as 'Niveaux de la chaîne d'approvisionnement'."
+        }
+      ]
+    },
+    {
+      "segment_id": "SEG-016",
+      "slide_or_page": 42,
+      "element_type": "label",
+      "element_id": "slide_42_Content_Placeholder_8",
+      "source_text": "The inputs made by stakeholders (and conflict)",
+      "character_count": 46,
+      "is_in_text_box": false,
+      "is_in_table": false,
+      "layout_context": "Shape: Content Placeholder 8",
+      "translation_status": "TRANSLATED",
+      "translated_text": "Les contributions des parties prenantes (et les conflits)",
+      "translated_character_count": 56,
+      "expansion_percentage": 21.7,
+      "expansion_note": "Translation is 21.7% longer than source. Layout check required.",
+      "flag_status": "TRANSLATE",
+      "first_occurrence_tracking": null,
+      "expansion_risk": "MEDIUM",
+      "term_annotations": [
+        {
+          "term": "Stakeholder",
+          "reference_file_status": "TRANSLATE",
+          "preferred_translation": "Partie prenante",
+          "locale_override_applied": false,
+          "inline_instruction": "Translate 'stakeholders' as 'parties prenantes' (plural)."
+        }
+      ]
+    },
+    {
+      "segment_id": "SEG-017",
+      "slide_or_page": 42,
+      "element_type": "label",
+      "element_id": "slide_42_Rectangle_135",
+      "source_text": "The Roles of Procurement and Supply",
+      "character_count": 35,
+      "is_in_text_box": false,
+      "is_in_table": false,
+      "layout_context": "Shape: Rectangle 135",
+      "translation_status": "TRANSLATED",
+      "translated_text": "Les rôles des Achats et de l'Approvisionnement",
+      "translated_character_count": 45,
+      "expansion_percentage": 28.6,
+      "expansion_note": "Translation is 28.6% longer than source. Layout check required.",
+      "flag_status": "TRANSLATE",
+      "first_occurrence_tracking": null,
+      "expansion_risk": "MEDIUM",
+      "term_annotations": [
+        {
+          "term": "Procurement & Supply",
+          "reference_file_status": "TRANSLATE",
+          "preferred_translation": "Achats et Approvisionnement",
+          "locale_override_applied": false,
+          "inline_instruction": "Translate 'Procurement and Supply' as 'Achats et Approvisionnement'."
+        }
+      ]
+    },
+    {
+      "segment_id": "SEG-018",
+      "slide_or_page": 42,
+      "element_type": "body_text",
+      "element_id": "slide_42_Text_Placeholder_15",
+      "source_text": "In this Unit, we will focus on:",
+      "character_count": 31,
+      "is_in_text_box": true,
+      "is_in_table": false,
+      "layout_context": "Shape: Text Placeholder 15",
+      "translation_status": "TRANSLATED",
+      "translated_text": "Dans cette unité, nous aborderons\u00a0:",
+      "translated_character_count": 34,
+      "expansion_percentage": 9.7,
+      "expansion_note": null,
+      "flag_status": "TRANSLATE",
+      "first_occurrence_tracking": null,
+      "expansion_risk": "HIGH",
+      "term_annotations": []
+    },
+    {
+      "segment_id": "SEG-019",
+      "slide_or_page": 43,
+      "element_type": "slide_title",
+      "element_id": "slide_43_Title_3",
+      "source_text": "Stakeholders",
+      "character_count": 12,
+      "is_in_text_box": true,
+      "is_in_table": false,
+      "layout_context": "Shape: Title 3",
+      "translation_status": "TRANSLATED",
+      "translated_text": "Parties prenantes",
+      "translated_character_count": 17,
+      "expansion_percentage": 41.7,
+      "expansion_note": "Translation is 41.7% longer than source. Layout check required.",
+      "flag_status": "TRANSLATE",
+      "first_occurrence_tracking": null,
+      "expansion_risk": "HIGH",
+      "term_annotations": [
+        {
+          "term": "Stakeholder",
+          "reference_file_status": "TRANSLATE",
+          "preferred_translation": "Partie prenante",
+          "locale_override_applied": false,
+          "inline_instruction": "Translate as 'Parties prenantes' (plural as heading context)."
+        }
+      ]
+    },
+    {
+      "segment_id": "SEG-020",
+      "slide_or_page": 43,
+      "element_type": "body_text",
+      "element_id": "slide_43_Content_Placeholder_1",
+      "source_text": "A corporate stakeholder is that which can affect or be affected by the actions of the business as a whole. The stakeholder concept defines stakeholders as “those groups without whose support the organisation would cease to exist”. There are:",
+      "character_count": 241,
+      "is_in_text_box": true,
+      "is_in_table": false,
+      "layout_context": "Shape: Content Placeholder 1",
+      "translation_status": "TRANSLATED",
+      "translated_text": "Une partie prenante de l'entreprise est une entit\u00e9 qui peut influer sur les actions de l'entreprise dans son ensemble ou \u00eatre influenc\u00e9e par elles. Ce concept d\u00e9finit les parties prenantes comme \u00ab\u00a0les groupes sans le soutien desquels l'organisation cesserait d'exister\u00a0\u00bb. On distingue\u00a0:",
+      "translated_character_count": 286,
+      "expansion_percentage": 18.7,
+      "expansion_note": null,
+      "flag_status": "TRANSLATE",
+      "first_occurrence_tracking": null,
+      "expansion_risk": "LOW",
+      "term_annotations": [
+        {
+          "term": "Stakeholder",
+          "reference_file_status": "TRANSLATE",
+          "preferred_translation": "Partie prenante",
+          "locale_override_applied": false,
+          "inline_instruction": "Translate 'stakeholder' as 'partie prenante' and 'stakeholders' as 'parties prenantes'."
+        }
+      ]
+    },
+    {
+      "segment_id": "SEG-021",
+      "slide_or_page": 43,
+      "element_type": "label",
+      "element_id": "slide_43_Rectangle_2",
+      "source_text": "Internal stakeholders",
+      "character_count": 21,
+      "is_in_text_box": false,
+      "is_in_table": false,
+      "layout_context": "Shape: Rectangle 2",
+      "translation_status": "TRANSLATED",
+      "translated_text": "Parties prenantes internes",
+      "translated_character_count": 26,
+      "expansion_percentage": 23.8,
+      "expansion_note": "Translation is 23.8% longer than source. Layout check required.",
+      "flag_status": "TRANSLATE",
+      "first_occurrence_tracking": null,
+      "expansion_risk": "HIGH",
+      "term_annotations": [
+        {
+          "term": "Stakeholder",
+          "reference_file_status": "TRANSLATE",
+          "preferred_translation": "Partie prenante",
+          "locale_override_applied": false,
+          "inline_instruction": "Translate 'Internal stakeholders' as 'Parties prenantes internes'."
+        }
+      ]
+    },
+    {
+      "segment_id": "SEG-022",
+      "slide_or_page": 43,
+      "element_type": "label",
+      "element_id": "slide_43_Rectangle_32",
+      "source_text": "Connected stakeholders",
+      "character_count": 22,
+      "is_in_text_box": false,
+      "is_in_table": false,
+      "layout_context": "Shape: Rectangle 32",
+      "translation_status": "TRANSLATED",
+      "translated_text": "Parties prenantes connect\u00e9es",
+      "translated_character_count": 28,
+      "expansion_percentage": 27.3,
+      "expansion_note": "Translation is 27.3% longer than source. Layout check required.",
+      "flag_status": "TRANSLATE",
+      "first_occurrence_tracking": null,
+      "expansion_risk": "HIGH",
+      "term_annotations": [
+        {
+          "term": "Stakeholder",
+          "reference_file_status": "TRANSLATE",
+          "preferred_translation": "Partie prenante",
+          "locale_override_applied": false,
+          "inline_instruction": "Translate 'Connected stakeholders' as 'Parties prenantes connectées'."
+        }
+      ]
+    },
+    {
+      "segment_id": "SEG-023",
+      "slide_or_page": 43,
+      "element_type": "text_box",
+      "element_id": "slide_43_Rectangle_34",
+      "source_text": "External or secondary\nstakeholders",
+      "character_count": 34,
+      "is_in_text_box": true,
+      "is_in_table": false,
+      "layout_context": "Shape: Rectangle 34",
+      "translation_status": "TRANSLATED",
+      "translated_text": "Parties prenantes externes\nou secondaires",
+      "translated_character_count": 41,
+      "expansion_percentage": 20.6,
+      "expansion_note": "Translation is 20.6% longer than source. Layout check required.",
+      "flag_status": "TRANSLATE",
+      "first_occurrence_tracking": null,
+      "expansion_risk": "HIGH",
+      "term_annotations": [
+        {
+          "term": "Stakeholder",
+          "reference_file_status": "TRANSLATE",
+          "preferred_translation": "Partie prenante",
+          "locale_override_applied": false,
+          "inline_instruction": "Translate 'External or secondary stakeholders' as 'Parties prenantes externes ou secondaires'."
+        }
+      ]
+    },
+    {
+      "segment_id": "SEG-024",
+      "slide_or_page": 44,
+      "element_type": "slide_title",
+      "element_id": "slide_44_Title_3",
+      "source_text": "Stakeholders",
+      "character_count": 12,
+      "is_in_text_box": true,
+      "is_in_table": false,
+      "layout_context": "Shape: Title 3",
+      "translation_status": "TRANSLATED",
+      "translated_text": "Parties prenantes",
+      "translated_character_count": 17,
+      "expansion_percentage": 41.7,
+      "expansion_note": "Translation is 41.7% longer than source. Layout check required.",
+      "flag_status": "TRANSLATE",
+      "first_occurrence_tracking": null,
+      "expansion_risk": "HIGH",
+      "term_annotations": [
+        {
+          "term": "Stakeholder",
+          "reference_file_status": "TRANSLATE",
+          "preferred_translation": "Partie prenante",
+          "locale_override_applied": false,
+          "inline_instruction": "Translate as 'Parties prenantes' (plural as heading context)."
+        }
+      ]
+    },
+    {
+      "segment_id": "SEG-025",
+      "slide_or_page": 44,
+      "element_type": "body_text",
+      "element_id": "slide_44_Content_Placeholder_1",
+      "source_text": "From your role or organisations perspective identify examples of  Internal, External and Connected stakeholders.",
+      "character_count": 112,
+      "is_in_text_box": true,
+      "is_in_table": false,
+      "layout_context": "Shape: Content Placeholder 1",
+      "translation_status": "TRANSLATED",
+      "translated_text": "Du point de vue de votre r\u00f4le ou de votre organisation, identifiez des exemples de parties prenantes internes, externes et connect\u00e9es.",
+      "translated_character_count": 133,
+      "expansion_percentage": 18.8,
+      "expansion_note": null,
+      "flag_status": "TRANSLATE",
+      "first_occurrence_tracking": null,
+      "expansion_risk": "LOW",
+      "term_annotations": [
+        {
+          "term": "Stakeholder",
+          "reference_file_status": "TRANSLATE",
+          "preferred_translation": "Partie prenante",
+          "locale_override_applied": false,
+          "inline_instruction": "Translate 'stakeholders' as 'parties prenantes' (plural)."
+        }
+      ]
+    },
+    {
+      "segment_id": "SEG-026",
+      "slide_or_page": 44,
+      "element_type": "table_cell",
+      "element_id": "slide_44_Table_7_row0_col0",
+      "source_text": "Internal",
+      "character_count": 8,
+      "is_in_text_box": true,
+      "is_in_table": true,
+      "layout_context": "Table row 1, column 1",
+      "translation_status": "TRANSLATED",
+      "translated_text": "Internes",
+      "translated_character_count": 8,
+      "expansion_percentage": 0.0,
+      "expansion_note": null,
+      "flag_status": "TRANSLATE",
+      "first_occurrence_tracking": null,
+      "expansion_risk": "HIGH",
+      "term_annotations": []
+    },
+    {
+      "segment_id": "SEG-027",
+      "slide_or_page": 44,
+      "element_type": "table_cell",
+      "element_id": "slide_44_Table_7_row0_col1",
+      "source_text": "External",
+      "character_count": 8,
+      "is_in_text_box": true,
+      "is_in_table": true,
+      "layout_context": "Table row 1, column 2",
+      "translation_status": "TRANSLATED",
+      "translated_text": "Externes",
+      "translated_character_count": 8,
+      "expansion_percentage": 0.0,
+      "expansion_note": null,
+      "flag_status": "TRANSLATE",
+      "first_occurrence_tracking": null,
+      "expansion_risk": "HIGH",
+      "term_annotations": []
+    },
+    {
+      "segment_id": "SEG-028",
+      "slide_or_page": 44,
+      "element_type": "table_cell",
+      "element_id": "slide_44_Table_7_row0_col2",
+      "source_text": "Connected",
+      "character_count": 9,
+      "is_in_text_box": true,
+      "is_in_table": true,
+      "layout_context": "Table row 1, column 3",
+      "translation_status": "TRANSLATED",
+      "translated_text": "Connect\u00e9es",
+      "translated_character_count": 10,
+      "expansion_percentage": 11.1,
+      "expansion_note": null,
+      "flag_status": "TRANSLATE",
+      "first_occurrence_tracking": null,
+      "expansion_risk": "HIGH",
+      "term_annotations": []
+    },
+    {
+      "segment_id": "SEG-029",
+      "slide_or_page": 45,
+      "element_type": "slide_title",
+      "element_id": "slide_45_Title_3",
+      "source_text": "Stakeholder Management",
+      "character_count": 22,
+      "is_in_text_box": true,
+      "is_in_table": false,
+      "layout_context": "Shape: Title 3",
+      "translation_status": "TRANSLATED",
+      "translated_text": "Gestion des parties prenantes",
+      "translated_character_count": 29,
+      "expansion_percentage": 31.8,
+      "expansion_note": "Translation is 31.8% longer than source. Layout check required.",
+      "flag_status": "TRANSLATE",
+      "first_occurrence_tracking": null,
+      "expansion_risk": "HIGH",
+      "term_annotations": [
+        {
+          "term": "Stakeholder Management",
+          "reference_file_status": "TRANSLATE",
+          "preferred_translation": "Gestion des parties prenantes",
+          "locale_override_applied": false,
+          "inline_instruction": "Translate 'Stakeholder Management' as 'Gestion des parties prenantes'."
+        }
+      ]
+    },
+    {
+      "segment_id": "SEG-030",
+      "slide_or_page": 45,
+      "element_type": "text_box",
+      "element_id": "slide_45_Rectangle_4",
+      "source_text": "Take their interests and likely responses into account\nCommunicate effectively with them on matters that affect them\nEngage the interest, support and commitment of influential (and potentially helpful) individuals and groups\nManage potential issues and problem areas that might generate resistance or opposition from influential groups",
+      "character_count": 335,
+      "is_in_text_box": true,
+      "is_in_table": false,
+      "layout_context": "Shape: Rectangle 4",
+      "translation_status": "TRANSLATED",
+      "translated_text": "Prendre en compte leurs int\u00e9r\u00eats et leurs r\u00e9actions probables\nCommuniquer efficacement avec elles sur les questions qui les concernent\nSusciter l'int\u00e9r\u00eat, le soutien et l'engagement des individus et groupes influents (et potentiellement utiles)\nG\u00e9rer les probl\u00e8mes potentiels et les points de friction susceptibles de susciter de la r\u00e9sistance ou de l'opposition de la part de groupes influents",
+      "translated_character_count": 397,
+      "expansion_percentage": 18.5,
+      "expansion_note": null,
+      "flag_status": "TRANSLATE",
+      "first_occurrence_tracking": null,
+      "expansion_risk": "LOW",
+      "term_annotations": [
+        {
+          "term": "Formal register",
+          "reference_file_status": "TRANSLATE",
+          "preferred_translation": null,
+          "locale_override_applied": true,
+          "inline_instruction": "Use the formal 'vous' form and infinitive imperative forms where appropriate on slides (e.g., 'Prendre en compte...', 'Communiquer efficacement...', 'Susciter l'intérêt...', 'Gérer les problèmes...')."
+        }
+      ]
+    },
+    {
+      "segment_id": "SEG-031",
+      "slide_or_page": 46,
+      "element_type": "slide_title",
+      "element_id": "slide_46_Title_3",
+      "source_text": "Mendelow’s Power/Interest Matrix",
+      "character_count": 32,
+      "is_in_text_box": true,
+      "is_in_table": false,
+      "layout_context": "Shape: Title 3",
+      "translation_status": "TRANSLATED",
+      "translated_text": "Matrice Pouvoir/Int\u00e9r\u00eat de Mendelow",
+      "translated_character_count": 35,
+      "expansion_percentage": 9.4,
+      "expansion_note": null,
+      "flag_status": "TRANSLATE",
+      "first_occurrence_tracking": null,
+      "expansion_risk": "MEDIUM",
+      "term_annotations": [
+        {
+          "term": "Mendelow's Matrix",
+          "reference_file_status": "KEEP",
+          "preferred_translation": "Matrice de Mendelow",
+          "locale_override_applied": false,
+          "inline_instruction": "Retain proper noun 'Mendelow'. Translate 'Mendelow’s Power/Interest Matrix' as 'Matrice Pouvoir/Intérêt de Mendelow' or 'Matrice de Mendelow (pouvoir/intérêt)'."
+        }
+      ]
+    },
+    {
+      "segment_id": "SEG-032",
+      "slide_or_page": 46,
+      "element_type": "label",
+      "element_id": "slide_46_TextBox_5",
+      "source_text": "Adapted from CIPS Study Materials",
+      "character_count": 33,
+      "is_in_text_box": false,
+      "is_in_table": false,
+      "layout_context": "Shape: TextBox 5",
+      "translation_status": "PARTIAL_TRANSLATED",
+      "translated_text": "Adapt\u00e9 des supports p\u00e9dagogiques du CIPS",
+      "translated_character_count": null,
+      "expansion_percentage": null,
+      "expansion_note": null,
+      "flag_status": "PARTIAL_TRANSLATE",
+      "translation_target": "Adapted from CIPS Study Materials",
+      "keep_prefix": null,
+      "keep_suffix": null,
+      "inline_instruction": "Translate this phrase using the Named Translation Overrides in Section 8 of the locale file if a match exists. If no locale override is defined for this phrase, translate it literally and retain 'CIPS' unchanged."
+    },
+    {
+      "segment_id": "SEG-033",
+      "slide_or_page": 47,
+      "element_type": "slide_title",
+      "element_id": "slide_47_Title_3",
+      "source_text": "Stakeholder Management",
+      "character_count": 22,
+      "is_in_text_box": true,
+      "is_in_table": false,
+      "layout_context": "Shape: Title 3",
+      "translation_status": "TRANSLATED",
+      "translated_text": "Gestion des parties prenantes",
+      "translated_character_count": 29,
+      "expansion_percentage": 31.8,
+      "expansion_note": "Translation is 31.8% longer than source. Layout check required.",
+      "flag_status": "TRANSLATE",
+      "first_occurrence_tracking": null,
+      "expansion_risk": "HIGH",
+      "term_annotations": [
+        {
+          "term": "Stakeholder Management",
+          "reference_file_status": "TRANSLATE",
+          "preferred_translation": "Gestion des parties prenantes",
+          "locale_override_applied": false,
+          "inline_instruction": "Translate 'Stakeholder Management' as 'Gestion des parties prenantes'."
+        }
+      ]
+    },
+    {
+      "segment_id": "SEG-034",
+      "slide_or_page": 47,
+      "element_type": "label",
+      "element_id": "slide_47_Rectangle_21",
+      "source_text": "Identify stakeholder groups",
+      "character_count": 27,
+      "is_in_text_box": false,
+      "is_in_table": false,
+      "layout_context": "Shape: Rectangle 21",
+      "translation_status": "TRANSLATED",
+      "translated_text": "Identifier les groupes de parties prenantes",
+      "translated_character_count": 43,
+      "expansion_percentage": 59.3,
+      "expansion_note": "Translation is 59.3% longer than source. Layout check required.",
+      "flag_status": "TRANSLATE",
+      "first_occurrence_tracking": null,
+      "expansion_risk": "MEDIUM",
+      "term_annotations": [
+        {
+          "term": "Stakeholder",
+          "reference_file_status": "TRANSLATE",
+          "preferred_translation": "Partie prenante",
+          "locale_override_applied": false,
+          "inline_instruction": "Translate 'stakeholder groups' as 'groupes de parties prenantes'."
+        }
+      ]
+    },
+    {
+      "segment_id": "SEG-035",
+      "slide_or_page": 47,
+      "element_type": "label",
+      "element_id": "slide_47_Rectangle_22",
+      "source_text": "Assess stakeholder power/influence",
+      "character_count": 34,
+      "is_in_text_box": false,
+      "is_in_table": false,
+      "layout_context": "Shape: Rectangle 22",
+      "translation_status": "TRANSLATED",
+      "translated_text": "\u00c9valuer le pouvoir/l'influence des parties prenantes",
+      "translated_character_count": 52,
+      "expansion_percentage": 52.9,
+      "expansion_note": "Translation is 52.9% longer than source. Layout check required.",
+      "flag_status": "TRANSLATE",
+      "first_occurrence_tracking": null,
+      "expansion_risk": "MEDIUM",
+      "term_annotations": [
+        {
+          "term": "Stakeholder",
+          "reference_file_status": "TRANSLATE",
+          "preferred_translation": "Partie prenante",
+          "locale_override_applied": false,
+          "inline_instruction": "Translate 'stakeholder power/influence' as 'pouvoir/influence des parties prenantes'."
+        }
+      ]
+    },
+    {
+      "segment_id": "SEG-036",
+      "slide_or_page": 47,
+      "element_type": "label",
+      "element_id": "slide_47_Rectangle_23",
+      "source_text": "Assess stakeholder interest",
+      "character_count": 27,
+      "is_in_text_box": false,
+      "is_in_table": false,
+      "layout_context": "Shape: Rectangle 23",
+      "translation_status": "TRANSLATED",
+      "translated_text": "\u00c9valuer l'int\u00e9r\u00eat des parties prenantes",
+      "translated_character_count": 40,
+      "expansion_percentage": 48.1,
+      "expansion_note": "Translation is 48.1% longer than source. Layout check required.",
+      "flag_status": "TRANSLATE",
+      "first_occurrence_tracking": null,
+      "expansion_risk": "MEDIUM",
+      "term_annotations": [
+        {
+          "term": "Stakeholder",
+          "reference_file_status": "TRANSLATE",
+          "preferred_translation": "Partie prenante",
+          "locale_override_applied": false,
+          "inline_instruction": "Translate 'stakeholder interest' as 'intérêt des parties prenantes'."
+        }
+      ]
+    },
+    {
+      "segment_id": "SEG-037",
+      "slide_or_page": 47,
+      "element_type": "label",
+      "element_id": "slide_47_Rectangle_24",
+      "source_text": "Map stakeholder management strategies",
+      "character_count": 37,
+      "is_in_text_box": false,
+      "is_in_table": false,
+      "layout_context": "Shape: Rectangle 24",
+      "translation_status": "TRANSLATED",
+      "translated_text": "Cartographier les strat\u00e9gies de gestion des parties prenantes",
+      "translated_character_count": 61,
+      "expansion_percentage": 64.9,
+      "expansion_note": "Translation is 64.9% longer than source. Layout check required.",
+      "flag_status": "TRANSLATE",
+      "first_occurrence_tracking": null,
+      "expansion_risk": "MEDIUM",
+      "term_annotations": [
+        {
+          "term": "Stakeholder Management",
+          "reference_file_status": "TRANSLATE",
+          "preferred_translation": "Gestion des parties prenantes",
+          "locale_override_applied": false,
+          "inline_instruction": "Translate 'stakeholder management strategies' as 'cartographier les stratégies de gestion des parties prenantes'."
+        }
+      ]
+    },
+    {
+      "segment_id": "SEG-038",
+      "slide_or_page": 47,
+      "element_type": "label",
+      "element_id": "slide_47_Rectangle_25",
+      "source_text": "Assess keystakeholder goals",
+      "character_count": 27,
+      "is_in_text_box": false,
+      "is_in_table": false,
+      "layout_context": "Shape: Rectangle 25",
+      "translation_status": "TRANSLATED",
+      "translated_text": "\u00c9valuer les objectifs des parties prenantes cl\u00e9s",
+      "translated_character_count": 49,
+      "expansion_percentage": 81.5,
+      "expansion_note": "Translation is 81.5% longer than source. Layout check required.",
+      "flag_status": "TRANSLATE",
+      "first_occurrence_tracking": null,
+      "expansion_risk": "MEDIUM",
+      "term_annotations": [
+        {
+          "term": "Key Players",
+          "reference_file_status": "TRANSLATE",
+          "preferred_translation": "Acteurs clés",
+          "locale_override_applied": false,
+          "inline_instruction": "Translate 'keystakeholder goals' as 'objectifs des parties prenantes clés'."
+        }
+      ]
+    },
+    {
+      "segment_id": "SEG-039",
+      "slide_or_page": 47,
+      "element_type": "text_box",
+      "element_id": "slide_47_Rectangle_26",
+      "source_text": "Stakeholder planning: how to negotiate mutual goal fulfilment?",
+      "character_count": 62,
+      "is_in_text_box": true,
+      "is_in_table": false,
+      "layout_context": "Shape: Rectangle 26",
+      "translation_status": "TRANSLATED",
+      "translated_text": "Planification des parties prenantes\u00a0: comment n\u00e9gocier la r\u00e9alisation d'objectifs mutuels\u00a0?",
+      "translated_character_count": 92,
+      "expansion_percentage": 48.4,
+      "expansion_note": null,
+      "flag_status": "TRANSLATE",
+      "first_occurrence_tracking": null,
+      "expansion_risk": "LOW",
+      "term_annotations": [
+        {
+          "term": "Stakeholder",
+          "reference_file_status": "TRANSLATE",
+          "preferred_translation": "Partie prenante",
+          "locale_override_applied": false,
+          "inline_instruction": "Translate 'Stakeholder planning' as 'Planification des parties prenantes'."
+        }
+      ]
+    },
+    {
+      "segment_id": "SEG-040",
+      "slide_or_page": 47,
+      "element_type": "label",
+      "element_id": "slide_47_Rectangle_27",
+      "source_text": "(Mendelow Matrix)",
+      "character_count": 17,
+      "is_in_text_box": false,
+      "is_in_table": false,
+      "layout_context": "Shape: Rectangle 27",
+      "translation_status": "TRANSLATED",
+      "translated_text": "(Matrice de Mendelow)",
+      "translated_character_count": 21,
+      "expansion_percentage": 23.5,
+      "expansion_note": "Translation is 23.5% longer than source. Layout check required.",
+      "flag_status": "TRANSLATE",
+      "first_occurrence_tracking": null,
+      "expansion_risk": "HIGH",
+      "term_annotations": [
+        {
+          "term": "Mendelow's Matrix",
+          "reference_file_status": "KEEP",
+          "preferred_translation": "Matrice de Mendelow",
+          "locale_override_applied": false,
+          "inline_instruction": "Retain proper name 'Mendelow'. Translate as '(Matrice de Mendelow)'."
+        }
+      ]
+    },
+    {
+      "segment_id": "SEG-041",
+      "slide_or_page": 47,
+      "element_type": "label",
+      "element_id": "slide_47_TextBox_34",
+      "source_text": "Adapted from CIPS Study Materials",
+      "character_count": 33,
+      "is_in_text_box": false,
+      "is_in_table": false,
+      "layout_context": "Shape: TextBox 34",
+      "translation_status": "PARTIAL_TRANSLATED",
+      "translated_text": "Adapt\u00e9 des supports p\u00e9dagogiques du CIPS",
+      "translated_character_count": null,
+      "expansion_percentage": null,
+      "expansion_note": null,
+      "flag_status": "PARTIAL_TRANSLATE",
+      "translation_target": "Adapted from CIPS Study Materials",
+      "keep_prefix": null,
+      "keep_suffix": null,
+      "inline_instruction": "Translate this phrase using the Named Translation Overrides in Section 8 of the locale file if a match exists. If no locale override is defined for this phrase, translate it literally and retain 'CIPS' unchanged."
+    },
+    {
+      "segment_id": "SEG-042",
+      "slide_or_page": 48,
+      "element_type": "slide_title",
+      "element_id": "slide_48_Title_3",
+      "source_text": "Stakeholder Identification & Management",
+      "character_count": 39,
+      "is_in_text_box": true,
+      "is_in_table": false,
+      "layout_context": "Shape: Title 3",
+      "translation_status": "TRANSLATED",
+      "translated_text": "Identification et gestion des parties prenantes",
+      "translated_character_count": 47,
+      "expansion_percentage": 20.5,
+      "expansion_note": null,
+      "flag_status": "TRANSLATE",
+      "first_occurrence_tracking": null,
+      "expansion_risk": "LOW",
+      "term_annotations": [
+        {
+          "term": "Stakeholder Management",
+          "reference_file_status": "TRANSLATE",
+          "preferred_translation": "Gestion des parties prenantes",
+          "locale_override_applied": false,
+          "inline_instruction": "Translate as 'Identification et gestion des parties prenantes'."
+        }
+      ]
+    },
+    {
+      "segment_id": "SEG-043",
+      "slide_or_page": 48,
+      "element_type": "text_box",
+      "element_id": "slide_48_Rectangle_2",
+      "source_text": "Utilising Mendelows matrix populate the stakeholder matrix based on their power/interest.\nOnce completed, consider how you might manage each group?",
+      "character_count": 147,
+      "is_in_text_box": true,
+      "is_in_table": false,
+      "layout_context": "Shape: Rectangle 2",
+      "translation_status": "TRANSLATED",
+      "translated_text": "En utilisant la matrice de Mendelow, compl\u00e9tez la matrice des parties prenantes en fonction de leur pouvoir et de leur int\u00e9r\u00eat.\nUne fois termin\u00e9, examinez comment vous pourriez g\u00e9rer chaque groupe\u00a0?",
+      "translated_character_count": 203,
+      "expansion_percentage": 38.1,
+      "expansion_note": null,
+      "flag_status": "TRANSLATE",
+      "first_occurrence_tracking": null,
+      "expansion_risk": "LOW",
+      "term_annotations": [
+        {
+          "term": "Mendelow's Matrix",
+          "reference_file_status": "KEEP",
+          "preferred_translation": "Matrice de Mendelow",
+          "locale_override_applied": false,
+          "inline_instruction": "Retain 'Mendelow'. Translate 'Mendelows matrix' as 'matrice de Mendelow'. Ensure formal 'vous' form or infinitive is used ('En utilisant...', 'Une fois terminé, examinez comment...')."
+        },
+        {
+          "term": "Stakeholder",
+          "reference_file_status": "TRANSLATE",
+          "preferred_translation": "Partie prenante",
+          "locale_override_applied": false,
+          "inline_instruction": "Translate 'stakeholder matrix' as 'matrice des parties prenantes'."
+        }
+      ]
+    },
+    {
+      "segment_id": "SEG-044",
+      "slide_or_page": 48,
+      "element_type": "table_cell",
+      "element_id": "slide_48_Table_35_row0_col0",
+      "source_text": "Key Players",
+      "character_count": 11,
+      "is_in_text_box": true,
+      "is_in_table": true,
+      "layout_context": "Table row 1, column 1",
+      "translation_status": "TRANSLATED",
+      "translated_text": "Acteurs cl\u00e9s",
+      "translated_character_count": 12,
+      "expansion_percentage": 9.1,
+      "expansion_note": null,
+      "flag_status": "TRANSLATE",
+      "first_occurrence_tracking": null,
+      "expansion_risk": "HIGH",
+      "term_annotations": [
+        {
+          "term": "Key Players",
+          "reference_file_status": "TRANSLATE",
+          "preferred_translation": "Acteurs clés",
+          "locale_override_applied": false,
+          "inline_instruction": "Translate 'Key Players' as 'Acteurs clés' per Section 7 of the global file."
+        }
+      ]
+    },
+    {
+      "segment_id": "SEG-045",
+      "slide_or_page": 48,
+      "element_type": "table_cell",
+      "element_id": "slide_48_Table_35_row0_col1",
+      "source_text": "Keep Informed",
+      "character_count": 13,
+      "is_in_text_box": true,
+      "is_in_table": true,
+      "layout_context": "Table row 1, column 2",
+      "translation_status": "TRANSLATED",
+      "translated_text": "Garder inform\u00e9",
+      "translated_character_count": 14,
+      "expansion_percentage": 7.7,
+      "expansion_note": null,
+      "flag_status": "TRANSLATE",
+      "first_occurrence_tracking": null,
+      "expansion_risk": "HIGH",
+      "term_annotations": [
+        {
+          "term": "Mendelow's Matrix",
+          "reference_file_status": "KEEP",
+          "preferred_translation": "Matrice de Mendelow",
+          "locale_override_applied": false,
+          "inline_instruction": "In the Mendelow matrix context, translate 'Keep Informed' as 'Garder informé' or 'Informer régulièrement'."
+        }
+      ]
+    },
+    {
+      "segment_id": "SEG-046",
+      "slide_or_page": 48,
+      "element_type": "table_cell",
+      "element_id": "slide_48_Table_35_row0_col2",
+      "source_text": "Keep Satisfied",
+      "character_count": 14,
+      "is_in_text_box": true,
+      "is_in_table": true,
+      "layout_context": "Table row 1, column 3",
+      "translation_status": "TRANSLATED",
+      "translated_text": "Garder satisfait",
+      "translated_character_count": 16,
+      "expansion_percentage": 14.3,
+      "expansion_note": null,
+      "flag_status": "TRANSLATE",
+      "first_occurrence_tracking": null,
+      "expansion_risk": "HIGH",
+      "term_annotations": [
+        {
+          "term": "Mendelow's Matrix",
+          "reference_file_status": "KEEP",
+          "preferred_translation": "Matrice de Mendelow",
+          "locale_override_applied": false,
+          "inline_instruction": "In the Mendelow matrix context, translate 'Keep Satisfied' as 'Garder satisfait' or 'Satisfaire'."
+        }
+      ]
+    },
+    {
+      "segment_id": "SEG-047",
+      "slide_or_page": 48,
+      "element_type": "table_cell",
+      "element_id": "slide_48_Table_35_row0_col3",
+      "source_text": "Minimal Effort",
+      "character_count": 14,
+      "is_in_text_box": true,
+      "is_in_table": true,
+      "layout_context": "Table row 1, column 4",
+      "translation_status": "TRANSLATED",
+      "translated_text": "Effort minimal",
+      "translated_character_count": 14,
+      "expansion_percentage": 0.0,
+      "expansion_note": null,
+      "flag_status": "TRANSLATE",
+      "first_occurrence_tracking": null,
+      "expansion_risk": "HIGH",
+      "term_annotations": [
+        {
+          "term": "Mendelow's Matrix",
+          "reference_file_status": "KEEP",
+          "preferred_translation": "Matrice de Mendelow",
+          "locale_override_applied": false,
+          "inline_instruction": "In the Mendelow matrix context, translate 'Minimal Effort' as 'Effort minimal'."
+        }
+      ]
+    },
+    {
+      "segment_id": "SEG-048",
+      "slide_or_page": 48,
+      "element_type": "speaker_note",
+      "element_id": "slide_48_notes",
+      "source_text": "\u2018Management\u2019 in terms of communication - Minimal Effort might be progress link on an Intranet",
+      "character_count": 93,
+      "is_in_text_box": true,
+      "is_in_table": false,
+      "layout_context": "Speaker notes",
+      "translation_status": "TRANSLATED",
+      "translated_text": "\u00ab\u00a0Gestion\u00a0\u00bb en termes de communication - un effort minimal pourrait \u00eatre un simple lien de suivi sur un Intranet",
+      "translated_character_count": 110,
+      "expansion_percentage": 18.3,
+      "expansion_note": null,
+      "flag_status": "TRANSLATE",
+      "first_occurrence_tracking": null,
+      "expansion_risk": "NONE",
+      "term_annotations": [
+        {
+          "term": "Mendelow's Matrix",
+          "reference_file_status": "KEEP",
+          "preferred_translation": "Matrice de Mendelow",
+          "locale_override_applied": false,
+          "inline_instruction": "Translate 'Minimal Effort' as 'effort minimal'."
+        }
+      ]
+    },
+    {
+      "segment_id": "SEG-049",
+      "slide_or_page": 49,
+      "element_type": "label",
+      "element_id": "slide_49_Content_Placeholder_8",
+      "source_text": "The inputs made by stakeholders (and conflict)",
+      "character_count": 46,
+      "is_in_text_box": false,
+      "is_in_table": false,
+      "layout_context": "Shape: Content Placeholder 8",
+      "translation_status": "TRANSLATED",
+      "translated_text": "Les contributions des parties prenantes (et les conflits)",
+      "translated_character_count": 56,
+      "expansion_percentage": 21.7,
+      "expansion_note": "Translation is 21.7% longer than source. Layout check required.",
+      "flag_status": "TRANSLATE",
+      "first_occurrence_tracking": null,
+      "expansion_risk": "MEDIUM",
+      "term_annotations": [
+        {
+          "term": "Stakeholder",
+          "reference_file_status": "TRANSLATE",
+          "preferred_translation": "Partie prenante",
+          "locale_override_applied": false,
+          "inline_instruction": "Translate 'stakeholders' as 'parties prenantes' (plural)."
+        }
+      ]
+    },
+    {
+      "segment_id": "SEG-050",
+      "slide_or_page": 49,
+      "element_type": "label",
+      "element_id": "slide_49_Content_Placeholder_8",
+      "source_text": "The 5 rights as business priorities",
+      "character_count": 35,
+      "is_in_text_box": false,
+      "is_in_table": false,
+      "layout_context": "Shape: Content Placeholder 8",
+      "translation_status": "TRANSLATED",
+      "translated_text": "La règle des 5B comme priorités de l'entreprise",
+      "translated_character_count": 46,
+      "expansion_percentage": 31.4,
+      "expansion_note": "Translation is 31.4% longer than source. Layout check required.",
+      "flag_status": "TRANSLATE",
+      "first_occurrence_tracking": null,
+      "expansion_risk": "MEDIUM",
+      "term_annotations": [
+        {
+          "term": "The Five Rights",
+          "reference_file_status": "TRANSLATE",
+          "preferred_translation": "La règle des 5B",
+          "locale_override_applied": true,
+          "inline_instruction": "Translate '5 rights' using 'la règle des 5B' per Section 1 of the FR-FR override file."
+        }
+      ]
+    },
+    {
+      "segment_id": "SEG-051",
+      "slide_or_page": 49,
+      "element_type": "label",
+      "element_id": "slide_49_Content_Placeholder_8",
+      "source_text": "Outsourcing of core and non-core services",
+      "character_count": 41,
+      "is_in_text_box": false,
+      "is_in_table": false,
+      "layout_context": "Shape: Content Placeholder 8",
+      "translation_status": "TRANSLATED",
+      "translated_text": "Externalisation des activités de cœur de métier et périphériques",
+      "translated_character_count": 64,
+      "expansion_percentage": 56.1,
+      "expansion_note": "Translation is 56.1% longer than source. Layout check required.",
+      "flag_status": "TRANSLATE",
+      "first_occurrence_tracking": null,
+      "expansion_risk": "MEDIUM",
+      "term_annotations": [
+        {
+          "term": "Outsourcing",
+          "reference_file_status": "TRANSLATE",
+          "preferred_translation": "Externalisation",
+          "locale_override_applied": false,
+          "inline_instruction": "Translate 'Outsourcing' as 'Externalisation'."
+        },
+        {
+          "term": "Core Services",
+          "reference_file_status": "TRANSLATE",
+          "preferred_translation": "Cœur de métier",
+          "locale_override_applied": true,
+          "inline_instruction": "Translate 'core and non-core services' as 'activités de cœur de métier et périphériques' or 'services essentiels et non essentiels'."
+        },
+        {
+          "term": "Non-core Services",
+          "reference_file_status": "TRANSLATE",
+          "preferred_translation": "Services non essentiels / Activités périphériques",
+          "locale_override_applied": false,
+          "inline_instruction": "Translate 'non-core services' as 'services non essentiels' or 'activités périphériques'."
+        }
+      ]
+    },
+    {
+      "segment_id": "SEG-052",
+      "slide_or_page": 49,
+      "element_type": "label",
+      "element_id": "slide_49_Content_Placeholder_8",
+      "source_text": "Proportions of costs accounted for by procurement & supply",
+      "character_count": 58,
+      "is_in_text_box": false,
+      "is_in_table": false,
+      "layout_context": "Shape: Content Placeholder 8",
+      "translation_status": "TRANSLATED",
+      "translated_text": "Proportion des coûts représentée par les achats et approvisionnement",
+      "translated_character_count": 69,
+      "expansion_percentage": 19.0,
+      "expansion_note": null,
+      "flag_status": "TRANSLATE",
+      "first_occurrence_tracking": null,
+      "expansion_risk": "LOW",
+      "term_annotations": [
+        {
+          "term": "Procurement & Supply",
+          "reference_file_status": "TRANSLATE",
+          "preferred_translation": "Achats et Approvisionnement",
+          "locale_override_applied": false,
+          "inline_instruction": "Translate 'procurement & supply' as 'achats et approvisionnement'."
+        }
+      ]
+    },
+    {
+      "segment_id": "SEG-053",
+      "slide_or_page": 49,
+      "element_type": "label",
+      "element_id": "slide_49_Content_Placeholder_8",
+      "source_text": "How effective procurement impacts on profitability/savings",
+      "character_count": 58,
+      "is_in_text_box": false,
+      "is_in_table": false,
+      "layout_context": "Shape: Content Placeholder 8",
+      "translation_status": "TRANSLATED",
+      "translated_text": "Impact d'achats efficaces sur la rentabilité/les économies",
+      "translated_character_count": 58,
+      "expansion_percentage": 0.0,
+      "expansion_note": null,
+      "flag_status": "TRANSLATE",
+      "first_occurrence_tracking": null,
+      "expansion_risk": "LOW",
+      "term_annotations": [
+        {
+          "term": "Procurement",
+          "reference_file_status": "TRANSLATE",
+          "preferred_translation": "Achats",
+          "locale_override_applied": true,
+          "inline_instruction": "Translate 'procurement' here as 'les achats'."
+        },
+        {
+          "term": "Savings",
+          "reference_file_status": "TRANSLATE",
+          "preferred_translation": "Économies / Gains",
+          "locale_override_applied": false,
+          "inline_instruction": "Translate 'savings' as 'économies'."
+        }
+      ]
+    },
+    {
+      "segment_id": "SEG-054",
+      "slide_or_page": 49,
+      "element_type": "text_box",
+      "element_id": "slide_49_Content_Placeholder_8",
+      "source_text": "The roles & benefits\nof procurement & supply",
+      "character_count": 44,
+      "is_in_text_box": true,
+      "is_in_table": false,
+      "layout_context": "Shape: Content Placeholder 8",
+      "translation_status": "TRANSLATED",
+      "translated_text": "Les rôles et bénéfices\ndes achats et approvisionnement",
+      "translated_character_count": 52,
+      "expansion_percentage": 18.2,
+      "expansion_note": null,
+      "flag_status": "TRANSLATE",
+      "first_occurrence_tracking": null,
+      "expansion_risk": "HIGH",
+      "term_annotations": [
+        {
+          "term": "Procurement & Supply",
+          "reference_file_status": "TRANSLATE",
+          "preferred_translation": "Achats et Approvisionnement",
+          "locale_override_applied": false,
+          "inline_instruction": "Translate 'procurement & supply' as 'achats et approvisionnement'."
+        }
+      ]
+    },
+    {
+      "segment_id": "SEG-055",
+      "slide_or_page": 49,
+      "element_type": "text_box",
+      "element_id": "slide_49_Content_Placeholder_8",
+      "source_text": "Procurement & Supply related\nterms",
+      "character_count": 34,
+      "is_in_text_box": true,
+      "is_in_table": false,
+      "layout_context": "Shape: Content Placeholder 8",
+      "translation_status": "TRANSLATED",
+      "translated_text": "Termes liés aux achats\net approvisionnement",
+      "translated_character_count": 42,
+      "expansion_percentage": 23.5,
+      "expansion_note": "Translation is 23.5% longer than source. Layout check required.",
+      "flag_status": "TRANSLATE",
+      "first_occurrence_tracking": null,
+      "expansion_risk": "HIGH",
+      "term_annotations": [
+        {
+          "term": "Procurement & Supply",
+          "reference_file_status": "TRANSLATE",
+          "preferred_translation": "Achats et Approvisionnement",
+          "locale_override_applied": false,
+          "inline_instruction": "Translate 'Procurement & Supply' as 'achats et approvisionnement'."
+        }
+      ]
+    },
+    {
+      "segment_id": "SEG-056",
+      "slide_or_page": 49,
+      "element_type": "label",
+      "element_id": "slide_49_Content_Placeholder_8",
+      "source_text": "The triple bottom line",
+      "character_count": 22,
+      "is_in_text_box": false,
+      "is_in_table": false,
+      "layout_context": "Shape: Content Placeholder 8",
+      "translation_status": "TRANSLATED",
+      "translated_text": "Le triple bilan (personnes, planète, profits)",
+      "translated_character_count": 45,
+      "expansion_percentage": 104.5,
+      "expansion_note": "Translation is 104.5% longer than source. Layout check required.",
+      "flag_status": "TRANSLATE",
+      "first_occurrence_tracking": null,
+      "expansion_risk": "HIGH",
+      "term_annotations": [
+        {
+          "term": "Triple Bottom Line",
+          "reference_file_status": "TRANSLATE",
+          "preferred_translation": "Triple bilan (Personnes, Planète, Profits)",
+          "locale_override_applied": false,
+          "inline_instruction": "Translate 'The triple bottom line' as 'Le triple bilan (personnes, planète, profits)'."
+        }
+      ]
+    },
+    {
+      "segment_id": "SEG-057",
+      "slide_or_page": 49,
+      "element_type": "slide_title",
+      "element_id": "slide_49_Title_2",
+      "source_text": "Driving Value through Procurement and Supply",
+      "character_count": 44,
+      "is_in_text_box": true,
+      "is_in_table": false,
+      "layout_context": "Shape: Title 2",
+      "translation_status": "TRANSLATED",
+      "translated_text": "Créer de la valeur grâce aux Achats et à l'Approvisionnement",
+      "translated_character_count": 59,
+      "expansion_percentage": 34.1,
+      "expansion_note": "Translation is 34.1% longer than source. Layout check required.",
+      "flag_status": "TRANSLATE",
+      "first_occurrence_tracking": null,
+      "expansion_risk": "MEDIUM",
+      "term_annotations": [
+        {
+          "term": "Driving Value through Procurement and Supply",
+          "reference_file_status": "FLAG",
+          "preferred_translation": "Créer de la valeur grâce aux Achats et à l'Approvisionnement",
+          "locale_override_applied": true,
+          "inline_instruction": "Module 1 Title. Translate exactly as 'Créer de la valeur grâce aux Achats et à l'Approvisionnement' per Section 1 of the FR-FR override file."
+        }
+      ]
+    },
+    {
+      "segment_id": "SEG-058",
+      "slide_or_page": 49,
+      "element_type": "label",
+      "element_id": "slide_49_Content_Placeholder_8",
+      "source_text": "Tiers of a supply chain",
+      "character_count": 23,
+      "is_in_text_box": false,
+      "is_in_table": false,
+      "layout_context": "Shape: Content Placeholder 8",
+      "translation_status": "TRANSLATED",
+      "translated_text": "Niveaux de la chaîne d'approvisionnement",
+      "translated_character_count": 39,
+      "expansion_percentage": 69.6,
+      "expansion_note": "Translation is 69.6% longer than source. Layout check required.",
+      "flag_status": "TRANSLATE",
+      "first_occurrence_tracking": null,
+      "expansion_risk": "HIGH",
+      "term_annotations": [
+        {
+          "term": "Supply Chain Tiers",
+          "reference_file_status": "TRANSLATE",
+          "preferred_translation": "Niveaux de la chaîne d'approvisionnement / Rangs de fournisseurs",
+          "locale_override_applied": false,
+          "inline_instruction": "Translate as 'Niveaux de la chaîne d'approvisionnement'."
+        }
+      ]
+    },
+    {
+      "segment_id": "SEG-059",
+      "slide_or_page": 49,
+      "element_type": "label",
+      "element_id": "slide_49_Content_Placeholder_8",
+      "source_text": "Objectives of the function",
+      "character_count": 26,
+      "is_in_text_box": false,
+      "is_in_table": false,
+      "layout_context": "Shape: Content Placeholder 8",
+      "translation_status": "TRANSLATED",
+      "translated_text": "Objectifs de la fonction",
+      "translated_character_count": 25,
+      "expansion_percentage": -3.8,
+      "expansion_note": null,
+      "flag_status": "TRANSLATE",
+      "first_occurrence_tracking": null,
+      "expansion_risk": "HIGH",
+      "term_annotations": []
+    },
+    {
+      "segment_id": "SEG-060",
+      "slide_or_page": 49,
+      "element_type": "label",
+      "element_id": "slide_49_Rectangle_135",
+      "source_text": "The Roles of Procurement and Supply",
+      "character_count": 35,
+      "is_in_text_box": false,
+      "is_in_table": false,
+      "layout_context": "Shape: Rectangle 135",
+      "translation_status": "TRANSLATED",
+      "translated_text": "Les rôles des Achats et de l'Approvisionnement",
+      "translated_character_count": 45,
+      "expansion_percentage": 28.6,
+      "expansion_note": "Translation is 28.6% longer than source. Layout check required.",
+      "flag_status": "TRANSLATE",
+      "first_occurrence_tracking": null,
+      "expansion_risk": "MEDIUM",
+      "term_annotations": [
+        {
+          "term": "Procurement & Supply",
+          "reference_file_status": "TRANSLATE",
+          "preferred_translation": "Achats et Approvisionnement",
+          "locale_override_applied": false,
+          "inline_instruction": "Translate 'Procurement and Supply' as 'Achats et Approvisionnement'."
+        }
+      ]
+    },
+    {
+      "segment_id": "SEG-061",
+      "slide_or_page": 49,
+      "element_type": "body_text",
+      "element_id": "slide_49_Text_Placeholder_15",
+      "source_text": "In this Unit, we will focus on:",
+      "character_count": 31,
+      "is_in_text_box": true,
+      "is_in_table": false,
+      "layout_context": "Shape: Text Placeholder 15",
+      "translation_status": "TRANSLATED",
+      "translated_text": "Dans cette unité, nous aborderons\u00a0:",
+      "translated_character_count": 34,
+      "expansion_percentage": 9.7,
+      "expansion_note": null,
+      "flag_status": "TRANSLATE",
+      "first_occurrence_tracking": null,
+      "expansion_risk": "HIGH",
+      "term_annotations": []
+    },
+    {
+      "segment_id": "SEG-062",
+      "slide_or_page": 50,
+      "element_type": "slide_title",
+      "element_id": "slide_50_Title_3",
+      "source_text": "Objectives of the Function",
+      "character_count": 26,
+      "is_in_text_box": true,
+      "is_in_table": false,
+      "layout_context": "Shape: Title 3",
+      "translation_status": "TRANSLATED",
+      "translated_text": "Objectifs de la fonction",
+      "translated_character_count": 25,
+      "expansion_percentage": -3.8,
+      "expansion_note": null,
+      "flag_status": "TRANSLATE",
+      "first_occurrence_tracking": null,
+      "expansion_risk": "HIGH",
+      "term_annotations": []
+    },
+    {
+      "segment_id": "SEG-063",
+      "slide_or_page": 50,
+      "element_type": "text_box",
+      "element_id": "slide_50_Rectangle_2",
+      "source_text": "The central objective will be to encourage support throughout the organisation to achieve the business benefits gained through reducing costs, improving quality, reducing risk, improving timescales etc.",
+      "character_count": 202,
+      "is_in_text_box": true,
+      "is_in_table": false,
+      "layout_context": "Shape: Rectangle 2",
+      "translation_status": "TRANSLATED",
+      "translated_text": "L'objectif central sera d'encourager l'adh\u00e9sion au sein de l'organisation afin de concr\u00e9tiser les b\u00e9n\u00e9fices commerciaux d\u00e9coulant de la r\u00e9duction des co\u00fbts, de l'am\u00e9lioration de la qualit\u00e9, de la r\u00e9duction des risques, de l'optimisation des d\u00e9lais, etc.",
+      "translated_character_count": 249,
+      "expansion_percentage": 23.3,
+      "expansion_note": null,
+      "flag_status": "TRANSLATE",
+      "first_occurrence_tracking": null,
+      "expansion_risk": "LOW",
+      "term_annotations": [
+        {
+          "term": "Cost Reduction",
+          "reference_file_status": "TRANSLATE",
+          "preferred_translation": "Réduction des coûts",
+          "locale_override_applied": false,
+          "inline_instruction": "Translate 'reducing costs' as 'la réduction des coûts'."
+        },
+        {
+          "term": "Risk Management",
+          "reference_file_status": "TRANSLATE",
+          "preferred_translation": "Gestion des risques",
+          "locale_override_applied": false,
+          "inline_instruction": "Translate 'reducing risk' as 'la réduction des risques'."
+        }
+      ]
+    },
+    {
+      "segment_id": "SEG-064",
+      "slide_or_page": 50,
+      "element_type": "label",
+      "element_id": "slide_50_Rectangle_1",
+      "source_text": "What are the objectives of the function you work in?",
+      "character_count": 52,
+      "is_in_text_box": false,
+      "is_in_table": false,
+      "layout_context": "Shape: Rectangle 1",
+      "translation_status": "TRANSLATED",
+      "translated_text": "Quels sont les objectifs de la fonction dans laquelle vous travaillez\u00a0?",
+      "translated_character_count": 71,
+      "expansion_percentage": 36.5,
+      "expansion_note": "Translation is 36.5% longer than source. Layout check required.",
+      "flag_status": "TRANSLATE",
+      "first_occurrence_tracking": null,
+      "expansion_risk": "MEDIUM",
+      "term_annotations": []
+    }
+  ]
+}
